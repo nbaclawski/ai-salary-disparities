@@ -7,7 +7,14 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: literature_review.qmd
+        text: Literature Review
+      - href: analysis.qmd
+        text: Analysis
+      - href: ai_vs_traditional.qmd
+        text: AI vs Traditional
+      - href: about.qmd
+        text: About
 
 format:
   html:
