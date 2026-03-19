@@ -1,5 +1,6 @@
 ---
 title: "Salary Disparities Across Disciplines"
+subtitle: "Who Benefits Most from AI’s Rise?"
 ---
 
 ## Project Overview
