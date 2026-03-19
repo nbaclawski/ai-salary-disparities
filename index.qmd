@@ -1,7 +1,17 @@
 ---
-title: "ai-salary-disparities"
+title: "Salary Disparities Across Disciplines"
 ---
 
-This is a Quarto website.
+## Project Overview
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This project examines salary disparities across disciplines and explores who benefits most from the rise of artificial intelligence.
+
+## Research Question
+
+Who benefits most from AI’s rise?
+
+## Team Members
+
+- Natalie Baclawski
+- Haydn Thomas
+- Kelly Xiao
