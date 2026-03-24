@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Team Baclawski, Thomas, Xiao">
+<meta name="dcterms.date" content="2026-03-19">
 
 <title>Literature Review – AI Salary Disparities</title>
 <style>
@@ -23,7 +25,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -97,6 +118,10 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./introduction.html"> 
+<span class="menu-text">Introduction</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link active" href="./literature_review.html" aria-current="page"> 
 <span class="menu-text">Literature Review</span></a>
   </li>  
@@ -112,6 +137,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./data_analysis.html"> 
+<span class="menu-text">Data Analysis</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -123,8 +152,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#references" id="toc-references" class="nav-link active" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -138,7 +173,19 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Team Baclawski, Thomas, Xiao </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 19, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -148,11 +195,36 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Artificial intelligence (AI) has emerged as a force shaping modern labor markets in real-time. The expansion of generative AI technologies has accelerated changes in how work is performed, which skills are valued, and how compensation is distributed across occupations. Our research suggests that AI does not affect all workers equally. Instead, its impact varies significantly depending on the nature of job tasks, the level of worker skill, and the degree to which occupations can integrate AI. As a result, AI has the potential to both increase productivity and reshape wage distributions across disciplines. Understanding these dynamics is critical for evaluating how AI may influence salary disparities across industries and geographic regions. Recent academic literature highlights that the relationship between AI and wages is complex and evolving. Georgieff (2024) finds that earlier forms of AI did not significantly increase wage inequality between occupations, although this evidence predates the widespread adoption of generative AI. Other studies suggest that the current wave of AI adoption may have stronger and more differentiated effects across the labor market. For example, Hartley et al.&nbsp;(2024) shows that gen AI usage is more prevalent among higher-income, more educated workers, indicating that those already positioned in knowledge-intensive roles may be more likely to benefit from AI adoption. At the same time, Brynjolfsson et al.&nbsp;(2025) provides evidence that AI can significantly increase worker productivity - particularly among less experienced employees - and suggests that AI may also help narrow performance gaps within certain occupations. Further research emphasizes that AI’s impact extends beyond wages. Engberg et al.&nbsp;(2025) find that AI exposure is positively associated with wages at the worker level, but that these effects vary by occupation and skill composition. Meanwhile, Frank et al.&nbsp;(2025) argue that traditional labor market indicators such as wages and employment levels may not fully capture AI-driven disruption, as some occupations face increasing instability even if wages remain stable. The literature suggests that AI is likely to amplify differences between workers who can effectively leverage the technology and those whose tasks are more easily automated. This makes it important to examine salary disparities across disciplines, as well as differences between AI-related and non AI-related roles, geographic regions, and work arrangements such as remote versus in-person employment. This study seeks to analyze how AI is influencing salary outcomes across occupations and industries, with a focus on identifying which groups benefit most from its adoption and whether existing inequalities are being reinforced or reduced.</p>
+<p>Artificial intelligence (AI) has emerged as a force shaping modern labor markets in real-time. The expansion of generative AI technologies has accelerated changes in how work is performed, which skills are valued, and how compensation is distributed across occupations. Our research suggests that AI does not affect all workers equally. Instead, its impact varies significantly depending on the nature of job tasks, the level of worker skill, and the degree to which occupations can integrate AI. As a result, AI has the potential to both increase productivity and reshape wage distributions across disciplines. Understanding these dynamics is critical for evaluating how AI may influence salary disparities across industries and geographic regions.</p>
+<p>Recent academic literature highlights that the relationship between AI and wages is complex and evolving. <span class="citation" data-cites="georgieff2024">(<a href="#ref-georgieff2024" role="doc-biblioref">Georgieff (2024)</a>)</span> finds that earlier forms of AI did not significantly increase wage inequality between occupations, although this evidence predates the widespread adoption of generative AI. Other studies suggest that the current wave of AI adoption may have stronger and more differentiated effects across the labor market.</p>
+<p>For example, <span class="citation" data-cites="hartley2024">(<a href="#ref-hartley2024" role="doc-biblioref">Hartley et al. (2024)</a>)</span> shows that gen AI usage is more prevalent among higher-income, more educated workers, indicating that those already positioned in knowledge-intensive roles may be more likely to benefit from AI adoption. At the same time, <span class="citation" data-cites="brynjolfsson2025">(<a href="#ref-brynjolfsson2025" role="doc-biblioref">Brynjolfsson, Li, and Raymond (2025)</a>)</span> provides evidence that AI can significantly increase worker productivity—particularly among less experienced employees—and <span class="citation" data-cites="engberg2025">(<a href="#ref-engberg2025" role="doc-biblioref">Engberg et al. (2025)</a>)</span> suggests that AI may also help narrow performance gaps within certain occupations.</p>
+<p>Further research emphasizes that AI’s impact extends beyond wages. <span class="citation" data-cites="engberg2025">(<a href="#ref-engberg2025" role="doc-biblioref">Engberg et al. (2025)</a>)</span> find that AI exposure is positively associated with wages at the worker level, but that these effects vary by occupation and skill composition. Meanwhile, <span class="citation" data-cites="frank2025">(<a href="#ref-frank2025" role="doc-biblioref">Frank, Ahn, and Moro (2025)</a>)</span> argue that traditional labor market indicators such as wages and employment levels may not fully capture AI-driven disruption, as some occupations face increasing instability even if wages remain stable.</p>
+<p>The literature suggests that AI is likely to amplify differences between workers who can effectively leverage the technology and those whose tasks are more easily automated. This makes it important to examine salary disparities across disciplines, as well as differences between AI-related and non-AI-related roles, geographic regions, and work arrangements such as remote versus in-person employment.</p>
+<p>This study seeks to analyze how AI is influencing salary outcomes across occupations and industries, with a focus on identifying which groups benefit most from its adoption and whether existing inequalities are being reinforced or reduced.</p>
+<section id="references" class="level2">
 
 
 
-</main> <!-- /main -->
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-brynjolfsson2025" class="csl-entry" role="listitem">
+<span class="smallcaps">Brynjolfsson, E., D. Li, and L. R. Raymond</span>. (2025): <span>“<a href="https://doi.org/10.1093/qje/qjae044">Generative AI at work</a>,”</span> <em>The Quarterly Journal of Economics</em>, 140, 889–942.
+</div>
+<div id="ref-engberg2025" class="csl-entry" role="listitem">
+<span class="smallcaps">Engberg, E., M. Koch, M. Lodefalk, and S. Schroeder</span>. (2025): <span>“<a href="https://doi.org/10.1016/j.respol.2025.105285">Artificial intelligence, tasks, skills, and wages: Worker-level evidence from germany</a>,”</span> <em>Research Policy</em>, 54, 105285.
+</div>
+<div id="ref-frank2025" class="csl-entry" role="listitem">
+<span class="smallcaps">Frank, M. R., Y.-Y. Ahn, and E. Moro</span>. (2025): <span>“<a href="https://doi.org/10.1093/pnasnexus/pgaf107">AI exposure predicts unemployment risk: A new approach to technology-driven job loss</a>,”</span> <em>PNAS Nexus</em>, 4, pgaf107.
+</div>
+<div id="ref-georgieff2024" class="csl-entry" role="listitem">
+<span class="smallcaps">Georgieff, A.</span> (2024): <a href="https://doi.org/10.1787/bf98a45c-en">Artificial Intelligence and Wage Inequality</a>,OECD Publishing.
+</div>
+<div id="ref-hartley2024" class="csl-entry" role="listitem">
+<span class="smallcaps">Hartley, J., F. Jolevski, V. Melo, and B. Moore</span>. (2024): <span>“<a href="https://doi.org/10.2139/ssrn.5136877">The labor market effects of generative artificial intelligence</a>,”</span> <em>SSRN Working Paper</em>,.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

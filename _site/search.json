@@ -1,5 +1,26 @@
 [
   {
+    "objectID": "ai_vs_traditional.html",
+    "href": "ai_vs_traditional.html",
+    "title": "AI vs Traditional Roles",
+    "section": "",
+    "text": "This section compares salary trends between AI-related and traditional roles."
+  },
+  {
+    "objectID": "ai_vs_traditional.html#overview",
+    "href": "ai_vs_traditional.html#overview",
+    "title": "AI vs Traditional Roles",
+    "section": "",
+    "text": "This section compares salary trends between AI-related and traditional roles."
+  },
+  {
+    "objectID": "introduction.html",
+    "href": "introduction.html",
+    "title": "Introduction",
+    "section": "",
+    "text": "Artificial intelligence (AI) is changing how people work in many industries. It helps companies do tasks faster and make better decisions, but it also affects how much people get paid. Some jobs, especially those that involve technology or data, are becoming more valuable and may pay more. Other jobs may not see the same increase. This makes it important to understand who is benefiting the most from AI and how salaries are changing across different fields.\nThis topic matters because of emerging trends of companies starting to use AI, which is increasing the demand for certain skills. As a result, people with those skills may earn higher salaries, while others may not see as much growth. In this analysis, it is expected that jobs related to technology, data, and finance will see higher pay increases, while more routine jobs may not. Overall, AI is likely creating bigger differences in pay between different types of work (Brynjolfsson and McAfee (2014))."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -39,6 +60,34 @@
     "href": "literature_review.html",
     "title": "Literature Review",
     "section": "",
-    "text": "Artificial intelligence (AI) has emerged as a force shaping modern labor markets in real-time. The expansion of generative AI technologies has accelerated changes in how work is performed, which skills are valued, and how compensation is distributed across occupations. Our research suggests that AI does not affect all workers equally. Instead, its impact varies significantly depending on the nature of job tasks, the level of worker skill, and the degree to which occupations can integrate AI. As a result, AI has the potential to both increase productivity and reshape wage distributions across disciplines. Understanding these dynamics is critical for evaluating how AI may influence salary disparities across industries and geographic regions. Recent academic literature highlights that the relationship between AI and wages is complex and evolving. Georgieff (2024) finds that earlier forms of AI did not significantly increase wage inequality between occupations, although this evidence predates the widespread adoption of generative AI. Other studies suggest that the current wave of AI adoption may have stronger and more differentiated effects across the labor market. For example, Hartley et al. (2024) shows that gen AI usage is more prevalent among higher-income, more educated workers, indicating that those already positioned in knowledge-intensive roles may be more likely to benefit from AI adoption. At the same time, Brynjolfsson et al. (2025) provides evidence that AI can significantly increase worker productivity - particularly among less experienced employees - and suggests that AI may also help narrow performance gaps within certain occupations. Further research emphasizes that AI’s impact extends beyond wages. Engberg et al. (2025) find that AI exposure is positively associated with wages at the worker level, but that these effects vary by occupation and skill composition. Meanwhile, Frank et al. (2025) argue that traditional labor market indicators such as wages and employment levels may not fully capture AI-driven disruption, as some occupations face increasing instability even if wages remain stable. The literature suggests that AI is likely to amplify differences between workers who can effectively leverage the technology and those whose tasks are more easily automated. This makes it important to examine salary disparities across disciplines, as well as differences between AI-related and non AI-related roles, geographic regions, and work arrangements such as remote versus in-person employment. This study seeks to analyze how AI is influencing salary outcomes across occupations and industries, with a focus on identifying which groups benefit most from its adoption and whether existing inequalities are being reinforced or reduced."
+    "text": "Artificial intelligence (AI) has emerged as a force shaping modern labor markets in real-time. The expansion of generative AI technologies has accelerated changes in how work is performed, which skills are valued, and how compensation is distributed across occupations. Our research suggests that AI does not affect all workers equally. Instead, its impact varies significantly depending on the nature of job tasks, the level of worker skill, and the degree to which occupations can integrate AI. As a result, AI has the potential to both increase productivity and reshape wage distributions across disciplines. Understanding these dynamics is critical for evaluating how AI may influence salary disparities across industries and geographic regions.\nRecent academic literature highlights that the relationship between AI and wages is complex and evolving. (Georgieff (2024)) finds that earlier forms of AI did not significantly increase wage inequality between occupations, although this evidence predates the widespread adoption of generative AI. Other studies suggest that the current wave of AI adoption may have stronger and more differentiated effects across the labor market.\nFor example, (Hartley et al. (2024)) shows that gen AI usage is more prevalent among higher-income, more educated workers, indicating that those already positioned in knowledge-intensive roles may be more likely to benefit from AI adoption. At the same time, (Brynjolfsson, Li, and Raymond (2025)) provides evidence that AI can significantly increase worker productivity—particularly among less experienced employees—and (Engberg et al. (2025)) suggests that AI may also help narrow performance gaps within certain occupations.\nFurther research emphasizes that AI’s impact extends beyond wages. (Engberg et al. (2025)) find that AI exposure is positively associated with wages at the worker level, but that these effects vary by occupation and skill composition. Meanwhile, (Frank, Ahn, and Moro (2025)) argue that traditional labor market indicators such as wages and employment levels may not fully capture AI-driven disruption, as some occupations face increasing instability even if wages remain stable.\nThe literature suggests that AI is likely to amplify differences between workers who can effectively leverage the technology and those whose tasks are more easily automated. This makes it important to examine salary disparities across disciplines, as well as differences between AI-related and non-AI-related roles, geographic regions, and work arrangements such as remote versus in-person employment.\nThis study seeks to analyze how AI is influencing salary outcomes across occupations and industries, with a focus on identifying which groups benefit most from its adoption and whether existing inequalities are being reinforced or reduced."
+  },
+  {
+    "objectID": "conclusion.html",
+    "href": "conclusion.html",
+    "title": "Conclusion",
+    "section": "",
+    "text": "AI is reshaping salary distributions\nBenefits vary by skill level and discipline\nImplications for future workforce trends"
+  },
+  {
+    "objectID": "conclusion.html#key-takeaways",
+    "href": "conclusion.html#key-takeaways",
+    "title": "Conclusion",
+    "section": "",
+    "text": "AI is reshaping salary distributions\nBenefits vary by skill level and discipline\nImplications for future workforce trends"
+  },
+  {
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Analysis",
+    "section": "",
+    "text": "This section will present data analysis and findings on salary disparities across disciplines."
+  },
+  {
+    "objectID": "analysis.html#coming-soon",
+    "href": "analysis.html#coming-soon",
+    "title": "Analysis",
+    "section": "",
+    "text": "This section will present data analysis and findings on salary disparities across disciplines."
   }
 ]

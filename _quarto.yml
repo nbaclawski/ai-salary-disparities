@@ -17,6 +17,8 @@ website:
         text: AI vs Traditional
       - href: about.qmd
         text: About
+      - href: data_analysis.qmd
+        text: "Data Analysis"
 
 format:
   html:
