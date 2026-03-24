@@ -89,5 +89,26 @@
     "title": "Analysis",
     "section": "",
     "text": "This section will present data analysis and findings on salary disparities across disciplines."
+  },
+  {
+    "objectID": "data_analysis.html",
+    "href": "data_analysis.html",
+    "title": "Data Analysis",
+    "section": "",
+    "text": "This section outlines how the dataset was cleaned, including removing unnecessary columns, handling missing values, and eliminating duplicates."
+  },
+  {
+    "objectID": "data_analysis.html#data-cleaning-preprocessing",
+    "href": "data_analysis.html#data-cleaning-preprocessing",
+    "title": "Data Analysis",
+    "section": "",
+    "text": "This section outlines how the dataset was cleaned, including removing unnecessary columns, handling missing values, and eliminating duplicates."
+  },
+  {
+    "objectID": "data_analysis.html#exploratory-data-analysis",
+    "href": "data_analysis.html#exploratory-data-analysis",
+    "title": "Data Analysis",
+    "section": "2 Exploratory Data Analysis",
+    "text": "2 Exploratory Data Analysis\nThis section will analyze salary trends across industries, roles, and locations to understand disparities influenced by AI."
   }
 ]
