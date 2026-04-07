@@ -27,3 +27,25 @@ This section outlines how the dataset was cleaned, including removing unnecessar
 ## Exploratory Data Analysis
 
 This section will analyze salary trends across industries, roles, and locations to understand disparities influenced by AI.
+
+
+## Load Dataset
+
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("AISalaryDisparities") \
+    .getOrCreate()
+
+df = spark.read.option("header", "true") \
+    .option("inferSchema", "true") \
+    .option("multiLine", "true") \
+    .option("escape", "\"") \
+    .csv("data/lightcast_data.csv")
+
+df.printSchema()
