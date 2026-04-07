@@ -32,20 +32,40 @@ This section will analyze salary trends across industries, roles, and locations 
 ## Load Dataset
 
 ```{python}
-#| echo: true
+#| echo: false
 #| warning: false
 #| message: false
 
+import pandas as pd
+import plotly.express as px
+import plotly.io as pio
 from pyspark.sql import SparkSession
+import re
+import numpy as np
+import plotly.graph_objects as go
+from pyspark.sql.functions import col, split, explode, regexp_replace, transform, when
+from pyspark.sql import functions as F
+from pyspark.sql.functions import monotonically_increasing_id
+
+np.random.seed(42)
+pio.renderers.default = "notebook"
 
 spark = SparkSession.builder \
-    .appName("AISalaryDisparities") \
+    .appName("LightcastData") \
+    .config("spark.ui.showConsoleProgress", "false") \
     .getOrCreate()
 
-df = spark.read.option("header", "true") \
+spark.sparkContext.setLogLevel("ERROR")
+
+df = spark.read \
+    .option("header", "true") \
     .option("inferSchema", "true") \
     .option("multiLine", "true") \
     .option("escape", "\"") \
     .csv("data/lightcast_data.csv")
 
-df.printSchema()
+df.createOrReplaceTempView("job_postings")
+
+for c in df.columns:
+    print(c)
+```
