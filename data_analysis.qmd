@@ -27,6 +27,7 @@ This section outlines how the dataset was cleaned, including removing unnecessar
 ## Exploratory Data Analysis
 
 This section will analyze salary trends across industries, roles, and locations to understand disparities influenced by AI.
+<<<<<<< HEAD
 
 
 ## Load Dataset
@@ -69,3 +70,190 @@ df.createOrReplaceTempView("job_postings")
 for c in df.columns:
     print(c)
 ```
+=======
+---
+
+## Load Data
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import missingno as msno
+
+df = pd.read_csv("data/sample_jobs.csv", low_memory=False)
+df.head()
+
+df.shape
+df.columns.tolist()
+This dataset contains job posting information that can be used to study salary trends, hiring patterns, and work arrangements. Before analysis, we inspected the number of rows and columns and reviewed the variable names to understand what cleaning would be needed.
+
+Data Cleaning and Preprocessing
+
+This section explains how the dataset was cleaned, including removing unnecessary columns, handling missing values, converting data types, and eliminating duplicate records.
+Drop Unnecessary Columns
+
+We removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis.
+columns_to_drop = [
+    "ID", "URL", "ACTIVE_URLS", "DUPLICATES", "LAST_UPDATED_TIMESTAMP",
+    "NAICS2", "NAICS3", "NAICS4", "NAICS5", "NAICS6",
+    "SOC_2", "SOC_3", "SOC_5"
+]
+
+df = df.drop(columns=[c for c in columns_to_drop if c in df.columns])
+df.shape
+
+Handle Missing Values
+We examined missing values to better understand data quality. Numerical columns were filled with the median, categorical columns were filled with "Unknown", and columns with more than 50% missing values were removed.
+
+missing_pct = df.isnull().mean().sort_values(ascending=False) * 100
+missing_pct.head(15)
+
+msno.heatmap(df)
+plt.title("Missing Values Heatmap")
+plt.show()
+
+df = df.dropna(thresh=len(df) * 0.5, axis=1)
+
+for col in df.select_dtypes(include="number"):
+    df[col] = df[col].fillna(df[col].median())
+
+for col in df.select_dtypes(exclude="number"):
+    df[col] = df[col].fillna("Unknown")
+
+This approach preserves as much of the dataset as possible while making the data usable for analysis.
+
+Convert Data Types
+We converted posting dates to datetime format so that date fields would be interpreted correctly.
+
+if "POSTED" in df.columns:
+    df["POSTED"] = pd.to_datetime(df["POSTED"], errors="coerce")
+
+if "LAST_UPDATED_DATE" in df.columns:
+    df["LAST_UPDATED_DATE"] = pd.to_datetime(df["LAST_UPDATED_DATE"], errors="coerce")
+
+Remove Duplicates
+Duplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows.
+before_rows = len(df)
+df = df.drop_duplicates()
+after_rows = len(df)
+
+print("Rows before removing duplicates:", before_rows)
+print("Rows after removing duplicates:", after_rows)
+print("Duplicates removed:", before_rows - after_rows)
+Handle Salary Outliers
+We looked for a salary column and, if found, used the interquartile range method to remove extreme values.
+possible_salary_cols = [
+    "Salary", "SALARY", "salary", "annual_salary", "Yearly Salary",
+    "SALARY_FROM", "SALARY_TO"
+]
+
+salary_col = None
+for col in possible_salary_cols:
+    if col in df.columns:
+        salary_col = col
+        break
+
+print("Salary column being used:", salary_col)
+if salary_col is not None:
+    df[salary_col] = pd.to_numeric(df[salary_col], errors="coerce")
+    df = df.dropna(subset=[salary_col])
+
+    q1 = df[salary_col].quantile(0.25)
+    q3 = df[salary_col].quantile(0.75)
+    iqr = q3 - q1
+    lower = q1 - 1.5 * iqr
+    upper = q3 + 1.5 * iqr
+
+    df = df[(df[salary_col] >= lower) & (df[salary_col] <= upper)]
+
+df.shape
+This helps reduce the influence of unusually large or small salary values that may reflect rare cases or data-entry problems.
+Exploratory Data Analysis
+This section examines salary trends, industry patterns, and work arrangements to better understand labor market differences.
+Visualization 1: Job Postings by Industry
+This chart shows which industries appear most often in the sample and helps identify where job demand is concentrated.
+possible_industry_cols = [
+    "Industry", "INDUSTRY", "industry", "NAICS_2022_6_NAME", "NAICS_2022_3_NAME"
+]
+
+industry_col = None
+for col in possible_industry_cols:
+    if col in df.columns:
+        industry_col = col
+        break
+
+print("Industry column being used:", industry_col)
+if industry_col is not None:
+    df[industry_col].value_counts().head(10).plot(kind="bar")
+    plt.title("Top 10 Industries by Job Postings")
+    plt.xlabel("Industry")
+    plt.ylabel("Number of Postings")
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    plt.show()
+The chart highlights the industries with the greatest concentration of postings in the dataset.
+Visualization 2: Salary Distribution
+This histogram shows how salaries are distributed across the sample and helps reveal whether pay is tightly clustered or widely spread.
+if salary_col is not None:
+    plt.figure(figsize=(8, 5))
+    sns.histplot(df[salary_col], bins=30)
+    plt.title("Salary Distribution")
+    plt.xlabel("Salary")
+    plt.ylabel("Count")
+    plt.tight_layout()
+    plt.show()
+A wide distribution suggests substantial variation in compensation across postings.
+Visualization 3: Remote vs. On-Site Jobs
+This chart shows the share of remote, hybrid, and on-site roles in the dataset.
+possible_remote_cols = ["REMOTE_TYPE_NAME", "remote_type", "REMOTE", "work_type"]
+
+remote_col = None
+for col in possible_remote_cols:
+    if col in df.columns:
+        remote_col = col
+        break
+
+print("Remote column being used:", remote_col)
+if remote_col is not None:
+    df[remote_col].value_counts().plot(kind="pie", autopct="%1.1f%%")
+    plt.title("Remote vs On-Site Jobs")
+    plt.ylabel("")
+    plt.show()
+This is useful because work arrangement is an important factor for students and job seekers.
+Visualization 4: AI vs. Non-AI Roles
+Because our project focuses on AI-related job trends, we classified postings as AI-related or non-AI-related based on keywords in the job title.
+possible_title_cols = ["TITLE", "Title", "title", "JOB_TITLE"]
+
+title_col = None
+for col in possible_title_cols:
+    if col in df.columns:
+        title_col = col
+        break
+
+print("Title column being used:", title_col)
+if title_col is not None:
+    df["ai_flag"] = df[title_col].astype(str).str.contains(
+        "AI|Artificial Intelligence|Machine Learning|ML|Data Science|Data Scientist",
+        case=False,
+        na=False
+    )
+else:
+    df["ai_flag"] = False
+
+df["ai_flag"].value_counts(dropna=False)
+if salary_col is not None and "ai_flag" in df.columns:
+    plt.figure(figsize=(8, 5))
+    sns.boxplot(data=df, x="ai_flag", y=salary_col)
+    plt.title("Salary Comparison: AI-Related vs Non-AI Roles")
+    plt.xlabel("AI-Related Role")
+    plt.ylabel("Salary")
+    plt.tight_layout()
+    plt.show()
+This comparison helps us evaluate whether AI-related roles appear to command different salary levels than non-AI roles.
+Key Findings
+The data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records.
+The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample.
+Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search.
+The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns.
