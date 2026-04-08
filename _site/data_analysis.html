@@ -26,10 +26,45 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -73,6 +108,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -141,6 +179,18 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a></li>
   <li><a href="#load-packages-and-data" id="toc-load-packages-and-data" class="nav-link" data-scroll-target="#load-packages-and-data"><span class="header-section-number">2</span> Load Packages and Data</a></li>
+  <li><a href="#data-cleaning-and-preprocessing" id="toc-data-cleaning-and-preprocessing" class="nav-link" data-scroll-target="#data-cleaning-and-preprocessing"><span class="header-section-number">3</span> Data Cleaning and Preprocessing</a></li>
+  <li><a href="#drop-unnecessary-columns" id="toc-drop-unnecessary-columns" class="nav-link" data-scroll-target="#drop-unnecessary-columns"><span class="header-section-number">4</span> Drop Unnecessary Columns</a></li>
+  <li><a href="#handle-missing-values" id="toc-handle-missing-values" class="nav-link" data-scroll-target="#handle-missing-values"><span class="header-section-number">5</span> Handle Missing Values</a></li>
+  <li><a href="#convert-data-types" id="toc-convert-data-types" class="nav-link" data-scroll-target="#convert-data-types"><span class="header-section-number">6</span> Convert Data Types</a></li>
+  <li><a href="#remove-duplicates" id="toc-remove-duplicates" class="nav-link" data-scroll-target="#remove-duplicates"><span class="header-section-number">7</span> Remove Duplicates</a></li>
+  <li><a href="#outlier-detection-and-removal" id="toc-outlier-detection-and-removal" class="nav-link" data-scroll-target="#outlier-detection-and-removal"><span class="header-section-number">8</span> Outlier Detection and Removal</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis"><span class="header-section-number">9</span> Exploratory Data Analysis</a></li>
+  <li><a href="#visualization-1-job-postings-by-industry" id="toc-visualization-1-job-postings-by-industry" class="nav-link" data-scroll-target="#visualization-1-job-postings-by-industry"><span class="header-section-number">10</span> Visualization 1: Job Postings by Industry</a></li>
+  <li><a href="#visualization-2-salary-distribution" id="toc-visualization-2-salary-distribution" class="nav-link" data-scroll-target="#visualization-2-salary-distribution"><span class="header-section-number">11</span> Visualization 2: Salary Distribution</a></li>
+  <li><a href="#visualization-3-remote-vs.-on-site-jobs" id="toc-visualization-3-remote-vs.-on-site-jobs" class="nav-link" data-scroll-target="#visualization-3-remote-vs.-on-site-jobs"><span class="header-section-number">12</span> Visualization 3: Remote vs.&nbsp;On-Site Jobs</a></li>
+  <li><a href="#visualization-4-ai-vs.-non-ai-roles" id="toc-visualization-4-ai-vs.-non-ai-roles" class="nav-link" data-scroll-target="#visualization-4-ai-vs.-non-ai-roles"><span class="header-section-number">13</span> Visualization 4: AI vs.&nbsp;Non-AI Roles</a></li>
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings"><span class="header-section-number">14</span> Key Findings</a></li>
   </ul>
 </nav>
     </div>
@@ -181,52 +231,585 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="load-packages-and-data" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="load-packages-and-data"><span class="header-section-number">2</span> Load Packages and Data</h2>
-<p>import pandas as pd import numpy as np import matplotlib.pyplot as plt import seaborn as sns import missingno as msno df = pd.read_csv(“data/sample_jobs.csv”, low_memory=False) df.head() df.columns.tolist() This dataset contains job posting information that can be used to study salary trends, hiring patterns, and work arrangements. Before analysis, we inspected the number of rows and columns and reviewed the variable names to understand what cleaning would be needed.</p>
-<p>Data Cleaning and Preprocessing</p>
-<p>This section explains how the dataset was cleaned, including removing unnecessary columns, handling missing values, converting data types, and eliminating duplicate records.</p>
-<p>Drop Unnecessary Columns</p>
-<p>We removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis. columns_to_drop = [ “ID”, “URL”, “ACTIVE_URLS”, “DUPLICATES”, “LAST_UPDATED_TIMESTAMP”, “NAICS2”, “NAICS3”, “NAICS4”, “NAICS5”, “NAICS6”, “SOC_2”, “SOC_3”, “SOC_5”]</p>
-<p>df = df.drop(columns=[c for c in columns_to_drop if c in df.columns]) df.shape Handle Missing Values</p>
-<p>We examined missing values to better understand data quality. Numerical columns were filled with the median, categorical columns were filled with “Unknown”, and columns with more than 50% missing values were removed. missing_pct = df.isnull().mean().sort_values(ascending=False) * 100 missing_pct.head(15) msno.heatmap(df) plt.title(“Missing Values Heatmap”) plt.show() df = df.dropna(thresh=len(df) * 0.5, axis=1)</p>
-<p>for col in df.select_dtypes(include=“number”): df[col] = df[col].fillna(df[col].median())</p>
-<p>for col in df.select_dtypes(exclude=“number”): df[col] = df[col].fillna(“Unknown”) This approach preserves as much of the dataset as possible while making the data usable for analysis.</p>
-<p>Convert Data Types</p>
-<p>We converted posting dates to datetime format so that date fields would be interpreted correctly. if “POSTED” in df.columns: df[“POSTED”] = pd.to_datetime(df[“POSTED”], errors=“coerce”)</p>
-<p>if “LAST_UPDATED_DATE” in df.columns: df[“LAST_UPDATED_DATE”] = pd.to_datetime(df[“LAST_UPDATED_DATE”], errors=“coerce”) Remove Duplicates</p>
-<p>Duplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows. before_rows = len(df) df = df.drop_duplicates() after_rows = len(df)</p>
-<p>print(“Rows before removing duplicates:”, before_rows) print(“Rows after removing duplicates:”, after_rows) print(“Duplicates removed:”, before_rows - after_rows) possible_salary_cols = [ “Salary”, “SALARY”, “salary”, “annual_salary”, “Yearly Salary”, “SALARY_FROM”, “SALARY_TO”]</p>
-<p>salary_col = None for col in possible_salary_cols: if col in df.columns: salary_col = col break</p>
-<p>print(“Salary column being used:”, salary_col) if salary_col is not None: df[salary_col] = pd.to_numeric(df[salary_col], errors=“coerce”) df = df.dropna(subset=[salary_col])</p>
-<pre><code>q1 = df[salary_col].quantile(0.25)
-q3 = df[salary_col].quantile(0.75)
-iqr = q3 - q1
-lower = q1 - 1.5 * iqr
-upper = q3 + 1.5 * iqr
+<div id="a0e1c246" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> missingno <span class="im">as</span> msno</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="10f5d39d" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/sample_jobs.csv"</span>, low_memory<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 
-df = df[(df[salary_col] &gt;= lower) &amp; (df[salary_col] &lt;= upper)]</code></pre>
-<p>df.shape This helps reduce the influence of unusually large or small salary values that may reflect rare cases or data-entry problems.</p>
-<p>Exploratory Data Analysis</p>
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ID</th>
+<th data-quarto-table-cell-role="th">LAST_UPDATED_DATE</th>
+<th data-quarto-table-cell-role="th">LAST_UPDATED_TIMESTAMP</th>
+<th data-quarto-table-cell-role="th">DUPLICATES</th>
+<th data-quarto-table-cell-role="th">POSTED</th>
+<th data-quarto-table-cell-role="th">EXPIRED</th>
+<th data-quarto-table-cell-role="th">DURATION</th>
+<th data-quarto-table-cell-role="th">SOURCE_TYPES</th>
+<th data-quarto-table-cell-role="th">SOURCES</th>
+<th data-quarto-table-cell-role="th">URL</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_2</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_2_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_3</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_3_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_4</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_4_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_5</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_5_NAME</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_6</th>
+<th data-quarto-table-cell-role="th">NAICS_2022_6_NAME</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1f57d95acf4dc67ed2819eb12f049f6a5c11782c</td>
+<td>9/6/2024</td>
+<td>2024-09-06 20:32:57.352 Z</td>
+<td>0.0</td>
+<td>6/2/2024</td>
+<td>6/8/2024</td>
+<td>6.0</td>
+<td>[\n "Company"\n]</td>
+<td>[\n "brassring.com"\n]</td>
+<td>[\n "https://sjobs.brassring.com/TGnewUI/Sear...</td>
+<td>...</td>
+<td>44.0</td>
+<td>Retail Trade</td>
+<td>441.0</td>
+<td>Motor Vehicle and Parts Dealers</td>
+<td>4413.0</td>
+<td>Automotive Parts, Accessories, and Tire Retailers</td>
+<td>44133.0</td>
+<td>Automotive Parts and Accessories Retailers</td>
+<td>441330.0</td>
+<td>Automotive Parts and Accessories Retailers</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>0cb072af26757b6c4ea9464472a50a443af681ac</td>
+<td>8/2/2024</td>
+<td>2024-08-02 17:08:58.838 Z</td>
+<td>0.0</td>
+<td>6/2/2024</td>
+<td>8/1/2024</td>
+<td>NaN</td>
+<td>[\n "Job Board"\n]</td>
+<td>[\n "maine.gov"\n]</td>
+<td>[\n "https://joblink.maine.gov/jobs/1085740"\n]</td>
+<td>...</td>
+<td>56.0</td>
+<td>Administrative and Support and Waste Managemen...</td>
+<td>561.0</td>
+<td>Administrative and Support Services</td>
+<td>5613.0</td>
+<td>Employment Services</td>
+<td>56132.0</td>
+<td>Temporary Help Services</td>
+<td>561320.0</td>
+<td>Temporary Help Services</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>85318b12b3331fa490d32ad014379df01855c557</td>
+<td>9/6/2024</td>
+<td>2024-09-06 20:32:57.352 Z</td>
+<td>1.0</td>
+<td>6/2/2024</td>
+<td>7/7/2024</td>
+<td>35.0</td>
+<td>[\n "Job Board"\n]</td>
+<td>[\n "dejobs.org"\n]</td>
+<td>[\n "https://dejobs.org/dallas-tx/data-analys...</td>
+<td>...</td>
+<td>52.0</td>
+<td>Finance and Insurance</td>
+<td>524.0</td>
+<td>Insurance Carriers and Related Activities</td>
+<td>5242.0</td>
+<td>Agencies, Brokerages, and Other Insurance Rela...</td>
+<td>52429.0</td>
+<td>Other Insurance Related Activities</td>
+<td>524291.0</td>
+<td>Claims Adjusting</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>1b5c3941e54a1889ef4f8ae55b401a550708a310</td>
+<td>9/6/2024</td>
+<td>2024-09-06 20:32:57.352 Z</td>
+<td>1.0</td>
+<td>6/2/2024</td>
+<td>7/20/2024</td>
+<td>48.0</td>
+<td>[\n "Job Board"\n]</td>
+<td>[\n "disabledperson.com",\n "dejobs.org"\n]</td>
+<td>[\n "https://www.disabledperson.com/jobs/5948...</td>
+<td>...</td>
+<td>52.0</td>
+<td>Finance and Insurance</td>
+<td>522.0</td>
+<td>Credit Intermediation and Related Activities</td>
+<td>5221.0</td>
+<td>Depository Credit Intermediation</td>
+<td>52211.0</td>
+<td>Commercial Banking</td>
+<td>522110.0</td>
+<td>Commercial Banking</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>cb5ca25f02bdf25c13edfede7931508bfd9e858f</td>
+<td>6/19/2024</td>
+<td>2024-06-19 07:00:00.000 Z</td>
+<td>0.0</td>
+<td>6/2/2024</td>
+<td>6/17/2024</td>
+<td>15.0</td>
+<td>[\n "FreeJobBoard"\n]</td>
+<td>[\n "craigslist.org"\n]</td>
+<td>[\n "https://modesto.craigslist.org/sls/77475...</td>
+<td>...</td>
+<td>99.0</td>
+<td>Unclassified Industry</td>
+<td>999.0</td>
+<td>Unclassified Industry</td>
+<td>9999.0</td>
+<td>Unclassified Industry</td>
+<td>99999.0</td>
+<td>Unclassified Industry</td>
+<td>999999.0</td>
+<td>Unclassified Industry</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 131 columns</p>
+</div>
+</div>
+</div>
+<div id="8ecc911a" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.columns.tolist()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>['ID',
+ 'LAST_UPDATED_DATE',
+ 'LAST_UPDATED_TIMESTAMP',
+ 'DUPLICATES',
+ 'POSTED',
+ 'EXPIRED',
+ 'DURATION',
+ 'SOURCE_TYPES',
+ 'SOURCES',
+ 'URL',
+ 'ACTIVE_URLS',
+ 'ACTIVE_SOURCES_INFO',
+ 'TITLE_RAW',
+ 'BODY',
+ 'MODELED_EXPIRED',
+ 'MODELED_DURATION',
+ 'COMPANY',
+ 'COMPANY_NAME',
+ 'COMPANY_RAW',
+ 'COMPANY_IS_STAFFING',
+ 'EDUCATION_LEVELS',
+ 'EDUCATION_LEVELS_NAME',
+ 'MIN_EDULEVELS',
+ 'MIN_EDULEVELS_NAME',
+ 'MAX_EDULEVELS',
+ 'MAX_EDULEVELS_NAME',
+ 'EMPLOYMENT_TYPE',
+ 'EMPLOYMENT_TYPE_NAME',
+ 'MIN_YEARS_EXPERIENCE',
+ 'MAX_YEARS_EXPERIENCE',
+ 'IS_INTERNSHIP',
+ 'SALARY',
+ 'REMOTE_TYPE',
+ 'REMOTE_TYPE_NAME',
+ 'ORIGINAL_PAY_PERIOD',
+ 'SALARY_TO',
+ 'SALARY_FROM',
+ 'LOCATION',
+ 'CITY',
+ 'CITY_NAME',
+ 'COUNTY',
+ 'COUNTY_NAME',
+ 'MSA',
+ 'MSA_NAME',
+ 'STATE',
+ 'STATE_NAME',
+ 'COUNTY_OUTGOING',
+ 'COUNTY_NAME_OUTGOING',
+ 'COUNTY_INCOMING',
+ 'COUNTY_NAME_INCOMING',
+ 'MSA_OUTGOING',
+ 'MSA_NAME_OUTGOING',
+ 'MSA_INCOMING',
+ 'MSA_NAME_INCOMING',
+ 'NAICS2',
+ 'NAICS2_NAME',
+ 'NAICS3',
+ 'NAICS3_NAME',
+ 'NAICS4',
+ 'NAICS4_NAME',
+ 'NAICS5',
+ 'NAICS5_NAME',
+ 'NAICS6',
+ 'NAICS6_NAME',
+ 'TITLE',
+ 'TITLE_NAME',
+ 'TITLE_CLEAN',
+ 'SKILLS',
+ 'SKILLS_NAME',
+ 'SPECIALIZED_SKILLS',
+ 'SPECIALIZED_SKILLS_NAME',
+ 'CERTIFICATIONS',
+ 'CERTIFICATIONS_NAME',
+ 'COMMON_SKILLS',
+ 'COMMON_SKILLS_NAME',
+ 'SOFTWARE_SKILLS',
+ 'SOFTWARE_SKILLS_NAME',
+ 'ONET',
+ 'ONET_NAME',
+ 'ONET_2019',
+ 'ONET_2019_NAME',
+ 'CIP6',
+ 'CIP6_NAME',
+ 'CIP4',
+ 'CIP4_NAME',
+ 'CIP2',
+ 'CIP2_NAME',
+ 'SOC_2021_2',
+ 'SOC_2021_2_NAME',
+ 'SOC_2021_3',
+ 'SOC_2021_3_NAME',
+ 'SOC_2021_4',
+ 'SOC_2021_4_NAME',
+ 'SOC_2021_5',
+ 'SOC_2021_5_NAME',
+ 'LOT_CAREER_AREA',
+ 'LOT_CAREER_AREA_NAME',
+ 'LOT_OCCUPATION',
+ 'LOT_OCCUPATION_NAME',
+ 'LOT_SPECIALIZED_OCCUPATION',
+ 'LOT_SPECIALIZED_OCCUPATION_NAME',
+ 'LOT_OCCUPATION_GROUP',
+ 'LOT_OCCUPATION_GROUP_NAME',
+ 'LOT_V6_SPECIALIZED_OCCUPATION',
+ 'LOT_V6_SPECIALIZED_OCCUPATION_NAME',
+ 'LOT_V6_OCCUPATION',
+ 'LOT_V6_OCCUPATION_NAME',
+ 'LOT_V6_OCCUPATION_GROUP',
+ 'LOT_V6_OCCUPATION_GROUP_NAME',
+ 'LOT_V6_CAREER_AREA',
+ 'LOT_V6_CAREER_AREA_NAME',
+ 'SOC_2',
+ 'SOC_2_NAME',
+ 'SOC_3',
+ 'SOC_3_NAME',
+ 'SOC_4',
+ 'SOC_4_NAME',
+ 'SOC_5',
+ 'SOC_5_NAME',
+ 'LIGHTCAST_SECTORS',
+ 'LIGHTCAST_SECTORS_NAME',
+ 'NAICS_2022_2',
+ 'NAICS_2022_2_NAME',
+ 'NAICS_2022_3',
+ 'NAICS_2022_3_NAME',
+ 'NAICS_2022_4',
+ 'NAICS_2022_4_NAME',
+ 'NAICS_2022_5',
+ 'NAICS_2022_5_NAME',
+ 'NAICS_2022_6',
+ 'NAICS_2022_6_NAME']</code></pre>
+</div>
+</div>
+<p>This dataset contains job posting information that can be used to study salary trends, hiring patterns, and work arrangements. Before analysis, we inspected the number of rows and columns and reviewed the variable names to understand what cleaning would be needed.</p>
+</section>
+<section id="data-cleaning-and-preprocessing" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="data-cleaning-and-preprocessing"><span class="header-section-number">3</span> Data Cleaning and Preprocessing</h2>
+<p>This section explains how the dataset was cleaned, including removing unnecessary columns, handling missing values, converting data types, and eliminating duplicate records.</p>
+</section>
+<section id="drop-unnecessary-columns" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="drop-unnecessary-columns"><span class="header-section-number">4</span> Drop Unnecessary Columns</h2>
+<p>We removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis.</p>
+<div id="e58eab95" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SOC_2"</span>, <span class="st">"SOC_3"</span>, <span class="st">"SOC_5"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[c <span class="cf">for</span> c <span class="kw">in</span> columns_to_drop <span class="cf">if</span> c <span class="kw">in</span> df.columns])</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>(50000, 118)</code></pre>
+</div>
+</div>
+</section>
+<section id="handle-missing-values" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="handle-missing-values"><span class="header-section-number">5</span> Handle Missing Values</h2>
+<p>We examined missing values to better understand data quality. Numerical columns were filled with the median, categorical columns were filled with “Unknown”, and columns with more than 50% missing values were removed.</p>
+<div id="27090bf3" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>missing_pct <span class="op">=</span> df.isnull().mean().sort_values(ascending<span class="op">=</span><span class="va">False</span>) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>missing_pct.head(<span class="dv">15</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>msno.heatmap(df)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Missing Values Heatmap"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna(thresh<span class="op">=</span><span class="bu">len</span>(df) <span class="op">*</span> <span class="fl">0.5</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> df.select_dtypes(include<span class="op">=</span><span class="st">"number"</span>):</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    df[col] <span class="op">=</span> df[col].fillna(df[col].median())</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> df.select_dtypes(exclude<span class="op">=</span><span class="st">"number"</span>):</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    df[col] <span class="op">=</span> df[col].fillna(<span class="st">"Unknown"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/cell-6-output-1.png" width="1838" height="1269" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This approach preserves as much of the dataset as possible while making the data usable for analysis.</p>
+</section>
+<section id="convert-data-types" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="convert-data-types"><span class="header-section-number">6</span> Convert Data Types</h2>
+<p>We converted posting dates to datetime format so that date fields would be interpreted correctly.</p>
+<div id="7abf1169" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"POSTED"</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"POSTED"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"POSTED"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"LAST_UPDATED_DATE"</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"LAST_UPDATED_DATE"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"LAST_UPDATED_DATE"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="remove-duplicates" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="remove-duplicates"><span class="header-section-number">7</span> Remove Duplicates</h2>
+<p>Duplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows.</p>
+<div id="90846f43" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>before_rows <span class="op">=</span> <span class="bu">len</span>(df)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop_duplicates()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>after_rows <span class="op">=</span> <span class="bu">len</span>(df)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Rows before removing duplicates:"</span>, before_rows)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Rows after removing duplicates:"</span>, after_rows)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Duplicates removed:"</span>, before_rows <span class="op">-</span> after_rows)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows before removing duplicates: 50000
+Rows after removing duplicates: 49986
+Duplicates removed: 14</code></pre>
+</div>
+</div>
+</section>
+<section id="outlier-detection-and-removal" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="outlier-detection-and-removal"><span class="header-section-number">8</span> Outlier Detection and Removal</h2>
+<div id="5a0d1f11" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>possible_salary_cols <span class="op">=</span> [</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Salary"</span>, <span class="st">"SALARY"</span>, <span class="st">"salary"</span>, <span class="st">"annual_salary"</span>, <span class="st">"Yearly Salary"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SALARY_FROM"</span>, <span class="st">"SALARY_TO"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>salary_col <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> possible_salary_cols:</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> df.columns:</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        salary_col <span class="op">=</span> col</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Salary column being used:"</span>, salary_col)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Salary column being used: None</code></pre>
+</div>
+</div>
+<div id="13bebc71" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> salary_col <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    df[salary_col] <span class="op">=</span> pd.to_numeric(df[salary_col], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.dropna(subset<span class="op">=</span>[salary_col])</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> df[salary_col].quantile(<span class="fl">0.25</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    q3 <span class="op">=</span> df[salary_col].quantile(<span class="fl">0.75</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    iqr <span class="op">=</span> q3 <span class="op">-</span> q1</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> iqr</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> iqr</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[(df[salary_col] <span class="op">&gt;=</span> lower) <span class="op">&amp;</span> (df[salary_col] <span class="op">&lt;=</span> upper)]</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(49986, 108)</code></pre>
+</div>
+</div>
+<div id="e76d0930" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> salary_col <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    df[salary_col] <span class="op">=</span> pd.to_numeric(df[salary_col], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.dropna(subset<span class="op">=</span>[salary_col])</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> df[salary_col].quantile(<span class="fl">0.25</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    q3 <span class="op">=</span> df[salary_col].quantile(<span class="fl">0.75</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    iqr <span class="op">=</span> q3 <span class="op">-</span> q1</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> q1 <span class="op">-</span> <span class="fl">1.5</span> <span class="op">*</span> iqr</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> q3 <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> iqr</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[(df[salary_col] <span class="op">&gt;=</span> lower) <span class="op">&amp;</span> (df[salary_col] <span class="op">&lt;=</span> upper)]</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>(49986, 108)</code></pre>
+</div>
+</div>
+<p>This helps reduce the influence of unusually large or small salary values that may reflect rare cases or data-entry problems.</p>
+</section>
+<section id="exploratory-data-analysis" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="exploratory-data-analysis"><span class="header-section-number">9</span> Exploratory Data Analysis</h2>
 <p>This section examines salary trends, industry patterns, and work arrangements to better understand labor market differences.</p>
-<p>Visualization 1: Job Postings by Industry</p>
-<p>This chart shows which industries appear most often in the sample and helps identify where job demand is concentrated. possible_industry_cols = [ “Industry”, “INDUSTRY”, “industry”, “NAICS_2022_6_NAME”, “NAICS_2022_3_NAME”]</p>
-<p>industry_col = None for col in possible_industry_cols: if col in df.columns: industry_col = col break</p>
-<p>print(“Industry column being used:”, industry_col) if industry_col is not None: df[industry_col].value_counts().head(10).plot(kind=“bar”) plt.title(“Top 10 Industries by Job Postings”) plt.xlabel(“Industry”) plt.ylabel(“Number of Postings”) plt.xticks(rotation=45, ha=“right”) plt.tight_layout() plt.show() The chart highlights the industries with the greatest concentration of postings in the dataset.</p>
-<p>Visualization 2: Salary Distribution</p>
-<p>This histogram shows how salaries are distributed across the sample and helps reveal whether pay is tightly clustered or widely spread. if salary_col is not None: plt.figure(figsize=(8, 5)) sns.histplot(df[salary_col], bins=30) plt.title(“Salary Distribution”) plt.xlabel(“Salary”) plt.ylabel(“Count”) plt.tight_layout() plt.show() A wide distribution suggests substantial variation in compensation across postings.</p>
-<p>Visualization 3: Remote vs.&nbsp;On-Site Jobs</p>
-<p>This chart shows the share of remote, hybrid, and on-site roles in the dataset. possible_remote_cols = [“REMOTE_TYPE_NAME”, “remote_type”, “REMOTE”, “work_type”]</p>
-<p>remote_col = None for col in possible_remote_cols: if col in df.columns: remote_col = col break</p>
-<p>print(“Remote column being used:”, remote_col) if remote_col is not None: df[remote_col].value_counts().plot(kind=“pie”, autopct=“%1.1f%%”) plt.title(“Remote vs On-Site Jobs”) plt.ylabel(““) plt.show() This is useful because work arrangement is an important factor for students and job seekers.</p>
-<p>Visualization 4: AI vs.&nbsp;Non-AI Roles</p>
-<p>Because our project focuses on AI-related job trends, we classified postings as AI-related or non-AI-related based on keywords in the job title. possible_title_cols = [“TITLE”, “Title”, “title”, “JOB_TITLE”]</p>
-<p>title_col = None for col in possible_title_cols: if col in df.columns: title_col = col break</p>
-<p>print(“Title column being used:”, title_col) if title_col is not None: df[“ai_flag”] = df[title_col].astype(str).str.contains( “AI|Artificial Intelligence|Machine Learning|ML|Data Science|Data Scientist”, case=False, na=False ) else: df[“ai_flag”] = False</p>
-<p>df[“ai_flag”].value_counts(dropna=False) if salary_col is not None and “ai_flag” in df.columns: plt.figure(figsize=(8, 5)) sns.boxplot(data=df, x=“ai_flag”, y=salary_col) plt.title(“Salary Comparison: AI-Related vs Non-AI Roles”) plt.xlabel(“AI-Related Role”) plt.ylabel(“Salary”) plt.tight_layout() plt.show() This comparison helps us evaluate whether AI-related roles appear to command different salary levels than non-AI roles.</p>
-<p>Key Findings</p>
-<p>The data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records.</p>
-<p>The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample.</p>
-<p>Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search.</p>
-<p>The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns.</p>
+</section>
+<section id="visualization-1-job-postings-by-industry" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="visualization-1-job-postings-by-industry"><span class="header-section-number">10</span> Visualization 1: Job Postings by Industry</h2>
+<p>This chart shows which industries appear most often in the sample and helps identify where job demand is concentrated.</p>
+<div id="39f8ed62" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>possible_industry_cols <span class="op">=</span> [</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Industry"</span>, <span class="st">"INDUSTRY"</span>, <span class="st">"industry"</span>, <span class="st">"NAICS_2022_6_NAME"</span>, <span class="st">"NAICS_2022_3_NAME"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>industry_col <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> possible_industry_cols:</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> df.columns:</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        industry_col <span class="op">=</span> col</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Industry column being used:"</span>, industry_col)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Industry column being used: NAICS_2022_6_NAME</code></pre>
+</div>
+</div>
+<div id="97a76fb0" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> industry_col <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    df[industry_col].value_counts().head(<span class="dv">10</span>).plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Top 10 Industries by Job Postings"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Industry"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Number of Postings"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/cell-13-output-1.png" width="688" height="467" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The chart highlights the industries with the greatest concentration of postings in the dataset.</p>
+</section>
+<section id="visualization-2-salary-distribution" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="visualization-2-salary-distribution"><span class="header-section-number">11</span> Visualization 2: Salary Distribution</h2>
+<p>This histogram shows how salaries are distributed across the sample and helps reveal whether pay is tightly clustered or widely spread.</p>
+<div id="d4cc9b66" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> salary_col <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    sns.histplot(df[salary_col], bins<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Salary Distribution"</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Salary"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A wide distribution suggests substantial variation in compensation across postings.</p>
+</section>
+<section id="visualization-3-remote-vs.-on-site-jobs" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="visualization-3-remote-vs.-on-site-jobs"><span class="header-section-number">12</span> Visualization 3: Remote vs.&nbsp;On-Site Jobs</h2>
+<p>This chart shows the share of remote, hybrid, and on-site roles in the dataset.</p>
+<div id="c39f9ad8" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>possible_remote_cols <span class="op">=</span> [<span class="st">"REMOTE_TYPE_NAME"</span>, <span class="st">"remote_type"</span>, <span class="st">"REMOTE"</span>, <span class="st">"work_type"</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>remote_col <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> possible_remote_cols:</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> df.columns:</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        remote_col <span class="op">=</span> col</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Remote column being used:"</span>, remote_col)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Remote column being used: REMOTE_TYPE_NAME</code></pre>
+</div>
+</div>
+<div id="573d570f" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> remote_col <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    df[remote_col].value_counts().plot(kind<span class="op">=</span><span class="st">"pie"</span>, autopct<span class="op">=</span><span class="st">"</span><span class="sc">%1.1f%%</span><span class="st">"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Remote vs On-Site Jobs"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">""</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/cell-16-output-1.png" width="463" height="409" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is useful because work arrangement is an important factor for students and job seekers.</p>
+</section>
+<section id="visualization-4-ai-vs.-non-ai-roles" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="visualization-4-ai-vs.-non-ai-roles"><span class="header-section-number">13</span> Visualization 4: AI vs.&nbsp;Non-AI Roles</h2>
+<p>Because our project focuses on AI-related job trends, we classified postings as AI-related or non-AI-related based on keywords in the job title.</p>
+<div id="7a54e90d" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>possible_title_cols <span class="op">=</span> [<span class="st">"TITLE"</span>, <span class="st">"Title"</span>, <span class="st">"title"</span>, <span class="st">"JOB_TITLE"</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>title_col <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> possible_title_cols:</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> df.columns:</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        title_col <span class="op">=</span> col</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Title column being used:"</span>, title_col)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Title column being used: TITLE</code></pre>
+</div>
+</div>
+<div id="483abbd5" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> title_col <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"ai_flag"</span>] <span class="op">=</span> df[title_col].astype(<span class="bu">str</span>).<span class="bu">str</span>.contains(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"AI|Artificial Intelligence|Machine Learning|ML|Data Science|Data Scientist"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        case<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        na<span class="op">=</span><span class="va">False</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"ai_flag"</span>] <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"ai_flag"</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>ai_flag
+False    49986
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<div id="df9e7cfa" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> salary_col <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> <span class="st">"ai_flag"</span> <span class="kw">in</span> df.columns:</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    sns.boxplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">"ai_flag"</span>, y<span class="op">=</span>salary_col)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Salary Comparison: AI-Related vs Non-AI Roles"</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"AI-Related Role"</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Salary"</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This comparison helps us evaluate whether AI-related roles appear to command different salary levels than non-AI roles.</p>
+</section>
+<section id="key-findings" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="key-findings"><span class="header-section-number">14</span> Key Findings</h2>
+<p>The data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records. The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample. Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search. The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns.</p>
 
 
 </section>
