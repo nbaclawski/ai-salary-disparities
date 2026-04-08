@@ -177,6 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
+<<<<<<< HEAD
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">1</span> Overview</a></li>
   <li><a href="#load-packages-and-data" id="toc-load-packages-and-data" class="nav-link" data-scroll-target="#load-packages-and-data"><span class="header-section-number">2</span> Load Packages and Data</a></li>
   <li><a href="#data-cleaning-and-preprocessing" id="toc-data-cleaning-and-preprocessing" class="nav-link" data-scroll-target="#data-cleaning-and-preprocessing"><span class="header-section-number">3</span> Data Cleaning and Preprocessing</a></li>
@@ -191,6 +192,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#visualization-3-remote-vs.-on-site-jobs" id="toc-visualization-3-remote-vs.-on-site-jobs" class="nav-link" data-scroll-target="#visualization-3-remote-vs.-on-site-jobs"><span class="header-section-number">12</span> Visualization 3: Remote vs.&nbsp;On-Site Jobs</a></li>
   <li><a href="#visualization-4-ai-vs.-non-ai-roles" id="toc-visualization-4-ai-vs.-non-ai-roles" class="nav-link" data-scroll-target="#visualization-4-ai-vs.-non-ai-roles"><span class="header-section-number">13</span> Visualization 4: AI vs.&nbsp;Non-AI Roles</a></li>
   <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings"><span class="header-section-number">14</span> Key Findings</a></li>
+=======
+  <li><a href="#load-dataset" id="toc-load-dataset" class="nav-link active" data-scroll-target="#load-dataset"><span class="header-section-number">1</span> Load Dataset</a></li>
+  <li><a href="#data-cleaning-and-preprocessing" id="toc-data-cleaning-and-preprocessing" class="nav-link" data-scroll-target="#data-cleaning-and-preprocessing"><span class="header-section-number">2</span> Data Cleaning and Preprocessing</a></li>
+  <li><a href="#drop-unnecessary-columns" id="toc-drop-unnecessary-columns" class="nav-link" data-scroll-target="#drop-unnecessary-columns"><span class="header-section-number">3</span> Drop Unnecessary Columns</a></li>
+  <li><a href="#handle-missing-values" id="toc-handle-missing-values" class="nav-link" data-scroll-target="#handle-missing-values"><span class="header-section-number">4</span> Handle Missing Values</a></li>
+  <li><a href="#convert-data-types" id="toc-convert-data-types" class="nav-link" data-scroll-target="#convert-data-types"><span class="header-section-number">5</span> Convert Data Types</a></li>
+  <li><a href="#remove-duplicates" id="toc-remove-duplicates" class="nav-link" data-scroll-target="#remove-duplicates"><span class="header-section-number">6</span> Remove Duplicates</a></li>
+  <li><a href="#create-salary-measure" id="toc-create-salary-measure" class="nav-link" data-scroll-target="#create-salary-measure"><span class="header-section-number">7</span> Create Salary Measure</a></li>
+  <li><a href="#salary-summary-statistics" id="toc-salary-summary-statistics" class="nav-link" data-scroll-target="#salary-summary-statistics"><span class="header-section-number">8</span> Salary Summary Statistics</a></li>
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
   </ul>
 </nav>
     </div>
@@ -225,9 +236,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<<<<<<< HEAD
 <section id="overview" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1</span> Overview</h2>
 <p>This page documents the data cleaning and exploratory analysis for our project on salary disparities and AI-driven job trends. We focus on preparing the dataset for analysis and identifying key patterns in job postings, salary distributions, and work arrangements.</p>
+=======
+<section id="load-dataset" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="load-dataset"><span class="header-section-number">1</span> Load Dataset</h2>
+<div id="8ac2bf46" class="cell" data-message="false" data-execution_count="1">
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 72498
+Columns: 131</code></pre>
+</div>
+</div>
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
 </section>
 <section id="load-packages-and-data" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="load-packages-and-data"><span class="header-section-number">2</span> Load Packages and Data</h2>
@@ -545,6 +567,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="drop-unnecessary-columns" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="drop-unnecessary-columns"><span class="header-section-number">4</span> Drop Unnecessary Columns</h2>
 <p>We removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis.</p>
+<<<<<<< HEAD
 <div id="e58eab95" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
@@ -810,6 +833,159 @@ Name: count, dtype: int64</code></pre>
 <section id="key-findings" class="level2" data-number="14">
 <h2 data-number="14" class="anchored" data-anchor-id="key-findings"><span class="header-section-number">14</span> Key Findings</h2>
 <p>The data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records. The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample. Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search. The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns.</p>
+=======
+<div id="3f60cc07" class="cell" data-message="false" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SOC_2"</span>, <span class="st">"SOC_3"</span>, <span class="st">"SOC_5"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df.drop(<span class="op">*</span>[c <span class="cf">for</span> c <span class="kw">in</span> columns_to_drop <span class="cf">if</span> c <span class="kw">in</span> df.columns])</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Columns before:"</span>, <span class="bu">len</span>(df.columns))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Columns after:"</span>, <span class="bu">len</span>(df_clean.columns))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Columns before: 131
+Columns after: 118</code></pre>
+</div>
+</div>
+<p>We examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables.</p>
+</section>
+<section id="handle-missing-values" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="handle-missing-values"><span class="header-section-number">4</span> Handle Missing Values</h2>
+<div id="4ce322e7" class="cell" data-message="false" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.<span class="bu">filter</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">"SALARY_FROM"</span>).isNotNull() <span class="op">|</span> col(<span class="st">"SALARY_TO"</span>).isNotNull()) <span class="op">&amp;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">"TITLE"</span>).isNotNull() <span class="op">&amp;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">"REMOTE_TYPE_NAME"</span>).isNotNull() <span class="op">&amp;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">"NAICS_2022_6_NAME"</span>).isNotNull() <span class="op">&amp;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">"STATE_NAME"</span>).isNotNull()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Rows after filtering:"</span>, df_clean.count())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows after filtering: 32398</code></pre>
+</div>
+</div>
+<p>We examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables. This approach preserves meaningful observations while ensuring that key variables are available for analysis. This filtering step significantly reduced the dataset size, indicating that many job postings were missing key salary or classification information. While this reduces sample size, it improves the reliability of our analysis by focusing only on complete and usable observations.</p>
+</section>
+<section id="convert-data-types" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="convert-data-types"><span class="header-section-number">5</span> Convert Data Types</h2>
+<p>We converted posting dates to a date format so that date fields would be interpreted correctly.</p>
+<div id="be9343da" class="cell" data-message="false" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.withColumn(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"POSTED"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    F.to_date(<span class="st">"POSTED"</span>, <span class="st">"M/d/yyyy"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>df_clean.select(<span class="st">"POSTED"</span>).show(<span class="dv">5</span>, truncate<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+----------+
+|POSTED    |
++----------+
+|2024-06-02|
+|2024-06-02|
+|2024-06-02|
+|2024-06-02|
+|2024-06-02|
++----------+
+only showing top 5 rows</code></pre>
+</div>
+</div>
+</section>
+<section id="remove-duplicates" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="remove-duplicates"><span class="header-section-number">6</span> Remove Duplicates</h2>
+<div id="f0ccff26" class="cell" data-message="false" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>before_rows <span class="op">=</span> df_clean.count()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.dropDuplicates()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>after_rows <span class="op">=</span> df_clean.count()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Rows before removing duplicates:"</span>, before_rows)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Rows after removing duplicates:"</span>, after_rows)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Duplicates removed:"</span>, before_rows <span class="op">-</span> after_rows)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows before removing duplicates: 32398
+Rows after removing duplicates: 32398
+Duplicates removed: 0</code></pre>
+</div>
+</div>
+<p>Duplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows. No duplicate rows were identified in the dataset after filtering, suggesting that each job posting is already uniquely represented</p>
+</section>
+<section id="create-salary-measure" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="create-salary-measure"><span class="header-section-number">7</span> Create Salary Measure</h2>
+<p>We created a midpoint salary using the lower and upper salary bounds to produce a single value for analysis. If only one salary bound was available, that value was used as an approximation so that we could retain more usable observations.</p>
+<div id="89373e94" class="cell" data-message="false" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.withColumn(<span class="st">"SALARY_FROM"</span>, col(<span class="st">"SALARY_FROM"</span>).cast(<span class="st">"double"</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.withColumn(<span class="st">"SALARY_TO"</span>, col(<span class="st">"SALARY_TO"</span>).cast(<span class="st">"double"</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.withColumn(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"salary_midpoint"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    when(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">"SALARY_FROM"</span>).isNotNull() <span class="op">&amp;</span> col(<span class="st">"SALARY_TO"</span>).isNotNull(),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        (col(<span class="st">"SALARY_FROM"</span>) <span class="op">+</span> col(<span class="st">"SALARY_TO"</span>)) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    ).when(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">"SALARY_FROM"</span>).isNotNull(),</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">"SALARY_FROM"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    ).otherwise(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        col(<span class="st">"SALARY_TO"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.<span class="bu">filter</span>(</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">"salary_midpoint"</span>).isNotNull() <span class="op">&amp;</span> (col(<span class="st">"salary_midpoint"</span>) <span class="op">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>df_clean.select(<span class="st">"SALARY_FROM"</span>, <span class="st">"SALARY_TO"</span>, <span class="st">"salary_midpoint"</span>).show(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-----------+---------+---------------+
+|SALARY_FROM|SALARY_TO|salary_midpoint|
++-----------+---------+---------------+
+|    62400.0|  83200.0|        72800.0|
+|   169184.0| 217523.0|       193353.5|
+|    74000.0| 118200.0|        96100.0|
+|    87500.0| 158500.0|       123000.0|
+|    95000.0| 100000.0|        97500.0|
++-----------+---------+---------------+
+only showing top 5 rows</code></pre>
+</div>
+</div>
+<p>Instead of removing all observations with partial salary data, we constructed a salary midpoint using available values. If only one bound was present, that value was used as an approximation. This approach preserves more data while maintaining meaningful salary estimates.</p>
+</section>
+<section id="salary-summary-statistics" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="salary-summary-statistics"><span class="header-section-number">8</span> Salary Summary Statistics</h2>
+<div id="73912005" class="cell" data-message="false" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_clean.describe(<span class="st">"salary_midpoint"</span>).show()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_clean.select(<span class="st">"salary_midpoint"</span>).summary().show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>+-------+-----------------+
+|summary|  salary_midpoint|
++-------+-----------------+
+|  count|            32398|
+|   mean|115059.1995184888|
+| stddev|47760.37864264348|
+|    min|          10617.0|
+|    max|         800000.0|
++-------+-----------------+
+
++-------+-----------------+
+|summary|  salary_midpoint|
++-------+-----------------+
+|  count|            32398|
+|   mean|115059.1995184888|
+| stddev|47760.37864264348|
+|    min|          10617.0|
+|    25%|          80000.0|
+|    50%|         113450.0|
+|    75%|         144300.0|
+|    max|         800000.0|
++-------+-----------------+
+</code></pre>
+</div>
+</div>
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
 
 
 </section>

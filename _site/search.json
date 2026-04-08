@@ -81,14 +81,14 @@
     "href": "analysis.html",
     "title": "Analysis",
     "section": "",
-    "text": "This section will present data analysis and findings on salary disparities across disciplines."
+    "text": "This section will present data analysis and findings on salary disparities across disciplines.\n#data cleaning\nWe removed columns that do not contribute to the analysis, such as identifiers (ID), URLs, and tracking fields. These variables do not provide meaningful information for understanding salary patterns.\nWe also removed older versions of NAICS and SOC classification codes while keeping the most recent versions (NAICS_2022_6 and SOC_2021_4). This avoids redundancy and ensures consistency in how industries and occupations are represented.\nThis approach simplifies the dataset while preserving the key variables needed for analyzing salaries, job types, and industry differences."
   },
   {
     "objectID": "analysis.html#coming-soon",
     "href": "analysis.html#coming-soon",
     "title": "Analysis",
     "section": "",
-    "text": "This section will present data analysis and findings on salary disparities across disciplines."
+    "text": "This section will present data analysis and findings on salary disparities across disciplines.\n#data cleaning\nWe removed columns that do not contribute to the analysis, such as identifiers (ID), URLs, and tracking fields. These variables do not provide meaningful information for understanding salary patterns.\nWe also removed older versions of NAICS and SOC classification codes while keeping the most recent versions (NAICS_2022_6 and SOC_2021_4). This avoids redundancy and ensures consistency in how industries and occupations are represented.\nThis approach simplifies the dataset while preserving the key variables needed for analyzing salaries, job types, and industry differences."
   },
   {
     "objectID": "data_analysis.html",
@@ -129,8 +129,13 @@
     "objectID": "data_analysis.html#handle-missing-values",
     "href": "data_analysis.html#handle-missing-values",
     "title": "Data Analysis",
+<<<<<<< HEAD
     "section": "5 Handle Missing Values",
     "text": "5 Handle Missing Values\nWe examined missing values to better understand data quality. Numerical columns were filled with the median, categorical columns were filled with “Unknown”, and columns with more than 50% missing values were removed.\n\nmissing_pct = df.isnull().mean().sort_values(ascending=False) * 100\nmissing_pct.head(15)\nmsno.heatmap(df)\nplt.title(\"Missing Values Heatmap\")\nplt.show()\ndf = df.dropna(thresh=len(df) * 0.5, axis=1)\n\nfor col in df.select_dtypes(include=\"number\"):\n    df[col] = df[col].fillna(df[col].median())\n\nfor col in df.select_dtypes(exclude=\"number\"):\n    df[col] = df[col].fillna(\"Unknown\")\n\n\n\n\n\n\n\n\nThis approach preserves as much of the dataset as possible while making the data usable for analysis."
+=======
+    "section": "4 Handle Missing Values",
+    "text": "4 Handle Missing Values\n\ndf_clean = df_clean.filter(\n    (col(\"SALARY_FROM\").isNotNull() | col(\"SALARY_TO\").isNotNull()) &\n    col(\"TITLE\").isNotNull() &\n    col(\"REMOTE_TYPE_NAME\").isNotNull() &\n    col(\"NAICS_2022_6_NAME\").isNotNull() &\n    col(\"STATE_NAME\").isNotNull()\n)\n\nprint(\"Rows after filtering:\", df_clean.count())\n\nRows after filtering: 32398\n\n\nWe examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables. This approach preserves meaningful observations while ensuring that key variables are available for analysis. This filtering step significantly reduced the dataset size, indicating that many job postings were missing key salary or classification information. While this reduces sample size, it improves the reliability of our analysis by focusing only on complete and usable observations."
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
   },
   {
     "objectID": "data_analysis.html#convert-data-types",
@@ -143,13 +148,19 @@
     "objectID": "data_analysis.html#remove-duplicates",
     "href": "data_analysis.html#remove-duplicates",
     "title": "Data Analysis",
+<<<<<<< HEAD
     "section": "7 Remove Duplicates",
     "text": "7 Remove Duplicates\nDuplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows.\n\nbefore_rows = len(df)\ndf = df.drop_duplicates()\nafter_rows = len(df)\n\nprint(\"Rows before removing duplicates:\", before_rows)\nprint(\"Rows after removing duplicates:\", after_rows)\nprint(\"Duplicates removed:\", before_rows - after_rows)\n\nRows before removing duplicates: 50000\nRows after removing duplicates: 49986\nDuplicates removed: 14"
+=======
+    "section": "6 Remove Duplicates",
+    "text": "6 Remove Duplicates\n\nbefore_rows = df_clean.count()\n\ndf_clean = df_clean.dropDuplicates()\n\nafter_rows = df_clean.count()\n\nprint(\"Rows before removing duplicates:\", before_rows)\nprint(\"Rows after removing duplicates:\", after_rows)\nprint(\"Duplicates removed:\", before_rows - after_rows)\n\nRows before removing duplicates: 32398\nRows after removing duplicates: 32398\nDuplicates removed: 0\n\n\nDuplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows. No duplicate rows were identified in the dataset after filtering, suggesting that each job posting is already uniquely represented"
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
   },
   {
     "objectID": "data_analysis.html#outlier-detection-and-removal",
     "href": "data_analysis.html#outlier-detection-and-removal",
     "title": "Data Analysis",
+<<<<<<< HEAD
     "section": "8 Outlier Detection and Removal",
     "text": "8 Outlier Detection and Removal\n\npossible_salary_cols = [\n    \"Salary\", \"SALARY\", \"salary\", \"annual_salary\", \"Yearly Salary\",\n    \"SALARY_FROM\", \"SALARY_TO\"\n]\n\nsalary_col = None\nfor col in possible_salary_cols:\n    if col in df.columns:\n        salary_col = col\n        break\n\nprint(\"Salary column being used:\", salary_col)\n\nSalary column being used: None\n\n\n\nif salary_col is not None:\n    df[salary_col] = pd.to_numeric(df[salary_col], errors=\"coerce\")\n    df = df.dropna(subset=[salary_col])\n\n    q1 = df[salary_col].quantile(0.25)\n    q3 = df[salary_col].quantile(0.75)\n    iqr = q3 - q1\n    lower = q1 - 1.5 * iqr\n    upper = q3 + 1.5 * iqr\n\n    df = df[(df[salary_col] &gt;= lower) & (df[salary_col] &lt;= upper)]\n\ndf.shape\n\n(49986, 108)\n\n\n\nif salary_col is not None:\n    df[salary_col] = pd.to_numeric(df[salary_col], errors=\"coerce\")\n    df = df.dropna(subset=[salary_col])\n\n    q1 = df[salary_col].quantile(0.25)\n    q3 = df[salary_col].quantile(0.75)\n    iqr = q3 - q1\n    lower = q1 - 1.5 * iqr\n    upper = q3 + 1.5 * iqr\n\n    df = df[(df[salary_col] &gt;= lower) & (df[salary_col] &lt;= upper)]\n\ndf.shape\n\n(49986, 108)\n\n\nThis helps reduce the influence of unusually large or small salary values that may reflect rare cases or data-entry problems."
   },
@@ -194,5 +205,16 @@
     "title": "Data Analysis",
     "section": "14 Key Findings",
     "text": "14 Key Findings\nThe data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records. The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample. Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search. The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns."
+=======
+    "section": "7 Create Salary Measure",
+    "text": "7 Create Salary Measure\nWe created a midpoint salary using the lower and upper salary bounds to produce a single value for analysis. If only one salary bound was available, that value was used as an approximation so that we could retain more usable observations.\n\ndf_clean = df_clean.withColumn(\"SALARY_FROM\", col(\"SALARY_FROM\").cast(\"double\"))\ndf_clean = df_clean.withColumn(\"SALARY_TO\", col(\"SALARY_TO\").cast(\"double\"))\n\ndf_clean = df_clean.withColumn(\n    \"salary_midpoint\",\n    when(\n        col(\"SALARY_FROM\").isNotNull() & col(\"SALARY_TO\").isNotNull(),\n        (col(\"SALARY_FROM\") + col(\"SALARY_TO\")) / 2\n    ).when(\n        col(\"SALARY_FROM\").isNotNull(),\n        col(\"SALARY_FROM\")\n    ).otherwise(\n        col(\"SALARY_TO\")\n    )\n)\n\ndf_clean = df_clean.filter(\n    col(\"salary_midpoint\").isNotNull() & (col(\"salary_midpoint\") &gt; 0)\n)\n\ndf_clean.select(\"SALARY_FROM\", \"SALARY_TO\", \"salary_midpoint\").show(5)\n\n+-----------+---------+---------------+\n|SALARY_FROM|SALARY_TO|salary_midpoint|\n+-----------+---------+---------------+\n|    62400.0|  83200.0|        72800.0|\n|   169184.0| 217523.0|       193353.5|\n|    74000.0| 118200.0|        96100.0|\n|    87500.0| 158500.0|       123000.0|\n|    95000.0| 100000.0|        97500.0|\n+-----------+---------+---------------+\nonly showing top 5 rows\n\n\nInstead of removing all observations with partial salary data, we constructed a salary midpoint using available values. If only one bound was present, that value was used as an approximation. This approach preserves more data while maintaining meaningful salary estimates."
+  },
+  {
+    "objectID": "data_analysis.html#salary-summary-statistics",
+    "href": "data_analysis.html#salary-summary-statistics",
+    "title": "Data Analysis",
+    "section": "8 Salary Summary Statistics",
+    "text": "8 Salary Summary Statistics\n\ndf_clean.describe(\"salary_midpoint\").show()\ndf_clean.select(\"salary_midpoint\").summary().show()\n\n+-------+-----------------+\n|summary|  salary_midpoint|\n+-------+-----------------+\n|  count|            32398|\n|   mean|115059.1995184888|\n| stddev|47760.37864264348|\n|    min|          10617.0|\n|    max|         800000.0|\n+-------+-----------------+\n\n+-------+-----------------+\n|summary|  salary_midpoint|\n+-------+-----------------+\n|  count|            32398|\n|   mean|115059.1995184888|\n| stddev|47760.37864264348|\n|    min|          10617.0|\n|    25%|          80000.0|\n|    50%|         113450.0|\n|    75%|         144300.0|\n|    max|         800000.0|\n+-------+-----------------+"
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
   }
 ]

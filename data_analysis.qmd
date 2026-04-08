@@ -68,10 +68,30 @@ df = df.dropna(thresh=len(df) * 0.5, axis=1)
 ```
 We examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables.
 
+<<<<<<< HEAD
 for col in df.select_dtypes(exclude="number"):
     df[col] = df[col].fillna("Unknown")
 ```
 This approach preserves as much of the dataset as possible while making the data usable for analysis.
+=======
+## Handle Missing Values
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+df_clean = df_clean.filter(
+    (col("SALARY_FROM").isNotNull() | col("SALARY_TO").isNotNull()) &
+    col("TITLE").isNotNull() &
+    col("REMOTE_TYPE_NAME").isNotNull() &
+    col("NAICS_2022_6_NAME").isNotNull() &
+    col("STATE_NAME").isNotNull()
+)
+
+print("Rows after filtering:", df_clean.count())
+```
+We examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables. This approach preserves meaningful observations while ensuring that key variables are available for analysis. This filtering step significantly reduced the dataset size, indicating that many job postings were missing key salary or classification information. While this reduces sample size, it improves the reliability of our analysis by focusing only on complete and usable observations.
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
 
 ## Convert Data Types
 
@@ -102,29 +122,63 @@ possible_salary_cols = [
     "SALARY_FROM", "SALARY_TO"
 ]
 
-Duplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows.
+Duplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows. No duplicate rows were identified in the dataset after filtering, suggesting that each job posting is already uniquely represented
 
+<<<<<<< HEAD
 print("Salary column being used:", salary_col)
 ```
+=======
+## Create Salary Measure
+
+We created a midpoint salary using the lower and upper salary bounds to produce a single value for analysis. If only one salary bound was available, that value was used as an approximation so that we could retain more usable observations.
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
 
 ```{python}
 if salary_col is not None:
     df[salary_col] = pd.to_numeric(df[salary_col], errors="coerce")
     df = df.dropna(subset=[salary_col])
+
+df_clean = df_clean.withColumn("SALARY_FROM", col("SALARY_FROM").cast("double"))
+df_clean = df_clean.withColumn("SALARY_TO", col("SALARY_TO").cast("double"))
 
 df_clean = df_clean.withColumn(
     "salary_midpoint",
-    (col("SALARY_FROM") + col("SALARY_TO")) / 2
+    when(
+        col("SALARY_FROM").isNotNull() & col("SALARY_TO").isNotNull(),
+        (col("SALARY_FROM") + col("SALARY_TO")) / 2
+    ).when(
+        col("SALARY_FROM").isNotNull(),
+        col("SALARY_FROM")
+    ).otherwise(
+        col("SALARY_TO")
+    )
 )
 
-df_clean = df_clean.filter(col("salary_midpoint") > 0)
+df_clean = df_clean.filter(
+    col("salary_midpoint").isNotNull() & (col("salary_midpoint") > 0)
+)
 
 df.shape
 ```
+<<<<<<< HEAD
 ```{python}
 if salary_col is not None:
     df[salary_col] = pd.to_numeric(df[salary_col], errors="coerce")
     df = df.dropna(subset=[salary_col])
+=======
+Instead of removing all observations with partial salary data, we constructed a salary midpoint using available values. If only one bound was present, that value was used as an approximation. This approach preserves more data while maintaining meaningful salary estimates.
+
+## Salary Summary Statistics
+
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+df_clean.describe("salary_midpoint").show()
+df_clean.select("salary_midpoint").summary().show()
+```
+>>>>>>> 732231f (Refined data cleaning and duplicate validation)
 
     q1 = df[salary_col].quantile(0.25)
     q3 = df[salary_col].quantile(0.75)

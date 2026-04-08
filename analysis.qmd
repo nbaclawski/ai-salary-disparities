@@ -5,3 +5,11 @@ title: "Analysis"
 ## Coming Soon
 
 This section will present data analysis and findings on salary disparities across disciplines.
+
+#data cleaning
+
+We removed columns that do not contribute to the analysis, such as identifiers (ID), URLs, and tracking fields. These variables do not provide meaningful information for understanding salary patterns.
+
+We also removed older versions of NAICS and SOC classification codes while keeping the most recent versions (NAICS_2022_6 and SOC_2021_4). This avoids redundancy and ensures consistency in how industries and occupations are represented.
+
+This approach simplifies the dataset while preserving the key variables needed for analyzing salaries, job types, and industry differences.
