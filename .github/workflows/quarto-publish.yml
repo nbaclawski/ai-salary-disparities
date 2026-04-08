@@ -24,6 +24,16 @@ jobs:
       - name: Set up Pages
         uses: actions/configure-pages@v5
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install jupyter nbformat pandas numpy matplotlib seaborn missingno
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
