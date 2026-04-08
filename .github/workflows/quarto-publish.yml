@@ -32,7 +32,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install jupyter nbformat pandas numpy matplotlib seaborn missingno
+          pip install jupyter nbformat ipykernel pyyaml pandas plotly pyspark
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
