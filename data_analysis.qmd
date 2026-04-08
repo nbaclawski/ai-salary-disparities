@@ -2,78 +2,28 @@
 title: "Data Analysis"
 subtitle: "Comprehensive Data Cleaning & Exploratory Analysis of Job Market Trends"
 author:
-  - name: Natalie Baclawski, Haydn Thomas, Kelly Xiao
-    affiliations:
-      - id: bu
-        name: Boston University
-        city: Boston
-        state: MA
-  - name: John Hamm
-    affiliations:
-      - ref: bu
+  - Natalie Baclawski
+  - Haydn Thomas
+  - Kelly Xiao
 bibliography: references.bib
 csl: csl/econometrica.csl
-format: 
+format:
   html:
     toc: true
     number-sections: true
     df-print: paged
+execute:
+  echo: true
+  warning: false
+  message: false
+jupyter: python3
 ---
 
-## Data Cleaning & Preprocessing
+## Overview
 
-This section outlines how the dataset was cleaned, including removing unnecessary columns, handling missing values, and eliminating duplicates.
+This page documents the data cleaning and exploratory analysis for our project on salary disparities and AI-driven job trends. We focus on preparing the dataset for analysis and identifying key patterns in job postings, salary distributions, and work arrangements.
 
-## Exploratory Data Analysis
-
-This section will analyze salary trends across industries, roles, and locations to understand disparities influenced by AI.
-<<<<<<< HEAD
-
-
-## Load Dataset
-
-```{python}
-#| echo: false
-#| warning: false
-#| message: false
-
-import pandas as pd
-import plotly.express as px
-import plotly.io as pio
-from pyspark.sql import SparkSession
-import re
-import numpy as np
-import plotly.graph_objects as go
-from pyspark.sql.functions import col, split, explode, regexp_replace, transform, when
-from pyspark.sql import functions as F
-from pyspark.sql.functions import monotonically_increasing_id
-
-np.random.seed(42)
-pio.renderers.default = "notebook"
-
-spark = SparkSession.builder \
-    .appName("LightcastData") \
-    .config("spark.ui.showConsoleProgress", "false") \
-    .getOrCreate()
-
-spark.sparkContext.setLogLevel("ERROR")
-
-df = spark.read \
-    .option("header", "true") \
-    .option("inferSchema", "true") \
-    .option("multiLine", "true") \
-    .option("escape", "\"") \
-    .csv("data/lightcast_data.csv")
-
-df.createOrReplaceTempView("job_postings")
-
-for c in df.columns:
-    print(c)
-```
-=======
----
-
-## Load Data
+## Load Packages and Data
 
 ```{python}
 import pandas as pd
@@ -81,17 +31,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import missingno as msno
-
 df = pd.read_csv("data/sample_jobs.csv", low_memory=False)
 df.head()
-
-df.shape
 df.columns.tolist()
 This dataset contains job posting information that can be used to study salary trends, hiring patterns, and work arrangements. Before analysis, we inspected the number of rows and columns and reviewed the variable names to understand what cleaning would be needed.
 
 Data Cleaning and Preprocessing
 
 This section explains how the dataset was cleaned, including removing unnecessary columns, handling missing values, converting data types, and eliminating duplicate records.
+
 Drop Unnecessary Columns
 
 We removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis.
@@ -103,17 +51,14 @@ columns_to_drop = [
 
 df = df.drop(columns=[c for c in columns_to_drop if c in df.columns])
 df.shape
-
 Handle Missing Values
-We examined missing values to better understand data quality. Numerical columns were filled with the median, categorical columns were filled with "Unknown", and columns with more than 50% missing values were removed.
 
+We examined missing values to better understand data quality. Numerical columns were filled with the median, categorical columns were filled with "Unknown", and columns with more than 50% missing values were removed.
 missing_pct = df.isnull().mean().sort_values(ascending=False) * 100
 missing_pct.head(15)
-
 msno.heatmap(df)
 plt.title("Missing Values Heatmap")
 plt.show()
-
 df = df.dropna(thresh=len(df) * 0.5, axis=1)
 
 for col in df.select_dtypes(include="number"):
@@ -121,19 +66,18 @@ for col in df.select_dtypes(include="number"):
 
 for col in df.select_dtypes(exclude="number"):
     df[col] = df[col].fillna("Unknown")
-
 This approach preserves as much of the dataset as possible while making the data usable for analysis.
 
 Convert Data Types
-We converted posting dates to datetime format so that date fields would be interpreted correctly.
 
+We converted posting dates to datetime format so that date fields would be interpreted correctly.
 if "POSTED" in df.columns:
     df["POSTED"] = pd.to_datetime(df["POSTED"], errors="coerce")
 
 if "LAST_UPDATED_DATE" in df.columns:
     df["LAST_UPDATED_DATE"] = pd.to_datetime(df["LAST_UPDATED_DATE"], errors="coerce")
-
 Remove Duplicates
+
 Duplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows.
 before_rows = len(df)
 df = df.drop_duplicates()
@@ -142,8 +86,6 @@ after_rows = len(df)
 print("Rows before removing duplicates:", before_rows)
 print("Rows after removing duplicates:", after_rows)
 print("Duplicates removed:", before_rows - after_rows)
-Handle Salary Outliers
-We looked for a salary column and, if found, used the interquartile range method to remove extreme values.
 possible_salary_cols = [
     "Salary", "SALARY", "salary", "annual_salary", "Yearly Salary",
     "SALARY_FROM", "SALARY_TO"
@@ -170,9 +112,13 @@ if salary_col is not None:
 
 df.shape
 This helps reduce the influence of unusually large or small salary values that may reflect rare cases or data-entry problems.
+
 Exploratory Data Analysis
+
 This section examines salary trends, industry patterns, and work arrangements to better understand labor market differences.
+
 Visualization 1: Job Postings by Industry
+
 This chart shows which industries appear most often in the sample and helps identify where job demand is concentrated.
 possible_industry_cols = [
     "Industry", "INDUSTRY", "industry", "NAICS_2022_6_NAME", "NAICS_2022_3_NAME"
@@ -194,7 +140,9 @@ if industry_col is not None:
     plt.tight_layout()
     plt.show()
 The chart highlights the industries with the greatest concentration of postings in the dataset.
+
 Visualization 2: Salary Distribution
+
 This histogram shows how salaries are distributed across the sample and helps reveal whether pay is tightly clustered or widely spread.
 if salary_col is not None:
     plt.figure(figsize=(8, 5))
@@ -205,7 +153,9 @@ if salary_col is not None:
     plt.tight_layout()
     plt.show()
 A wide distribution suggests substantial variation in compensation across postings.
+
 Visualization 3: Remote vs. On-Site Jobs
+
 This chart shows the share of remote, hybrid, and on-site roles in the dataset.
 possible_remote_cols = ["REMOTE_TYPE_NAME", "remote_type", "REMOTE", "work_type"]
 
@@ -221,8 +171,10 @@ if remote_col is not None:
     plt.title("Remote vs On-Site Jobs")
     plt.ylabel("")
     plt.show()
-This is useful because work arrangement is an important factor for students and job seekers.
+  This is useful because work arrangement is an important factor for students and job seekers.
+
 Visualization 4: AI vs. Non-AI Roles
+
 Because our project focuses on AI-related job trends, we classified postings as AI-related or non-AI-related based on keywords in the job title.
 possible_title_cols = ["TITLE", "Title", "title", "JOB_TITLE"]
 
@@ -252,8 +204,13 @@ if salary_col is not None and "ai_flag" in df.columns:
     plt.tight_layout()
     plt.show()
 This comparison helps us evaluate whether AI-related roles appear to command different salary levels than non-AI roles.
+
 Key Findings
+
 The data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records.
+
 The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample.
+
 Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search.
+
 The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns.
