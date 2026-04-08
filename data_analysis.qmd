@@ -19,11 +19,7 @@ execute:
 jupyter: python3
 ---
 
-## Overview
-
-This page documents the data cleaning and exploratory analysis for our project on salary disparities and AI-driven job trends. We focus on preparing the dataset for analysis and identifying key patterns in job postings, salary distributions, and work arrangements.
-
-## Load Packages and Data
+## Load Dataset
 
 ```{python}
 import pandas as pd
@@ -69,8 +65,8 @@ plt.title("Missing Values Heatmap")
 plt.show()
 df = df.dropna(thresh=len(df) * 0.5, axis=1)
 
-for col in df.select_dtypes(include="number"):
-    df[col] = df[col].fillna(df[col].median())
+```
+We examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables.
 
 for col in df.select_dtypes(exclude="number"):
     df[col] = df[col].fillna("Unknown")
@@ -106,11 +102,7 @@ possible_salary_cols = [
     "SALARY_FROM", "SALARY_TO"
 ]
 
-salary_col = None
-for col in possible_salary_cols:
-    if col in df.columns:
-        salary_col = col
-        break
+Duplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows.
 
 print("Salary column being used:", salary_col)
 ```
@@ -120,13 +112,12 @@ if salary_col is not None:
     df[salary_col] = pd.to_numeric(df[salary_col], errors="coerce")
     df = df.dropna(subset=[salary_col])
 
-    q1 = df[salary_col].quantile(0.25)
-    q3 = df[salary_col].quantile(0.75)
-    iqr = q3 - q1
-    lower = q1 - 1.5 * iqr
-    upper = q3 + 1.5 * iqr
+df_clean = df_clean.withColumn(
+    "salary_midpoint",
+    (col("SALARY_FROM") + col("SALARY_TO")) / 2
+)
 
-    df = df[(df[salary_col] >= lower) & (df[salary_col] <= upper)]
+df_clean = df_clean.filter(col("salary_midpoint") > 0)
 
 df.shape
 ```
