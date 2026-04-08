@@ -95,126 +95,62 @@
     "href": "data_analysis.html",
     "title": "Data Analysis",
     "section": "",
-    "text": "This page documents the data cleaning and exploratory analysis for our project on salary disparities and AI-driven job trends. We focus on preparing the dataset for analysis and identifying key patterns in job postings, salary distributions, and work arrangements."
+    "text": "Rows: 72498\nColumns: 131\n\n\nThis dataset contains job posting information that can be used to study salary trends, hiring patterns, and work arrangements. Before analysis, we inspected the number of rows and columns and reviewed the variable names to understand what cleaning would be needed."
   },
   {
-    "objectID": "data_analysis.html#overview",
-    "href": "data_analysis.html#overview",
+    "objectID": "data_analysis.html#load-dataset",
+    "href": "data_analysis.html#load-dataset",
     "title": "Data Analysis",
     "section": "",
-    "text": "This page documents the data cleaning and exploratory analysis for our project on salary disparities and AI-driven job trends. We focus on preparing the dataset for analysis and identifying key patterns in job postings, salary distributions, and work arrangements."
-  },
-  {
-    "objectID": "data_analysis.html#load-packages-and-data",
-    "href": "data_analysis.html#load-packages-and-data",
-    "title": "Data Analysis",
-    "section": "2 Load Packages and Data",
-    "text": "2 Load Packages and Data\n\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport missingno as msno\n\n\ndf = pd.read_csv(\"data/sample_jobs.csv\", low_memory=False)\ndf.head()\n\n\n\n\n\n\n\n\nID\nLAST_UPDATED_DATE\nLAST_UPDATED_TIMESTAMP\nDUPLICATES\nPOSTED\nEXPIRED\nDURATION\nSOURCE_TYPES\nSOURCES\nURL\n...\nNAICS_2022_2\nNAICS_2022_2_NAME\nNAICS_2022_3\nNAICS_2022_3_NAME\nNAICS_2022_4\nNAICS_2022_4_NAME\nNAICS_2022_5\nNAICS_2022_5_NAME\nNAICS_2022_6\nNAICS_2022_6_NAME\n\n\n\n\n0\n1f57d95acf4dc67ed2819eb12f049f6a5c11782c\n9/6/2024\n2024-09-06 20:32:57.352 Z\n0.0\n6/2/2024\n6/8/2024\n6.0\n[\\n \"Company\"\\n]\n[\\n \"brassring.com\"\\n]\n[\\n \"https://sjobs.brassring.com/TGnewUI/Sear...\n...\n44.0\nRetail Trade\n441.0\nMotor Vehicle and Parts Dealers\n4413.0\nAutomotive Parts, Accessories, and Tire Retailers\n44133.0\nAutomotive Parts and Accessories Retailers\n441330.0\nAutomotive Parts and Accessories Retailers\n\n\n1\n0cb072af26757b6c4ea9464472a50a443af681ac\n8/2/2024\n2024-08-02 17:08:58.838 Z\n0.0\n6/2/2024\n8/1/2024\nNaN\n[\\n \"Job Board\"\\n]\n[\\n \"maine.gov\"\\n]\n[\\n \"https://joblink.maine.gov/jobs/1085740\"\\n]\n...\n56.0\nAdministrative and Support and Waste Managemen...\n561.0\nAdministrative and Support Services\n5613.0\nEmployment Services\n56132.0\nTemporary Help Services\n561320.0\nTemporary Help Services\n\n\n2\n85318b12b3331fa490d32ad014379df01855c557\n9/6/2024\n2024-09-06 20:32:57.352 Z\n1.0\n6/2/2024\n7/7/2024\n35.0\n[\\n \"Job Board\"\\n]\n[\\n \"dejobs.org\"\\n]\n[\\n \"https://dejobs.org/dallas-tx/data-analys...\n...\n52.0\nFinance and Insurance\n524.0\nInsurance Carriers and Related Activities\n5242.0\nAgencies, Brokerages, and Other Insurance Rela...\n52429.0\nOther Insurance Related Activities\n524291.0\nClaims Adjusting\n\n\n3\n1b5c3941e54a1889ef4f8ae55b401a550708a310\n9/6/2024\n2024-09-06 20:32:57.352 Z\n1.0\n6/2/2024\n7/20/2024\n48.0\n[\\n \"Job Board\"\\n]\n[\\n \"disabledperson.com\",\\n \"dejobs.org\"\\n]\n[\\n \"https://www.disabledperson.com/jobs/5948...\n...\n52.0\nFinance and Insurance\n522.0\nCredit Intermediation and Related Activities\n5221.0\nDepository Credit Intermediation\n52211.0\nCommercial Banking\n522110.0\nCommercial Banking\n\n\n4\ncb5ca25f02bdf25c13edfede7931508bfd9e858f\n6/19/2024\n2024-06-19 07:00:00.000 Z\n0.0\n6/2/2024\n6/17/2024\n15.0\n[\\n \"FreeJobBoard\"\\n]\n[\\n \"craigslist.org\"\\n]\n[\\n \"https://modesto.craigslist.org/sls/77475...\n...\n99.0\nUnclassified Industry\n999.0\nUnclassified Industry\n9999.0\nUnclassified Industry\n99999.0\nUnclassified Industry\n999999.0\nUnclassified Industry\n\n\n\n\n5 rows × 131 columns\n\n\n\n\ndf.columns.tolist()\n\n['ID',\n 'LAST_UPDATED_DATE',\n 'LAST_UPDATED_TIMESTAMP',\n 'DUPLICATES',\n 'POSTED',\n 'EXPIRED',\n 'DURATION',\n 'SOURCE_TYPES',\n 'SOURCES',\n 'URL',\n 'ACTIVE_URLS',\n 'ACTIVE_SOURCES_INFO',\n 'TITLE_RAW',\n 'BODY',\n 'MODELED_EXPIRED',\n 'MODELED_DURATION',\n 'COMPANY',\n 'COMPANY_NAME',\n 'COMPANY_RAW',\n 'COMPANY_IS_STAFFING',\n 'EDUCATION_LEVELS',\n 'EDUCATION_LEVELS_NAME',\n 'MIN_EDULEVELS',\n 'MIN_EDULEVELS_NAME',\n 'MAX_EDULEVELS',\n 'MAX_EDULEVELS_NAME',\n 'EMPLOYMENT_TYPE',\n 'EMPLOYMENT_TYPE_NAME',\n 'MIN_YEARS_EXPERIENCE',\n 'MAX_YEARS_EXPERIENCE',\n 'IS_INTERNSHIP',\n 'SALARY',\n 'REMOTE_TYPE',\n 'REMOTE_TYPE_NAME',\n 'ORIGINAL_PAY_PERIOD',\n 'SALARY_TO',\n 'SALARY_FROM',\n 'LOCATION',\n 'CITY',\n 'CITY_NAME',\n 'COUNTY',\n 'COUNTY_NAME',\n 'MSA',\n 'MSA_NAME',\n 'STATE',\n 'STATE_NAME',\n 'COUNTY_OUTGOING',\n 'COUNTY_NAME_OUTGOING',\n 'COUNTY_INCOMING',\n 'COUNTY_NAME_INCOMING',\n 'MSA_OUTGOING',\n 'MSA_NAME_OUTGOING',\n 'MSA_INCOMING',\n 'MSA_NAME_INCOMING',\n 'NAICS2',\n 'NAICS2_NAME',\n 'NAICS3',\n 'NAICS3_NAME',\n 'NAICS4',\n 'NAICS4_NAME',\n 'NAICS5',\n 'NAICS5_NAME',\n 'NAICS6',\n 'NAICS6_NAME',\n 'TITLE',\n 'TITLE_NAME',\n 'TITLE_CLEAN',\n 'SKILLS',\n 'SKILLS_NAME',\n 'SPECIALIZED_SKILLS',\n 'SPECIALIZED_SKILLS_NAME',\n 'CERTIFICATIONS',\n 'CERTIFICATIONS_NAME',\n 'COMMON_SKILLS',\n 'COMMON_SKILLS_NAME',\n 'SOFTWARE_SKILLS',\n 'SOFTWARE_SKILLS_NAME',\n 'ONET',\n 'ONET_NAME',\n 'ONET_2019',\n 'ONET_2019_NAME',\n 'CIP6',\n 'CIP6_NAME',\n 'CIP4',\n 'CIP4_NAME',\n 'CIP2',\n 'CIP2_NAME',\n 'SOC_2021_2',\n 'SOC_2021_2_NAME',\n 'SOC_2021_3',\n 'SOC_2021_3_NAME',\n 'SOC_2021_4',\n 'SOC_2021_4_NAME',\n 'SOC_2021_5',\n 'SOC_2021_5_NAME',\n 'LOT_CAREER_AREA',\n 'LOT_CAREER_AREA_NAME',\n 'LOT_OCCUPATION',\n 'LOT_OCCUPATION_NAME',\n 'LOT_SPECIALIZED_OCCUPATION',\n 'LOT_SPECIALIZED_OCCUPATION_NAME',\n 'LOT_OCCUPATION_GROUP',\n 'LOT_OCCUPATION_GROUP_NAME',\n 'LOT_V6_SPECIALIZED_OCCUPATION',\n 'LOT_V6_SPECIALIZED_OCCUPATION_NAME',\n 'LOT_V6_OCCUPATION',\n 'LOT_V6_OCCUPATION_NAME',\n 'LOT_V6_OCCUPATION_GROUP',\n 'LOT_V6_OCCUPATION_GROUP_NAME',\n 'LOT_V6_CAREER_AREA',\n 'LOT_V6_CAREER_AREA_NAME',\n 'SOC_2',\n 'SOC_2_NAME',\n 'SOC_3',\n 'SOC_3_NAME',\n 'SOC_4',\n 'SOC_4_NAME',\n 'SOC_5',\n 'SOC_5_NAME',\n 'LIGHTCAST_SECTORS',\n 'LIGHTCAST_SECTORS_NAME',\n 'NAICS_2022_2',\n 'NAICS_2022_2_NAME',\n 'NAICS_2022_3',\n 'NAICS_2022_3_NAME',\n 'NAICS_2022_4',\n 'NAICS_2022_4_NAME',\n 'NAICS_2022_5',\n 'NAICS_2022_5_NAME',\n 'NAICS_2022_6',\n 'NAICS_2022_6_NAME']\n\n\nThis dataset contains job posting information that can be used to study salary trends, hiring patterns, and work arrangements. Before analysis, we inspected the number of rows and columns and reviewed the variable names to understand what cleaning would be needed."
-  },
-  {
-    "objectID": "data_analysis.html#data-cleaning-and-preprocessing",
-    "href": "data_analysis.html#data-cleaning-and-preprocessing",
-    "title": "Data Analysis",
-    "section": "3 Data Cleaning and Preprocessing",
-    "text": "3 Data Cleaning and Preprocessing\nThis section explains how the dataset was cleaned, including removing unnecessary columns, handling missing values, converting data types, and eliminating duplicate records."
+    "text": "Rows: 72498\nColumns: 131\n\n\nThis dataset contains job posting information that can be used to study salary trends, hiring patterns, and work arrangements. Before analysis, we inspected the number of rows and columns and reviewed the variable names to understand what cleaning would be needed."
   },
   {
     "objectID": "data_analysis.html#drop-unnecessary-columns",
     "href": "data_analysis.html#drop-unnecessary-columns",
     "title": "Data Analysis",
-    "section": "4 Drop Unnecessary Columns",
-    "text": "4 Drop Unnecessary Columns\nWe removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis.\n\ncolumns_to_drop = [\n    \"ID\", \"URL\", \"ACTIVE_URLS\", \"DUPLICATES\", \"LAST_UPDATED_TIMESTAMP\",\n    \"NAICS2\", \"NAICS3\", \"NAICS4\", \"NAICS5\", \"NAICS6\",\n    \"SOC_2\", \"SOC_3\", \"SOC_5\"\n]\n\ndf = df.drop(columns=[c for c in columns_to_drop if c in df.columns])\ndf.shape\n\n(50000, 118)"
+    "section": "2 Drop Unnecessary Columns",
+    "text": "2 Drop Unnecessary Columns\nWe removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis.\n\ncolumns_to_drop = [\n    \"ID\", \"URL\", \"ACTIVE_URLS\", \"DUPLICATES\", \"LAST_UPDATED_TIMESTAMP\",\n    \"NAICS2\", \"NAICS3\", \"NAICS4\", \"NAICS5\", \"NAICS6\",\n    \"SOC_2\", \"SOC_3\", \"SOC_5\"\n]\n\ndf_clean = df.drop(*[c for c in columns_to_drop if c in df.columns])\n\nprint(\"Columns before:\", len(df.columns))\nprint(\"Columns after:\", len(df_clean.columns))\n\nColumns before: 131\nColumns after: 118\n\n\nWe examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables."
   },
   {
     "objectID": "data_analysis.html#handle-missing-values",
     "href": "data_analysis.html#handle-missing-values",
     "title": "Data Analysis",
-<<<<<<< HEAD
-    "section": "5 Handle Missing Values",
-    "text": "5 Handle Missing Values\nWe examined missing values to better understand data quality. Numerical columns were filled with the median, categorical columns were filled with “Unknown”, and columns with more than 50% missing values were removed.\n\nmissing_pct = df.isnull().mean().sort_values(ascending=False) * 100\nmissing_pct.head(15)\nmsno.heatmap(df)\nplt.title(\"Missing Values Heatmap\")\nplt.show()\ndf = df.dropna(thresh=len(df) * 0.5, axis=1)\n\nfor col in df.select_dtypes(include=\"number\"):\n    df[col] = df[col].fillna(df[col].median())\n\nfor col in df.select_dtypes(exclude=\"number\"):\n    df[col] = df[col].fillna(\"Unknown\")\n\n\n\n\n\n\n\n\nThis approach preserves as much of the dataset as possible while making the data usable for analysis."
-=======
-    "section": "4 Handle Missing Values",
-    "text": "4 Handle Missing Values\n\ndf_clean = df_clean.filter(\n    (col(\"SALARY_FROM\").isNotNull() | col(\"SALARY_TO\").isNotNull()) &\n    col(\"TITLE\").isNotNull() &\n    col(\"REMOTE_TYPE_NAME\").isNotNull() &\n    col(\"NAICS_2022_6_NAME\").isNotNull() &\n    col(\"STATE_NAME\").isNotNull()\n)\n\nprint(\"Rows after filtering:\", df_clean.count())\n\nRows after filtering: 32398\n\n\nWe examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables. This approach preserves meaningful observations while ensuring that key variables are available for analysis. This filtering step significantly reduced the dataset size, indicating that many job postings were missing key salary or classification information. While this reduces sample size, it improves the reliability of our analysis by focusing only on complete and usable observations."
->>>>>>> 732231f (Refined data cleaning and duplicate validation)
+    "section": "3 Handle Missing Values",
+    "text": "3 Handle Missing Values\n\ndf_clean = df_clean.filter(\n    (col(\"SALARY_FROM\").isNotNull() | col(\"SALARY_TO\").isNotNull()) &\n    col(\"TITLE\").isNotNull() &\n    col(\"REMOTE_TYPE_NAME\").isNotNull() &\n    col(\"NAICS_2022_6_NAME\").isNotNull() &\n    col(\"STATE_NAME\").isNotNull()\n)\n\nprint(\"Rows after filtering:\", df_clean.count())\n\nRows after filtering: 32398\n\n\nWe examined missing values to better understand data quality. Since our analysis focuses on salary, industry, and work arrangements, we kept only observations with usable values in key variables. This approach preserves meaningful observations while ensuring that key variables are available for analysis. This filtering step significantly reduced the dataset size, indicating that many job postings were missing key salary or classification information. While this reduces sample size, it improves the reliability of our analysis by focusing only on complete and usable observations."
   },
   {
     "objectID": "data_analysis.html#convert-data-types",
     "href": "data_analysis.html#convert-data-types",
     "title": "Data Analysis",
-    "section": "6 Convert Data Types",
-    "text": "6 Convert Data Types\nWe converted posting dates to datetime format so that date fields would be interpreted correctly.\n\nif \"POSTED\" in df.columns:\n    df[\"POSTED\"] = pd.to_datetime(df[\"POSTED\"], errors=\"coerce\")\n\nif \"LAST_UPDATED_DATE\" in df.columns:\n    df[\"LAST_UPDATED_DATE\"] = pd.to_datetime(df[\"LAST_UPDATED_DATE\"], errors=\"coerce\")"
+    "section": "4 Convert Data Types",
+    "text": "4 Convert Data Types\nWe converted posting dates to a date format so that date fields would be interpreted correctly.\n\ndf_clean = df_clean.withColumn(\n    \"POSTED\",\n    F.to_date(\"POSTED\", \"M/d/yyyy\")\n)\n\ndf_clean.select(\"POSTED\").show(5, truncate=False)\n\n+----------+\n|POSTED    |\n+----------+\n|2024-06-02|\n|2024-06-02|\n|2024-06-02|\n|2024-06-02|\n|2024-06-02|\n+----------+\nonly showing top 5 rows"
   },
   {
     "objectID": "data_analysis.html#remove-duplicates",
     "href": "data_analysis.html#remove-duplicates",
     "title": "Data Analysis",
-<<<<<<< HEAD
-    "section": "7 Remove Duplicates",
-    "text": "7 Remove Duplicates\nDuplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows.\n\nbefore_rows = len(df)\ndf = df.drop_duplicates()\nafter_rows = len(df)\n\nprint(\"Rows before removing duplicates:\", before_rows)\nprint(\"Rows after removing duplicates:\", after_rows)\nprint(\"Duplicates removed:\", before_rows - after_rows)\n\nRows before removing duplicates: 50000\nRows after removing duplicates: 49986\nDuplicates removed: 14"
-=======
-    "section": "6 Remove Duplicates",
-    "text": "6 Remove Duplicates\n\nbefore_rows = df_clean.count()\n\ndf_clean = df_clean.dropDuplicates()\n\nafter_rows = df_clean.count()\n\nprint(\"Rows before removing duplicates:\", before_rows)\nprint(\"Rows after removing duplicates:\", after_rows)\nprint(\"Duplicates removed:\", before_rows - after_rows)\n\nRows before removing duplicates: 32398\nRows after removing duplicates: 32398\nDuplicates removed: 0\n\n\nDuplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows. No duplicate rows were identified in the dataset after filtering, suggesting that each job posting is already uniquely represented"
->>>>>>> 732231f (Refined data cleaning and duplicate validation)
+    "section": "5 Remove Duplicates",
+    "text": "5 Remove Duplicates\n\nbefore_rows = df_clean.count()\n\ndf_clean = df_clean.dropDuplicates()\n\nafter_rows = df_clean.count()\n\nprint(\"Rows before removing duplicates:\", before_rows)\nprint(\"Rows after removing duplicates:\", after_rows)\nprint(\"Duplicates removed:\", before_rows - after_rows)\n\nRows before removing duplicates: 32398\nRows after removing duplicates: 32398\nDuplicates removed: 0\n\n\nDuplicate job postings can inflate counts and distort patterns. To prevent double counting, we removed duplicate rows. No duplicate rows were identified in the dataset after filtering, suggesting that each job posting is already uniquely represented"
   },
   {
-    "objectID": "data_analysis.html#outlier-detection-and-removal",
-    "href": "data_analysis.html#outlier-detection-and-removal",
+    "objectID": "data_analysis.html#create-salary-measure",
+    "href": "data_analysis.html#create-salary-measure",
     "title": "Data Analysis",
-<<<<<<< HEAD
-    "section": "8 Outlier Detection and Removal",
-    "text": "8 Outlier Detection and Removal\n\npossible_salary_cols = [\n    \"Salary\", \"SALARY\", \"salary\", \"annual_salary\", \"Yearly Salary\",\n    \"SALARY_FROM\", \"SALARY_TO\"\n]\n\nsalary_col = None\nfor col in possible_salary_cols:\n    if col in df.columns:\n        salary_col = col\n        break\n\nprint(\"Salary column being used:\", salary_col)\n\nSalary column being used: None\n\n\n\nif salary_col is not None:\n    df[salary_col] = pd.to_numeric(df[salary_col], errors=\"coerce\")\n    df = df.dropna(subset=[salary_col])\n\n    q1 = df[salary_col].quantile(0.25)\n    q3 = df[salary_col].quantile(0.75)\n    iqr = q3 - q1\n    lower = q1 - 1.5 * iqr\n    upper = q3 + 1.5 * iqr\n\n    df = df[(df[salary_col] &gt;= lower) & (df[salary_col] &lt;= upper)]\n\ndf.shape\n\n(49986, 108)\n\n\n\nif salary_col is not None:\n    df[salary_col] = pd.to_numeric(df[salary_col], errors=\"coerce\")\n    df = df.dropna(subset=[salary_col])\n\n    q1 = df[salary_col].quantile(0.25)\n    q3 = df[salary_col].quantile(0.75)\n    iqr = q3 - q1\n    lower = q1 - 1.5 * iqr\n    upper = q3 + 1.5 * iqr\n\n    df = df[(df[salary_col] &gt;= lower) & (df[salary_col] &lt;= upper)]\n\ndf.shape\n\n(49986, 108)\n\n\nThis helps reduce the influence of unusually large or small salary values that may reflect rare cases or data-entry problems."
-  },
-  {
-    "objectID": "data_analysis.html#exploratory-data-analysis",
-    "href": "data_analysis.html#exploratory-data-analysis",
-    "title": "Data Analysis",
-    "section": "9 Exploratory Data Analysis",
-    "text": "9 Exploratory Data Analysis\nThis section examines salary trends, industry patterns, and work arrangements to better understand labor market differences."
-  },
-  {
-    "objectID": "data_analysis.html#visualization-1-job-postings-by-industry",
-    "href": "data_analysis.html#visualization-1-job-postings-by-industry",
-    "title": "Data Analysis",
-    "section": "10 Visualization 1: Job Postings by Industry",
-    "text": "10 Visualization 1: Job Postings by Industry\nThis chart shows which industries appear most often in the sample and helps identify where job demand is concentrated.\n\npossible_industry_cols = [\n    \"Industry\", \"INDUSTRY\", \"industry\", \"NAICS_2022_6_NAME\", \"NAICS_2022_3_NAME\"\n]\n\nindustry_col = None\nfor col in possible_industry_cols:\n    if col in df.columns:\n        industry_col = col\n        break\n\nprint(\"Industry column being used:\", industry_col)\n\nIndustry column being used: NAICS_2022_6_NAME\n\n\n\nif industry_col is not None:\n    df[industry_col].value_counts().head(10).plot(kind=\"bar\")\n    plt.title(\"Top 10 Industries by Job Postings\")\n    plt.xlabel(\"Industry\")\n    plt.ylabel(\"Number of Postings\")\n    plt.xticks(rotation=45, ha=\"right\")\n    plt.tight_layout()\n    plt.show()\n\n\n\n\n\n\n\n\nThe chart highlights the industries with the greatest concentration of postings in the dataset."
-  },
-  {
-    "objectID": "data_analysis.html#visualization-2-salary-distribution",
-    "href": "data_analysis.html#visualization-2-salary-distribution",
-    "title": "Data Analysis",
-    "section": "11 Visualization 2: Salary Distribution",
-    "text": "11 Visualization 2: Salary Distribution\nThis histogram shows how salaries are distributed across the sample and helps reveal whether pay is tightly clustered or widely spread.\n\nif salary_col is not None:\n    plt.figure(figsize=(8, 5))\n    sns.histplot(df[salary_col], bins=30)\n    plt.title(\"Salary Distribution\")\n    plt.xlabel(\"Salary\")\n    plt.ylabel(\"Count\")\n    plt.tight_layout()\n    plt.show()\n\nA wide distribution suggests substantial variation in compensation across postings."
-  },
-  {
-    "objectID": "data_analysis.html#visualization-3-remote-vs.-on-site-jobs",
-    "href": "data_analysis.html#visualization-3-remote-vs.-on-site-jobs",
-    "title": "Data Analysis",
-    "section": "12 Visualization 3: Remote vs. On-Site Jobs",
-    "text": "12 Visualization 3: Remote vs. On-Site Jobs\nThis chart shows the share of remote, hybrid, and on-site roles in the dataset.\n\npossible_remote_cols = [\"REMOTE_TYPE_NAME\", \"remote_type\", \"REMOTE\", \"work_type\"]\n\nremote_col = None\nfor col in possible_remote_cols:\n    if col in df.columns:\n        remote_col = col\n        break\n\nprint(\"Remote column being used:\", remote_col)\n\nRemote column being used: REMOTE_TYPE_NAME\n\n\n\nif remote_col is not None:\n    df[remote_col].value_counts().plot(kind=\"pie\", autopct=\"%1.1f%%\")\n    plt.title(\"Remote vs On-Site Jobs\")\n    plt.ylabel(\"\")\n    plt.show()\n\n\n\n\n\n\n\n\nThis is useful because work arrangement is an important factor for students and job seekers."
-  },
-  {
-    "objectID": "data_analysis.html#visualization-4-ai-vs.-non-ai-roles",
-    "href": "data_analysis.html#visualization-4-ai-vs.-non-ai-roles",
-    "title": "Data Analysis",
-    "section": "13 Visualization 4: AI vs. Non-AI Roles",
-    "text": "13 Visualization 4: AI vs. Non-AI Roles\nBecause our project focuses on AI-related job trends, we classified postings as AI-related or non-AI-related based on keywords in the job title.\n\npossible_title_cols = [\"TITLE\", \"Title\", \"title\", \"JOB_TITLE\"]\n\ntitle_col = None\nfor col in possible_title_cols:\n    if col in df.columns:\n        title_col = col\n        break\n\nprint(\"Title column being used:\", title_col)\n\nTitle column being used: TITLE\n\n\n\nif title_col is not None:\n    df[\"ai_flag\"] = df[title_col].astype(str).str.contains(\n        \"AI|Artificial Intelligence|Machine Learning|ML|Data Science|Data Scientist\",\n        case=False,\n        na=False\n    )\nelse:\n    df[\"ai_flag\"] = False\n\ndf[\"ai_flag\"].value_counts(dropna=False)\n\nai_flag\nFalse    49986\nName: count, dtype: int64\n\n\n\nif salary_col is not None and \"ai_flag\" in df.columns:\n    plt.figure(figsize=(8, 5))\n    sns.boxplot(data=df, x=\"ai_flag\", y=salary_col)\n    plt.title(\"Salary Comparison: AI-Related vs Non-AI Roles\")\n    plt.xlabel(\"AI-Related Role\")\n    plt.ylabel(\"Salary\")\n    plt.tight_layout()\n    plt.show()\n\nThis comparison helps us evaluate whether AI-related roles appear to command different salary levels than non-AI roles."
-  },
-  {
-    "objectID": "data_analysis.html#key-findings",
-    "href": "data_analysis.html#key-findings",
-    "title": "Data Analysis",
-    "section": "14 Key Findings",
-    "text": "14 Key Findings\nThe data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records. The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample. Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search. The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns."
-=======
-    "section": "7 Create Salary Measure",
-    "text": "7 Create Salary Measure\nWe created a midpoint salary using the lower and upper salary bounds to produce a single value for analysis. If only one salary bound was available, that value was used as an approximation so that we could retain more usable observations.\n\ndf_clean = df_clean.withColumn(\"SALARY_FROM\", col(\"SALARY_FROM\").cast(\"double\"))\ndf_clean = df_clean.withColumn(\"SALARY_TO\", col(\"SALARY_TO\").cast(\"double\"))\n\ndf_clean = df_clean.withColumn(\n    \"salary_midpoint\",\n    when(\n        col(\"SALARY_FROM\").isNotNull() & col(\"SALARY_TO\").isNotNull(),\n        (col(\"SALARY_FROM\") + col(\"SALARY_TO\")) / 2\n    ).when(\n        col(\"SALARY_FROM\").isNotNull(),\n        col(\"SALARY_FROM\")\n    ).otherwise(\n        col(\"SALARY_TO\")\n    )\n)\n\ndf_clean = df_clean.filter(\n    col(\"salary_midpoint\").isNotNull() & (col(\"salary_midpoint\") &gt; 0)\n)\n\ndf_clean.select(\"SALARY_FROM\", \"SALARY_TO\", \"salary_midpoint\").show(5)\n\n+-----------+---------+---------------+\n|SALARY_FROM|SALARY_TO|salary_midpoint|\n+-----------+---------+---------------+\n|    62400.0|  83200.0|        72800.0|\n|   169184.0| 217523.0|       193353.5|\n|    74000.0| 118200.0|        96100.0|\n|    87500.0| 158500.0|       123000.0|\n|    95000.0| 100000.0|        97500.0|\n+-----------+---------+---------------+\nonly showing top 5 rows\n\n\nInstead of removing all observations with partial salary data, we constructed a salary midpoint using available values. If only one bound was present, that value was used as an approximation. This approach preserves more data while maintaining meaningful salary estimates."
+    "section": "6 Create Salary Measure",
+    "text": "6 Create Salary Measure\nWe created a midpoint salary using the lower and upper salary bounds to produce a single value for analysis. If only one salary bound was available, that value was used as an approximation so that we could retain more usable observations.\n\ndf_clean = df_clean.withColumn(\"SALARY_FROM\", col(\"SALARY_FROM\").cast(\"double\"))\ndf_clean = df_clean.withColumn(\"SALARY_TO\", col(\"SALARY_TO\").cast(\"double\"))\n\ndf_clean = df_clean.withColumn(\n    \"salary_midpoint\",\n    when(\n        col(\"SALARY_FROM\").isNotNull() & col(\"SALARY_TO\").isNotNull(),\n        (col(\"SALARY_FROM\") + col(\"SALARY_TO\")) / 2\n    ).when(\n        col(\"SALARY_FROM\").isNotNull(),\n        col(\"SALARY_FROM\")\n    ).otherwise(\n        col(\"SALARY_TO\")\n    )\n)\n\ndf_clean = df_clean.filter(\n    col(\"salary_midpoint\").isNotNull() & (col(\"salary_midpoint\") &gt; 0)\n)\n\ndf_clean.select(\"SALARY_FROM\", \"SALARY_TO\", \"salary_midpoint\").show(5)\n\n+-----------+---------+---------------+\n|SALARY_FROM|SALARY_TO|salary_midpoint|\n+-----------+---------+---------------+\n|    62400.0|  83200.0|        72800.0|\n|   169184.0| 217523.0|       193353.5|\n|    74000.0| 118200.0|        96100.0|\n|    87500.0| 158500.0|       123000.0|\n|    95000.0| 100000.0|        97500.0|\n+-----------+---------+---------------+\nonly showing top 5 rows\n\n\nInstead of removing all observations with partial salary data, we constructed a salary midpoint using available values. If only one bound was present, that value was used as an approximation. This approach preserves more data while maintaining meaningful salary estimates."
   },
   {
     "objectID": "data_analysis.html#salary-summary-statistics",
     "href": "data_analysis.html#salary-summary-statistics",
     "title": "Data Analysis",
-    "section": "8 Salary Summary Statistics",
-    "text": "8 Salary Summary Statistics\n\ndf_clean.describe(\"salary_midpoint\").show()\ndf_clean.select(\"salary_midpoint\").summary().show()\n\n+-------+-----------------+\n|summary|  salary_midpoint|\n+-------+-----------------+\n|  count|            32398|\n|   mean|115059.1995184888|\n| stddev|47760.37864264348|\n|    min|          10617.0|\n|    max|         800000.0|\n+-------+-----------------+\n\n+-------+-----------------+\n|summary|  salary_midpoint|\n+-------+-----------------+\n|  count|            32398|\n|   mean|115059.1995184888|\n| stddev|47760.37864264348|\n|    min|          10617.0|\n|    25%|          80000.0|\n|    50%|         113450.0|\n|    75%|         144300.0|\n|    max|         800000.0|\n+-------+-----------------+"
->>>>>>> 732231f (Refined data cleaning and duplicate validation)
+    "section": "7 Salary Summary Statistics",
+    "text": "7 Salary Summary Statistics\n\ndf_clean.describe(\"salary_midpoint\").show()\ndf_clean.select(\"salary_midpoint\").summary().show()\n\n+-------+-----------------+\n|summary|  salary_midpoint|\n+-------+-----------------+\n|  count|            32398|\n|   mean|115059.1995184888|\n| stddev|47760.37864264348|\n|    min|          10617.0|\n|    max|         800000.0|\n+-------+-----------------+\n\n+-------+-----------------+\n|summary|  salary_midpoint|\n+-------+-----------------+\n|  count|            32398|\n|   mean|115059.1995184888|\n| stddev|47760.37864264348|\n|    min|          10617.0|\n|    25%|          80000.0|\n|    50%|         113450.0|\n|    75%|         144300.0|\n|    max|         800000.0|\n+-------+-----------------+"
+  },
+  {
+    "objectID": "data_analysis.html#key-findings",
+    "href": "data_analysis.html#key-findings",
+    "title": "Data Analysis",
+    "section": "8 Key Findings",
+    "text": "8 Key Findings\nThe data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records. The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample. Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search. The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns."
   }
 ]
