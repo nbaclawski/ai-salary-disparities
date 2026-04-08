@@ -19,30 +19,6 @@ execute:
 jupyter: python3
 ---
 
-<<<<<<< HEAD
-## Overview
-
-This page documents the data cleaning and exploratory analysis for our project on salary disparities and AI-driven job trends. We focus on preparing the dataset for analysis and identifying key patterns in job postings, salary distributions, and work arrangements.
-
-## Load Packages and Data
-
-```{python}
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import missingno as msno
-df = pd.read_csv("data/sample_jobs.csv", low_memory=False)
-df.head()
-df.columns.tolist()
-This dataset contains job posting information that can be used to study salary trends, hiring patterns, and work arrangements. Before analysis, we inspected the number of rows and columns and reviewed the variable names to understand what cleaning would be needed.
-
-Data Cleaning and Preprocessing
-
-This section explains how the dataset was cleaned, including removing unnecessary columns, handling missing values, converting data types, and eliminating duplicate records.
-
-Drop Unnecessary Columns
-=======
 ## Load Dataset
 
 ```{python}
@@ -89,7 +65,6 @@ print("Columns:", len(df.columns))
 This section explains how the dataset was cleaned, including removing unnecessary columns, handling missing values, converting data types, and eliminating duplicate records.
 
 ## Drop Unnecessary Columns
->>>>>>> 0fecb38 (Added initial Lightcast data cleaning section)
 
 We removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis.
 
