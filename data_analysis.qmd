@@ -236,6 +236,8 @@ A horizontal bar chart makes it easy to compare industries and quickly identify 
 
 salary_pdf = df_clean.select("salary_midpoint").toPandas()
 
+salary_pdf = salary_pdf[salary_pdf["salary_midpoint"] <= 300000]
+
 fig = px.histogram(
     salary_pdf,
     x="salary_midpoint",
@@ -250,9 +252,7 @@ fig.update_layout(
     xaxis_title="Salary Midpoint ($)",
     yaxis_title="Number of Job Postings",
     template="simple_white",
-    bargap=0.05,
-    height=500,
-    margin=dict(l=20, r=20, t=60, b=20)
+    height=500
 )
 
 fig.update_xaxes(tickprefix="$", separatethousands=True)
@@ -269,38 +269,34 @@ A histogram is useful for showing the overall shape of salary distribution and i
 
 remote_pdf = (
     df_clean
+    .filter(col("REMOTE_TYPE_NAME").isNotNull())
+    .filter(col("REMOTE_TYPE_NAME") != "[None]")
     .groupBy("REMOTE_TYPE_NAME")
     .count()
     .toPandas()
+    .sort_values("count", ascending=False)
 )
 
-remote_pdf = remote_pdf.sort_values("count", ascending=False)
-
-fig = px.pie(
+fig = px.bar(
     remote_pdf,
-    names="REMOTE_TYPE_NAME",
-    values="count",
+    x="REMOTE_TYPE_NAME",
+    y="count",
     title="Distribution of Remote, Hybrid, and On-Site Roles",
+    labels={
+        "REMOTE_TYPE_NAME": "Work Arrangement",
+        "count": "Number of Job Postings"
+    },
     color="REMOTE_TYPE_NAME",
-    color_discrete_map={
-        "Remote": "#4C78A8",
-        "Hybrid": "#F58518",
-        "On-Site": "#54A24B",
-        "In-Office": "#54A24B"
-    }
-)
-
-fig.update_traces(
-    textposition="inside",
-    textinfo="percent+label"
+    color_discrete_sequence=px.colors.qualitative.Set2
 )
 
 fig.update_layout(
     title_x=0.5,
+    xaxis_title="Work Arrangement",
+    yaxis_title="Number of Job Postings",
     template="simple_white",
-    height=500,
-    margin=dict(l=20, r=20, t=60, b=20),
-    legend_title="Work Arrangement"
+    showlegend=False,
+    height=500
 )
 
 fig.show()
@@ -318,10 +314,15 @@ A pie chart works well for showing how total postings are divided across work ar
 df_clean = df_clean.withColumn(
     "ai_flag",
     when(
-        col("TITLE").rlike("(?i)ai|artificial intelligence|machine learning|data scientist|deep learning|nlp"),
+        col("TITLE_NAME").rlike("(?i)artificial intelligence|machine learning|data scientist|deep learning|nlp|computer vision|ai engineer") |
+        col("TITLE_CLEAN").rlike("(?i)artificial intelligence|machine learning|data scientist|deep learning|nlp|computer vision|ai engineer") |
+        col("SKILLS_NAME").rlike("(?i)artificial intelligence|machine learning|deep learning|nlp|computer vision|python|tensorflow|pytorch") |
+        col("SPECIALIZED_SKILLS_NAME").rlike("(?i)artificial intelligence|machine learning|deep learning|nlp|computer vision"),
         "AI"
     ).otherwise("Non-AI")
 )
+
+df_clean.groupBy("ai_flag").count().show()
 ```
 ```{python}
 #| echo: true
@@ -334,14 +335,6 @@ ai_salary_pdf = (
     .agg(F.avg("salary_midpoint").alias("avg_salary"))
     .toPandas()
 )
-
-ai_salary_pdf["ai_flag"] = pd.Categorical(
-    ai_salary_pdf["ai_flag"],
-    categories=["Non-AI", "AI"],
-    ordered=True
-)
-
-ai_salary_pdf = ai_salary_pdf.sort_values("ai_flag")
 
 fig = px.bar(
     ai_salary_pdf,
@@ -367,12 +360,9 @@ fig.update_traces(
 
 fig.update_layout(
     title_x=0.5,
-    xaxis_title="Role Category",
-    yaxis_title="Average Salary ($)",
     template="simple_white",
     showlegend=False,
-    height=500,
-    margin=dict(l=20, r=20, t=60, b=20)
+    height=500
 )
 
 fig.update_yaxes(tickprefix="$", separatethousands=True)
@@ -388,17 +378,19 @@ fig.show()
 
 industry_ai_salary = (
     df_clean
+    .filter(col("NAICS_2022_6_NAME").isNotNull())
+    .filter(col("NAICS_2022_6_NAME") != "Unclassified Industry")
     .groupBy("NAICS_2022_6_NAME", "ai_flag")
-    .agg(F.avg("salary_midpoint").alias("avg_salary"),
-         F.count("*").alias("count"))
+    .agg(
+        F.avg("salary_midpoint").alias("avg_salary"),
+        F.count("*").alias("count")
+    )
 )
 
-# filter for reliability (avoid tiny samples)
-industry_ai_salary = industry_ai_salary.filter(col("count") > 100)
+industry_ai_salary = industry_ai_salary.filter(col("count") >= 25)
 
 pdf = industry_ai_salary.toPandas()
 
-# keep top industries overall
 top_industries = (
     pdf.groupby("NAICS_2022_6_NAME")["count"]
     .sum()
@@ -415,7 +407,7 @@ fig = px.bar(
     y="avg_salary",
     color="ai_flag",
     barmode="group",
-    title="AI vs Non-AI Salaries Across Top Industries",
+    title="AI vs. Non-AI Salaries Across Top Industries",
     labels={
         "NAICS_2022_6_NAME": "Industry",
         "avg_salary": "Average Salary ($)",
@@ -430,7 +422,7 @@ fig = px.bar(
 fig.update_layout(
     title_x=0.5,
     template="simple_white",
-    xaxis_tickangle=45,
+    xaxis_tickangle=35,
     height=550
 )
 
@@ -446,6 +438,13 @@ A grouped bar chart was used to compare average salaries between AI and non-AI r
 ```{python}
 #Convert to pandas first
 pdf = df_clean.select("STATE_NAME", "salary_midpoint", "ai_flag").toPandas()
+
+# Remove states with few observations 
+state_counts = pdf["STATE_NAME"].value_counts()
+
+valid_states = state_counts[state_counts > 50].index  # you can adjust 50 if needed
+
+pdf = pdf[pdf["STATE_NAME"].isin(valid_states)]
 
 #Group + average salary
 region_salary = (
