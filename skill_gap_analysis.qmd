@@ -1,15 +1,76 @@
 # Skill Gap Analysis
 
-## Team Skill Levels
-
-# Skill Gap Analysis
-
 This section compares the current skill levels of our team members with skills that are commonly in demand for AI, data, and IT-related roles. The goal is to identify strengths, weaknesses, and areas where further development would improve alignment with job market expectations.
 
-## Team Skill Levels
+## Market Skill Demand from Lightcast Data
+```{python}
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, lower, concat_ws
+from collections import Counter
+import pandas as pd
+
+# Start Spark
+spark = SparkSession.builder \
+    .appName("SkillGap") \
+    .config("spark.ui.showConsoleProgress", "false") \
+    .getOrCreate()
+
+spark.sparkContext.setLogLevel("ERROR")
+
+# Load Lightcast dataset
+df = spark.read \
+    .option("header", "true") \
+    .option("inferSchema", "true") \
+    .option("multiLine", "true") \
+    .option("escape", "\"") \
+    .csv("data/lightcast_data.csv")
+
+# Combine relevant skill text columns
+skills_text_df = df.select(
+    concat_ws(
+        " ",
+        col("SKILLS_NAME"),
+        col("SPECIALIZED_SKILLS_NAME"),
+        col("SOFTWARE_SKILLS_NAME")
+    ).alias("skill_text")
+).dropna()
+
+# Convert to lowercase
+skills_text_df = skills_text_df.withColumn("skill_text", lower(col("skill_text")))
+
+# Define skill keywords to search for
+skill_keywords = [
+    "python",
+    "sql",
+    "machine learning",
+    "cloud computing",
+    "aws",
+    "git",
+    "github",
+    "data visualization",
+    "statistics",
+    "natural language processing"
+]
+
+# Count how often each skill appears
+skill_counts = {}
+
+for skill in skill_keywords:
+    count = skills_text_df.filter(col("skill_text").contains(skill)).count()
+    skill_counts[skill] = count
+
+# Convert to pandas dataframe
+market_skills_df = pd.DataFrame(
+    list(skill_counts.items()),
+    columns=["Skill", "Market Count"]
+).sort_values("Market Count", ascending=False)
+
+market_skills_df
+```
+
+The table above shows how often selected in-demand skills appear across the Lightcast job posting skill fields. This provides a market-based reference point for comparing our team’s current skill levels to employer demand. he selected skills reflect those most frequently observed in the Lightcast dataset, ensuring alignment between our team evaluation and current market demand.
 
 ```{python}
-import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -44,7 +105,7 @@ plt.show()
 The heatmap provides a visual comparison of team strengths and weaknesses across skill categories. Darker colors indicate stronger proficiency, while lighter colors highlight weaker areas.
 
 ```{python}
-# In-demand skills based on trends in AI, data, and IT roles
+# In-demand skills based on Lightcast job posting trends
 top_skills = [
     "Python",
     "SQL",
@@ -87,14 +148,14 @@ plt.show()
 
 The bar chart highlights which in-demand skills are currently strongest across the team and which represent the biggest gaps.
 
-Key Findings
+## Key Findings
 
 The skill gap analysis suggests that the team is strongest in SQL, data visualization, communication, and Python. These areas provide a solid foundation for analytics and data-driven work. However, the team shows lower average proficiency in Natural Language Processing, AWS, and Cloud Computing, indicating that these are the most important areas for improvement.
 
 Overall, the results suggest that the team is well-positioned in core analytics skills but would benefit from further development in cloud and advanced AI-related technologies. Strengthening these skills would improve alignment with current labor market demand and better prepare the team for technical roles in AI, data, and IT.
 
 Improvement Plan:
--Prioritize skill development in AWS, Cloud Computing, and Natural Language Processing.
--Use online resources such as Coursera, DataCamp, AWS Skill Builder, and LinkedIn Learning to strengthen weaker areas.
--Encourage team collaboration through shared practice projects, peer learning, and discussion of technical concepts.
--Build on existing strengths in SQL, Python, and data visualization while expanding into more advanced applied AI tools.
+Prioritize skill development in AWS, Cloud Computing, and Natural Language Processing.
+Use online resources such as Coursera, DataCamp, AWS Skill Builder, and LinkedIn Learning to strengthen weaker areas.
+Encourage team collaboration through shared practice projects, peer learning, and discussion of technical concepts.
+Build on existing strengths in SQL, Python, and data visualization while expanding into more advanced applied AI tools.
