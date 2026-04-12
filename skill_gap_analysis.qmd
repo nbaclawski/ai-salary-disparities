@@ -1,0 +1,82 @@
+# Skill Gap Analysis
+
+## Team Skill Levels
+
+```{python}
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+skills_data = {
+    "Name": ["Natalie", "Kelly", "Haydn"],
+    "Python": [4, 3, 3],
+    "SQL": [5, 3, 4],
+    "Machine Learning": [3, 2, 2],
+    "Cloud Computing": [2, 2, 1],
+    "Data Visualization": [4, 3, 4],
+    "Statistics": [4, 3, 3],
+    "Natural Language Processing": [2, 1, 1],
+    "Git/GitHub": [3, 2, 2],
+    "AWS": [2, 1, 1],
+    "Communication": [5, 4, 4]
+}
+
+df_skills = pd.DataFrame(skills_data)
+df_skills.set_index("Name", inplace=True)
+
+df_skills
+```
+```{python}
+plt.figure(figsize=(10, 5))
+sns.heatmap(df_skills, annot=True, linewidths=0.5, cmap="YlGnBu")
+plt.title("Team Skill Levels Heatmap")
+plt.show()
+```
+
+```{python}
+from collections import Counter
+
+# Example of in-demand skills based on AI / data / IT roles
+top_skills = [
+    "Python",
+    "SQL",
+    "Machine Learning",
+    "Cloud Computing",
+    "AWS",
+    "Git/GitHub",
+    "Data Visualization",
+    "Statistics",
+    "Natural Language Processing"
+]
+
+# Add missing skills as 0 if not already in the dataframe
+for skill in top_skills:
+    if skill not in df_skills.columns:
+        df_skills[skill] = 0
+
+df_skills
+```
+
+```{python}
+team_avg = df_skills.mean()
+
+gap_df = pd.DataFrame({
+    "Skill": team_avg.index,
+    "Average Team Skill Level": team_avg.values
+})
+
+gap_df = gap_df.sort_values("Average Team Skill Level", ascending=True)
+
+gap_df
+```
+
+
+```{python}
+plt.figure(figsize=(10, 5))
+plt.bar(gap_df["Skill"], gap_df["Average Team Skill Level"])
+plt.xticks(rotation=45, ha="right")
+plt.ylabel("Average Skill Level (1-5)")
+plt.title("Average Team Skill Levels by Skill Area")
+plt.tight_layout()
+plt.show()
+```
