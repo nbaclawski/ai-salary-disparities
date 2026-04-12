@@ -2,6 +2,12 @@
 
 ## Team Skill Levels
 
+# Skill Gap Analysis
+
+This section compares the current skill levels of our team members with skills that are commonly in demand for AI, data, and IT-related roles. The goal is to identify strengths, weaknesses, and areas where further development would improve alignment with job market expectations.
+
+## Team Skill Levels
+
 ```{python}
 import pandas as pd
 import seaborn as sns
@@ -26,17 +32,19 @@ df_skills.set_index("Name", inplace=True)
 
 df_skills
 ```
+
+The table above summarizes the current skill levels of each team member using a 1–5 scale, where 1 indicates beginner-level proficiency and 5 indicates expert-level proficiency.
+
 ```{python}
 plt.figure(figsize=(10, 5))
 sns.heatmap(df_skills, annot=True, linewidths=0.5, cmap="YlGnBu")
 plt.title("Team Skill Levels Heatmap")
 plt.show()
 ```
+The heatmap provides a visual comparison of team strengths and weaknesses across skill categories. Darker colors indicate stronger proficiency, while lighter colors highlight weaker areas.
 
 ```{python}
-from collections import Counter
-
-# Example of in-demand skills based on AI / data / IT roles
+# In-demand skills based on trends in AI, data, and IT roles
 top_skills = [
     "Python",
     "SQL",
@@ -49,20 +57,15 @@ top_skills = [
     "Natural Language Processing"
 ]
 
-# Add missing skills as 0 if not already in the dataframe
+# Add missing skills as 0 if they do not already exist in the dataframe
 for skill in top_skills:
     if skill not in df_skills.columns:
         df_skills[skill] = 0
 
-df_skills
-```
-
-```{python}
-team_avg = df_skills.mean()
-
+# Focus gap analysis only on market-relevant skills
 gap_df = pd.DataFrame({
-    "Skill": team_avg.index,
-    "Average Team Skill Level": team_avg.values
+    "Skill": top_skills,
+    "Average Team Skill Level": [df_skills[skill].mean() for skill in top_skills]
 })
 
 gap_df = gap_df.sort_values("Average Team Skill Level", ascending=True)
@@ -70,13 +73,28 @@ gap_df = gap_df.sort_values("Average Team Skill Level", ascending=True)
 gap_df
 ```
 
+This comparison focuses specifically on skills that are commonly requested in AI, analytics, and IT-related roles. Lower average values indicate greater skill gaps relative to current market expectations.
 
 ```{python}
 plt.figure(figsize=(10, 5))
 plt.bar(gap_df["Skill"], gap_df["Average Team Skill Level"])
 plt.xticks(rotation=45, ha="right")
 plt.ylabel("Average Skill Level (1-5)")
-plt.title("Average Team Skill Levels by Skill Area")
+plt.title("Average Team Skill Levels for In-Demand Market Skills")
 plt.tight_layout()
 plt.show()
 ```
+
+The bar chart highlights which in-demand skills are currently strongest across the team and which represent the biggest gaps.
+
+Key Findings
+
+The skill gap analysis suggests that the team is strongest in SQL, data visualization, communication, and Python. These areas provide a solid foundation for analytics and data-driven work. However, the team shows lower average proficiency in Natural Language Processing, AWS, and Cloud Computing, indicating that these are the most important areas for improvement.
+
+Overall, the results suggest that the team is well-positioned in core analytics skills but would benefit from further development in cloud and advanced AI-related technologies. Strengthening these skills would improve alignment with current labor market demand and better prepare the team for technical roles in AI, data, and IT.
+
+Improvement Plan:
+-Prioritize skill development in AWS, Cloud Computing, and Natural Language Processing.
+-Use online resources such as Coursera, DataCamp, AWS Skill Builder, and LinkedIn Learning to strengthen weaker areas.
+-Encourage team collaboration through shared practice projects, peer learning, and discussion of technical concepts.
+-Build on existing strengths in SQL, Python, and data visualization while expanding into more advanced applied AI tools.
