@@ -1,0 +1,447 @@
+---
+title: "Exploratory Analysis (EDA)"
+format: html
+jupyter: python3
+---
+
+# Exploratory Data Analysis
+
+This section presents key insights from the cleaned dataset, focusing on salary trends, industry patterns, and job characteristics across AI and non-AI roles.
+
+## Key Findings
+
+The data cleaning process improved the usability of the dataset by removing redundant columns, handling missing values, converting date fields, and eliminating duplicate records. The exploratory analysis suggests that job postings are concentrated in a limited number of industries and that salary levels vary meaningfully across the sample. Remote and hybrid roles represent an important share of postings, which may influence how students approach their job search. The AI versus non-AI comparison is especially relevant to our project because it helps evaluate whether AI-related skills are associated with different compensation patterns.
+
+```{python}
+# Imports
+# Imports
+import pandas as pd
+import plotly.express as px
+import plotly.io as pio
+import numpy as np
+import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, split, explode, regexp_replace, transform, when
+from pyspark.sql import functions as F
+from pyspark.sql.functions import monotonically_increasing_id
+
+np.random.seed(42)
+pio.renderers.default = "notebook"
+
+# Start Spark
+spark = SparkSession.builder \
+    .appName("LightcastData") \
+    .config("spark.ui.showConsoleProgress", "false") \
+    .getOrCreate()
+
+spark.sparkContext.setLogLevel("ERROR")
+
+# Load data the SAME way as your working page
+df = spark.read \
+    .option("header", "true") \
+    .option("inferSchema", "true") \
+    .option("multiLine", "true") \
+    .option("escape", "\"") \
+    .csv("data/lightcast_data.csv")
+
+# Drop unnecessary columns
+columns_to_drop = [
+    "ID", "URL", "ACTIVE_URLS", "DUPLICATES", "LAST_UPDATED_TIMESTAMP",
+    "NAICS2", "NAICS3", "NAICS4", "NAICS5", "NAICS6",
+    "SOC_2", "SOC_3", "SOC_5"
+]
+
+df_clean = df.drop(*[c for c in columns_to_drop if c in df.columns])
+
+# Handle missing values
+df_clean = df_clean.filter(
+    (col("SALARY_FROM").isNotNull() | col("SALARY_TO").isNotNull()) &
+    col("TITLE").isNotNull() &
+    col("REMOTE_TYPE_NAME").isNotNull() &
+    col("NAICS_2022_6_NAME").isNotNull() &
+    col("STATE_NAME").isNotNull()
+)
+
+# Convert data types
+df_clean = df_clean.withColumn(
+    "POSTED",
+    F.to_date("POSTED", "M/d/yyyy")
+)
+
+# Remove duplicates
+df_clean = df_clean.dropDuplicates()
+
+# Create salary midpoint
+df_clean = df_clean.withColumn("SALARY_FROM", col("SALARY_FROM").cast("double"))
+df_clean = df_clean.withColumn("SALARY_TO", col("SALARY_TO").cast("double"))
+
+df_clean = df_clean.withColumn(
+    "salary_midpoint",
+    when(
+        col("SALARY_FROM").isNotNull() & col("SALARY_TO").isNotNull(),
+        (col("SALARY_FROM") + col("SALARY_TO")) / 2
+    ).when(
+        col("SALARY_FROM").isNotNull(),
+        col("SALARY_FROM")
+    ).otherwise(
+        col("SALARY_TO")
+    )
+)
+
+df_clean = df_clean.filter(
+    col("salary_midpoint").isNotNull() & (col("salary_midpoint") > 0)
+)
+
+# Create AI flag
+df_clean = df_clean.withColumn(
+    "ai_flag",
+    when(
+        col("TITLE_NAME").rlike("(?i)artificial intelligence|machine learning|data scientist|deep learning|nlp|computer vision|ai engineer") |
+        col("TITLE_CLEAN").rlike("(?i)artificial intelligence|machine learning|data scientist|deep learning|nlp|computer vision|ai engineer") |
+        col("SKILLS_NAME").rlike("(?i)artificial intelligence|machine learning|deep learning|nlp|computer vision|python|tensorflow|pytorch") |
+        col("SPECIALIZED_SKILLS_NAME").rlike("(?i)artificial intelligence|machine learning|deep learning|nlp|computer vision"),
+        "AI"
+    ).otherwise("Non-AI")
+)
+```
+
+## Visualization 1: Job Postings by Industry
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+industry_df = df_clean.groupBy("NAICS_2022_6_NAME").count()
+
+top_industries = (
+    industry_df
+    .orderBy(col("count").desc())
+    .limit(10)
+    .toPandas()
+    .sort_values("count", ascending=True)
+)
+
+fig = px.bar(
+    top_industries,
+    x="count",
+    y="NAICS_2022_6_NAME",
+    orientation="h",
+    title="Top 10 Industries by Number of Job Postings",
+    labels={
+        "count": "Number of Job Postings",
+        "NAICS_2022_6_NAME": "Industry"
+    },
+    color="count",
+    color_continuous_scale="Blues"
+)
+
+fig.update_layout(
+    title_x=0.5,
+    xaxis_title="Number of Job Postings",
+    yaxis_title="Industry",
+    coloraxis_showscale=False,
+    template="simple_white",
+    height=550,
+    margin=dict(l=20, r=20, t=60, b=20)
+)
+
+fig.show()
+```
+A horizontal bar chart makes it easy to compare industries and quickly identify which sectors contribute the most job postings
+
+## Visualization 2: Salary Distribution
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+salary_pdf = df_clean.select("salary_midpoint").toPandas()
+
+salary_pdf = salary_pdf[salary_pdf["salary_midpoint"] <= 300000]
+
+fig = px.histogram(
+    salary_pdf,
+    x="salary_midpoint",
+    nbins=40,
+    title="Distribution of Salary Midpoints",
+    labels={"salary_midpoint": "Salary Midpoint ($)"},
+    color_discrete_sequence=["#4C78A8"]
+)
+
+fig.update_layout(
+    title_x=0.5,
+    xaxis_title="Salary Midpoint ($)",
+    yaxis_title="Number of Job Postings",
+    template="simple_white",
+    height=500
+)
+
+fig.update_xaxes(tickprefix="$", separatethousands=True)
+
+fig.show()
+```
+A histogram is useful for showing the overall shape of salary distribution and identifying clustering, spread, and outliers.
+
+## Visualization 3: Remote vs. On-Site Jobs
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+remote_pdf = (
+    df_clean
+    .filter(col("REMOTE_TYPE_NAME").isNotNull())
+    .filter(col("REMOTE_TYPE_NAME") != "[None]")
+    .groupBy("REMOTE_TYPE_NAME")
+    .count()
+    .toPandas()
+    .sort_values("count", ascending=False)
+)
+
+fig = px.bar(
+    remote_pdf,
+    x="REMOTE_TYPE_NAME",
+    y="count",
+    title="Distribution of Remote, Hybrid, and On-Site Roles",
+    labels={
+        "REMOTE_TYPE_NAME": "Work Arrangement",
+        "count": "Number of Job Postings"
+    },
+    color="REMOTE_TYPE_NAME",
+    color_discrete_sequence=px.colors.qualitative.Set2
+)
+
+fig.update_layout(
+    title_x=0.5,
+    xaxis_title="Work Arrangement",
+    yaxis_title="Number of Job Postings",
+    template="simple_white",
+    showlegend=False,
+    height=500
+)
+
+fig.show()
+```
+
+A pie chart works well for showing how total postings are divided across work arrangement categories.
+
+
+## Visualization 4: AI vs. Non-AI Roles
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+df_clean = df_clean.withColumn(
+    "ai_flag",
+    when(
+        col("TITLE_NAME").rlike("(?i)artificial intelligence|machine learning|data scientist|deep learning|nlp|computer vision|ai engineer") |
+        col("TITLE_CLEAN").rlike("(?i)artificial intelligence|machine learning|data scientist|deep learning|nlp|computer vision|ai engineer") |
+        col("SKILLS_NAME").rlike("(?i)artificial intelligence|machine learning|deep learning|nlp|computer vision|python|tensorflow|pytorch") |
+        col("SPECIALIZED_SKILLS_NAME").rlike("(?i)artificial intelligence|machine learning|deep learning|nlp|computer vision"),
+        "AI"
+    ).otherwise("Non-AI")
+)
+
+df_clean.groupBy("ai_flag").count().show()
+```
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+ai_salary_pdf = (
+    df_clean
+    .groupBy("ai_flag")
+    .agg(F.avg("salary_midpoint").alias("avg_salary"))
+    .toPandas()
+)
+
+fig = px.bar(
+    ai_salary_pdf,
+    x="ai_flag",
+    y="avg_salary",
+    title="Average Salary Comparison: AI vs. Non-AI Roles",
+    labels={
+        "ai_flag": "Role Category",
+        "avg_salary": "Average Salary ($)"
+    },
+    color="ai_flag",
+    color_discrete_map={
+        "AI": "#E45756",
+        "Non-AI": "#4C78A8"
+    },
+    text="avg_salary"
+)
+
+fig.update_traces(
+    texttemplate="$%{text:,.0f}",
+    textposition="outside"
+)
+
+fig.update_layout(
+    title_x=0.5,
+    template="simple_white",
+    showlegend=False,
+    height=500
+)
+
+fig.update_yaxes(tickprefix="$", separatethousands=True)
+
+fig.show()
+```
+
+## Visualization 5: AI vs Non-AI Salary by Industry
+```{python}
+#| echo: true
+#| warning: false
+#| message: false
+
+industry_ai_salary = (
+    df_clean
+    .filter(col("NAICS_2022_6_NAME").isNotNull())
+    .filter(col("NAICS_2022_6_NAME") != "Unclassified Industry")
+    .groupBy("NAICS_2022_6_NAME", "ai_flag")
+    .agg(
+        F.avg("salary_midpoint").alias("avg_salary"),
+        F.count("*").alias("count")
+    )
+)
+
+industry_ai_salary = industry_ai_salary.filter(col("count") >= 25)
+
+pdf = industry_ai_salary.toPandas()
+
+top_industries = (
+    pdf.groupby("NAICS_2022_6_NAME")["count"]
+    .sum()
+    .sort_values(ascending=False)
+    .head(8)
+    .index
+)
+
+pdf = pdf[pdf["NAICS_2022_6_NAME"].isin(top_industries)]
+
+fig = px.bar(
+    pdf,
+    x="NAICS_2022_6_NAME",
+    y="avg_salary",
+    color="ai_flag",
+    barmode="group",
+    title="AI vs. Non-AI Salaries Across Top Industries",
+    labels={
+        "NAICS_2022_6_NAME": "Industry",
+        "avg_salary": "Average Salary ($)",
+        "ai_flag": "Role Type"
+    },
+    color_discrete_map={
+        "AI": "#E45756",
+        "Non-AI": "#4C78A8"
+    }
+)
+
+fig.update_layout(
+    title_x=0.5,
+    template="simple_white",
+    xaxis_tickangle=35,
+    height=550
+)
+
+fig.update_yaxes(tickprefix="$", separatethousands=True)
+
+fig.show()
+```
+
+A grouped bar chart was used to compare average salaries between AI and non-AI roles across industries. This format allows for direct side-by-side comparison within each industry, making differences in compensation easy to interpret.
+
+
+## Visualization 6: Average Salary by Region: AI vs Non-AI Roles
+```{python}
+#Convert to pandas first
+pdf = df_clean.select("STATE_NAME", "salary_midpoint", "ai_flag").toPandas()
+
+# Remove states with few observations 
+state_counts = pdf["STATE_NAME"].value_counts()
+
+valid_states = state_counts[state_counts > 50].index  # you can adjust 50 if needed
+
+pdf = pdf[pdf["STATE_NAME"].isin(valid_states)]
+
+#Group + average salary
+region_salary = (
+    pdf.groupby(["STATE_NAME", "ai_flag"])["salary_midpoint"]
+    .mean()
+    .reset_index()
+)
+
+#Optional: keep only top states by salary (cleaner chart)
+top_states = (
+    region_salary.groupby("STATE_NAME")["salary_midpoint"]
+    .mean()
+    .sort_values(ascending=False)
+    .head(10)
+    .index
+)
+
+region_salary = region_salary[region_salary["STATE_NAME"].isin(top_states)]
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+regions = region_salary["STATE_NAME"].unique()
+x = np.arange(len(regions))
+
+# Convert to pandas first
+pdf = df_clean.select("STATE_NAME", "salary_midpoint", "ai_flag").toPandas()
+
+# Group + average salary
+region_salary = (
+    pdf.groupby(["STATE_NAME", "ai_flag"], as_index=False)["salary_midpoint"]
+    .mean()
+)
+
+# Keep only top 10 states by overall average salary
+top_states = (
+    region_salary.groupby("STATE_NAME")["salary_midpoint"]
+    .mean()
+    .sort_values(ascending=False)
+    .head(10)
+    .index
+)
+
+region_salary = region_salary[region_salary["STATE_NAME"].isin(top_states)]
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+pivot_df = (
+    region_salary
+    .pivot(index="STATE_NAME", columns="ai_flag", values="salary_midpoint")
+    .fillna(0)
+)
+
+# sort states from highest to lowest overall average salary
+pivot_df["overall_avg"] = pivot_df.mean(axis=1)
+pivot_df = pivot_df.sort_values("overall_avg", ascending=False).drop(columns="overall_avg")
+
+regions = pivot_df.index.tolist()
+x = np.arange(len(regions))
+
+ai_vals = pivot_df["AI"].values if "AI" in pivot_df.columns else np.zeros(len(regions))
+non_ai_vals = pivot_df["Non-AI"].values if "Non-AI" in pivot_df.columns else np.zeros(len(regions))
+
+width = 0.35
+
+plt.figure(figsize=(12, 6))
+plt.bar(x - width/2, non_ai_vals, width, label="Non-AI", alpha=0.85)
+plt.bar(x + width/2, ai_vals, width, label="AI", alpha=0.85)
+
+plt.xticks(x, regions, rotation=45, ha="right")
+plt.ylabel("Average Salary ($)")
+plt.title("Average Salary by Region: AI vs Non-AI Roles")
+plt.legend()
+plt.tight_layout()
+plt.show()
+```

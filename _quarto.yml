@@ -18,7 +18,10 @@ website:
       - href: about.qmd
         text: About
       - href: data_analysis.qmd
-        text: "Data Analysis"
+        text: "Data Preparation"
+      - href: eda.qmd
+        text: "Exploratory Analysis (EDA)"
+
 
 format:
   html:
