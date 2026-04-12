@@ -21,6 +21,8 @@ website:
         text: "Data Preparation"
       - href: eda.qmd
         text: "Exploratory Analysis (EDA)"
+      - href: skill_gap_analysis.qmd
+        text: "Skill Gap Analysis"
 
 
 format:
