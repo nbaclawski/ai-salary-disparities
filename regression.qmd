@@ -130,3 +130,85 @@ fig = px.scatter(
 fig.show()
 
 ```
+
+```{python}
+reg_df = df.select(
+    col("SALARY").cast("double"),
+    col("TITLE_CLEAN"),
+    col("NAICS_2022_6_NAME"),
+    col("STATE_NAME")
+).dropna()
+
+reg_df = reg_df.filter(col("SALARY") > 0)
+
+pdf_reg = reg_df.toPandas()
+
+pdf_reg_encoded = pd.get_dummies(pdf_reg, columns=[
+    "TITLE_CLEAN",
+    "NAICS_2022_6_NAME",
+    "STATE_NAME"
+], drop_first=True)
+
+X = pdf_reg_encoded.drop("SALARY", axis=1)
+y = pdf_reg_encoded["SALARY"]
+```
+
+```{python}
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+reg_df = df.select(
+    col("SALARY").cast("double"),
+    col("TITLE_CLEAN"),
+    col("NAICS_2022_6_NAME"),
+    col("STATE_NAME")
+).dropna()
+    
+reg_df = reg_df.filter(col("SALARY") > 0)
+  
+pdf_reg = reg_df.limit(3000).toPandas()
+pdf_reg_encoded = pd.get_dummies(pdf_reg, columns=[
+    "TITLE_CLEAN",
+    "NAICS_2022_6_NAME",
+    "STATE_NAME"
+], drop_first=True)
+
+X = pdf_reg_encoded.drop("SALARY", axis=1)
+y = pdf_reg_encoded["SALARY"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+r2 = r2_score(y_test, y_pred)
+
+print("RMSE:", rmse)
+print("R²:", r2)
+
+coefficients = pd.DataFrame({
+    "Feature": X.columns,
+    "Coefficient": model.coef_
+})
+
+# Top drivers of salary
+top_features = coefficients.sort_values(by="Coefficient", ascending=False).head(10)
+print(top_features)
+```
+
+```{python}
+top_titles = pdf_reg.groupby("TITLE_CLEAN")["SALARY"].mean().sort_values(ascending=False).head(10)
+
+fig = px.bar(
+    x=top_titles.values,
+    y=top_titles.index,
+    orientation='h',
+    title="Salary Disparities Across Job Disciplines"
+)
+
+fig.show()
+```
