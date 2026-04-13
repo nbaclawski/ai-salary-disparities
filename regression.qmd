@@ -115,6 +115,13 @@ pdf_cluster_encoded["cluster"] = kmeans.fit_predict(X_scaled)
 # View clusters
 pdf_cluster_encoded["cluster"].value_counts()
 ```
+### Interpretation of Cluster Distribution
+
+The cluster distribution is highly imbalanced, with the vast majority of job postings (over 30,000 observations) grouped into a single cluster. In contrast, the remaining clusters contain only a handful of observations.
+
+This suggests that most jobs share similar characteristics in terms of salary and industry, forming a dominant “typical” group. The smaller clusters likely represent outlier roles, such as highly specialized or unusually high-paying positions that differ significantly from the majority.
+
+Overall, the results indicate that salary and industry patterns are relatively consistent across most job postings, with only a small number of roles deviating from the norm.
 
 ```{python}
 import plotly.express as px
@@ -124,12 +131,19 @@ fig = px.scatter(
     x="SALARY",
     y="cluster",
     color="cluster",
-    title="KMeans Clustering of Job Postings by Salary and Industry"
+    title="K-Means Clustering of Job Postings by Salary and Industry"
 )
 
 fig.show()
 
 ```
+### Key Drivers of Salary
+
+The KMeans clustering analysis groups job postings into distinct salary-based segments, revealing natural tiers within the data. The majority of roles fall into a lower-to-mid salary cluster, while a smaller number of positions form higher-paying clusters. These higher salary clusters are more dispersed and represent roles with significantly greater compensation, indicating a separation between standard roles and premium, high-paying positions.
+
+This segmentation suggests that the job market is not evenly distributed, but instead divided into clear compensation tiers. While most opportunities cluster around moderate salary ranges, a smaller subset of roles offers substantially higher earnings, likely reflecting seniority, specialization, or leadership responsibilities. This reinforces the idea that salary growth is concentrated among top-tier roles rather than gradually increasing across all positions
+
+The features used for clustering (industry, occupation, and salary) were selected because they capture meaningful variation across job postings. High variance in these features indicates that they effectively differentiate between groups, making them suitable for clustering analysis.
 
 ```{python}
 reg_df = df.select(
@@ -199,6 +213,11 @@ coefficients = pd.DataFrame({
 top_features = coefficients.sort_values(by="Coefficient", ascending=False).head(10)
 print(top_features)
 ```
+### Model Insights: Key Drivers of Salary
+
+The regression model explains approximately 33% of the variation in salary (R² = 0.33), indicating moderate predictive power. While the model captures meaningful patterns, a substantial portion of salary variation remains unexplained, suggesting that additional factors—such as experience level, company size, or geographic location—also play a significant role.
+
+The regression results highlight that job title is one of the strongest predictors of salary variation, with senior leadership and specialized technical roles associated with significantly higher compensation. This reinforces the importance of seniority and domain expertise in determining earning potential within the data and analytics job market.
 
 ```{python}
 top_titles = pdf_reg.groupby("TITLE_CLEAN")["SALARY"].mean().sort_values(ascending=False).head(10)
@@ -212,3 +231,8 @@ fig = px.bar(
 
 fig.show()
 ```
+### Salary Disparities Across Job Disciplines
+
+The chart highlights clear salary disparities across job titles, with senior and highly specialized roles consistently appearing at the top of the distribution. Positions such as Vice President, Director, and advanced technical specialists command significantly higher average salaries compared to mid-level or entry-level roles.
+
+This pattern suggests that salary growth is not linear, but instead accelerates at higher levels of responsibility and specialization. The observed disparities emphasize the strong financial returns associated with career progression and advanced skill development within the data and analytics field.
