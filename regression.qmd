@@ -233,7 +233,7 @@ Implications for job seekers + evaluation metrics:
     The results show that these factors do affect salary, but they don’t explain everything. The R² value of 0.34 means the model explains about one-third of salary differences. The RMSE of about $35,582 means the predictions can be off by a decent amount. This is normal because salary depends on many things not included in the model. Overall, this means job seekers can increase their chances of higher pay by choosing better-paying roles, learning useful skills, and looking in higher-paying locations, but there is still some uncertainty.
 
 
-# Classification
+# Classification: Accuracy, F1 Score, Confusion Matrix
 
 ```{python}
 # Create Label
@@ -265,7 +265,7 @@ print("F1 Score:", f1_score(y_test, y_pred_cls))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_cls))
 ```
 
-Classification: Accuracy, F1 Score, Confusion Matrix
+Classification
 
 Plain-language summary:
     This model predicts whether a job is high-paying or not. Instead of giving an exact salary, it just tells you if a job is likely above average or not. The goal is to make it easier to spot better-paying jobs.
