@@ -170,7 +170,7 @@ reg_df = df.select(
     
 reg_df = reg_df.filter(col("SALARY") > 0)
   
-pdf_reg = reg_df.limit(3000).toPandas()
+pdf_reg = reg_df.limit(1000).toPandas()
 pdf_reg_encoded = pd.get_dummies(pdf_reg, columns=[
     "TITLE_CLEAN",
     "NAICS_2022_6_NAME",
@@ -215,4 +215,4 @@ fig = px.bar(
 
 fig.show()
 ```
-.
+..
