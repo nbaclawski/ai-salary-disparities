@@ -130,6 +130,7 @@ fig = px.scatter(
 fig.show()
 
 ```
+###Regression: RMSE, R²
 
 ```{python}
 reg_df = df.select(
