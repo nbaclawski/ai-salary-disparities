@@ -265,7 +265,7 @@ print("F1 Score:", f1_score(y_test, y_pred_cls))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_cls))
 ```
 
-Classification
+Classification: Accuracy, F1 Score, Confusion Matrix
 
 Plain-language summary:
     This model predicts whether a job is high-paying or not. Instead of giving an exact salary, it just tells you if a job is likely above average or not. The goal is to make it easier to spot better-paying jobs.
