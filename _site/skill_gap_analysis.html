@@ -211,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This section compares the current skill levels of our team members with skills that are commonly in demand for AI, data, and IT-related roles. The goal is to identify strengths, weaknesses, and areas where further development would improve alignment with job market expectations.</p>
 <section id="market-skill-demand-from-lightcast-data" class="level2">
 <h2 class="anchored" data-anchor-id="market-skill-demand-from-lightcast-data">Market Skill Demand from Lightcast Data</h2>
-<div id="c590726d" class="cell" data-execution_count="1">
+<div id="e2d8b0c0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col, lower, concat_ws</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
@@ -279,8 +279,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/04/18 23:05:20 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-26/04/18 23:05:22 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.</code></pre>
+26/04/18 23:16:42 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/04/18 23:16:44 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div>
@@ -352,7 +352,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </div>
 </div>
 <p>The table above shows how often selected in-demand skills appear across the Lightcast job posting skill fields. This provides a market-based reference point for comparing our team’s current skill levels to employer demand. he selected skills reflect those most frequently observed in the Lightcast dataset, ensuring alignment between our team evaluation and current market demand.</p>
-<div id="45c89fb1" class="cell" data-execution_count="2">
+<div id="ad513671" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -454,7 +454,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </div>
 </div>
 <p>The table above summarizes the current skill levels of each team member using a 1–5 scale, where 1 indicates beginner-level proficiency and 5 indicates expert-level proficiency.</p>
-<div id="7b87d221" class="cell" data-execution_count="3">
+<div id="9295abda" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sns.heatmap(df_skills, annot<span class="op">=</span><span class="va">True</span>, linewidths<span class="op">=</span><span class="fl">0.5</span>, cmap<span class="op">=</span><span class="st">"YlGnBu"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Team Skill Levels Heatmap"</span>)</span>
@@ -468,7 +468,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </div>
 </div>
 <p>The heatmap provides a visual comparison of team strengths and weaknesses across skill categories. Darker colors indicate stronger proficiency, while lighter colors highlight weaker areas.</p>
-<div id="d30ccf99" class="cell" data-execution_count="4">
+<div id="b198fb83" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In-demand skills based on Lightcast job posting trends</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>top_skills <span class="op">=</span> [</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python"</span>,</span>
@@ -561,7 +561,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </div>
 </div>
 <p>This comparison focuses specifically on skills that are commonly requested in AI, analytics, and IT-related roles. Lower average values indicate greater skill gaps relative to current market expectations.</p>
-<div id="0eec8bfe" class="cell" data-execution_count="5">
+<div id="fb6d259e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.bar(gap_df[<span class="st">"Skill"</span>], gap_df[<span class="st">"Average Team Skill Level"</span>])</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>)</span>
