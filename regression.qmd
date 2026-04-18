@@ -1,7 +1,5 @@
 #Regression Models
 
-### This section contains K-means clustering and multiple linear regression analysis
-
 ```{python}
 import pandas as pd
 import plotly.express as px
@@ -84,9 +82,8 @@ df_clean = df_clean.withColumn(
 df_clean = df_clean.filter(
     col("salary_midpoint").isNotNull() & (col("salary_midpoint") > 0)
 )
-```
 
-```{python}
+
 # Select relevant clustering features
 cluster_df = df.select(
     col("NAICS_2022_6"),
@@ -116,9 +113,7 @@ pdf_cluster_encoded["cluster"] = kmeans.fit_predict(X_scaled)
 
 # View clusters
 pdf_cluster_encoded["cluster"].value_counts()
-```
 
-```{python}
 import plotly.express as px
 
 fig = px.scatter(
@@ -130,8 +125,20 @@ fig = px.scatter(
 )
 
 fig.show()
-
 ```
+
+K-Means Clustering
+
+Plain-language summary:
+    This model groups similar jobs together instead of predicting salary. It looks for patterns and puts jobs into different groups based on similarities. The goal is to better understand how jobs are naturally divided in the market.
+
+Features used:
+    The model uses salary, job details, and skills to group jobs. Jobs with similar pay and skill requirements end up in the same group.
+
+Implications for job seekers:
+    These groups show different types of jobs, such as higher-paying technical roles and lower-paying entry-level roles. This helps job seekers see where they stand and what they need to improve to move into a better-paying group. For example, learning new skills or switching roles could help someone move into a higher-paying category.
+
+
 ###Regression: RMSE, R²
 
 ```{python}
@@ -139,7 +146,8 @@ reg_df = df.select(
     col("SALARY").cast("double"),
     col("TITLE_CLEAN"),
     col("NAICS_2022_6_NAME"),
-    col("STATE_NAME")
+    col("STATE_NAME"),
+    col("SKILLS_NAME")
 ).dropna()
 
 reg_df = reg_df.filter(col("SALARY") > 0)
@@ -149,14 +157,12 @@ pdf_reg = reg_df.toPandas()
 pdf_reg_encoded = pd.get_dummies(pdf_reg, columns=[
     "TITLE_CLEAN",
     "NAICS_2022_6_NAME",
-    "STATE_NAME"
+    "STATE_NAME",
 ], drop_first=True)
 
 X = pdf_reg_encoded.drop("SALARY", axis=1)
 y = pdf_reg_encoded["SALARY"]
-```
 
-```{python}
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
@@ -170,7 +176,7 @@ reg_df = df.select(
     
 reg_df = reg_df.filter(col("SALARY") > 0)
   
-pdf_reg = reg_df.limit(1000).toPandas()
+pdf_reg = reg_df.limit(3000).toPandas()
 pdf_reg_encoded = pd.get_dummies(pdf_reg, columns=[
     "TITLE_CLEAN",
     "NAICS_2022_6_NAME",
@@ -201,18 +207,105 @@ coefficients = pd.DataFrame({
 # Top drivers of salary
 top_features = coefficients.sort_values(by="Coefficient", ascending=False).head(10)
 print(top_features)
-```
 
-```{python}
 top_titles = pdf_reg.groupby("TITLE_CLEAN")["SALARY"].mean().sort_values(ascending=False).head(10)
 
 fig = px.bar(
     x=top_titles.values,
     y=top_titles.index,
     orientation='h',
-    title="Salary Disparities Across Job Disciplines"
+    title="Salary Disparities Across Job Disciplines",
+    labels={"x": "Average Salary", "y": "Job Title"}
 )
 
 fig.show()
 ```
-..
+
+Multiple Linear Regression
+
+Plain-language summary:
+    This model looks at what affects salary. It tries to estimate how much someone might earn based on their job title, where the job is located, and what skills are needed. The goal is to see which of these factors matter most and how they influence pay. It also helps us understand if salary can be predicted or if it mostly varies a lot.
+
+Features used:
+    The model uses job title, location, and skills. Job title matters because different roles pay differently. Location matters because some places pay more than others. Skills matter because jobs that require stronger or more technical skills usually pay more.
+
+Implications for job seekers + evaluation metrics:
+    The results show that these factors do affect salary, but they don’t explain everything. The R² value of 0.34 means the model explains about one-third of salary differences. The RMSE of about $35,582 means the predictions can be off by a decent amount. This is normal because salary depends on many things not included in the model. Overall, this means job seekers can increase their chances of higher pay by choosing better-paying roles, learning useful skills, and looking in higher-paying locations, but there is still some uncertainty.
+
+
+```{python}
+# Create Label
+threshold = pdf_reg_encoded["SALARY"].mean()
+pdf_reg_encoded["HIGH_PAY"] = (pdf_reg_encoded["SALARY"] > threshold).astype(int)
+
+# Define Features
+X_cls = pdf_reg_encoded.drop(["SALARY", "HIGH_PAY"], axis=1)
+y_cls = pdf_reg_encoded["HIGH_PAY"]
+
+# Train/Test Split 
+X_train, X_test, y_train, y_test = train_test_split(
+    X_cls, y_cls, test_size=0.2, random_state=42
+)
+
+# Train Model
+from sklearn.linear_model import LogisticRegression
+
+clf = LogisticRegression(max_iter=1000)
+clf.fit(X_train, y_train)
+
+# Evaluate
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+
+y_pred_cls = clf.predict(X_test)
+
+print("Accuracy:", accuracy_score(y_test, y_pred_cls))
+print("F1 Score:", f1_score(y_test, y_pred_cls))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_cls))
+```
+
+Classification
+
+Plain-language summary:
+    This model predicts whether a job is high-paying or not. Instead of giving an exact salary, it just tells you if a job is likely above average or not. The goal is to make it easier to spot better-paying jobs.
+
+Features used:
+    The model uses job title, location, and skills. These help separate higher-paying jobs from lower-paying ones because they reflect the type of job and the skills needed.
+
+Implications for job seekers + evaluation metrics:
+    The model is correct about 75% of the time, which is pretty good. The F1 score of 0.74 shows it does a good job balancing correct and incorrect predictions. From the confusion matrix, there are some mistakes (76 jobs predicted as high-paying when they are not, and 72 missed high-paying jobs), but the errors are balanced. This means the model is fairly reliable. For job seekers, this shows that jobs with stronger skills and better locations are more likely to pay more, but the model is not perfect and should be used as a guide.
+
+
+```{python}
+import plotly.express as px
+
+state_salary = pdf_reg.groupby("STATE_NAME")["SALARY"].mean().sort_values(ascending=False).head(10)
+
+fig = px.bar(
+    x=state_salary.values,
+    y=state_salary.index,
+    orientation='h',
+    title="Average Salary by State",
+    labels={"x": "Average Salary", "y": "State"}
+)
+
+fig.show()
+```
+```{python}
+# Create AI classification
+pdf_reg["AI_JOB"] = pdf_reg["TITLE_CLEAN"].str.contains(
+    "data|ai|machine learning|analytics",
+    case=False,
+    na=False
+)
+
+ai_salary = pdf_reg.groupby("AI_JOB")["SALARY"].mean()
+
+fig = px.bar(
+    x=["Non-AI", "AI"],
+    y=ai_salary.values,
+    title="Salary Comparison: AI vs Non-AI Jobs",
+    labels={"x": "AI vs. Non-AI", "y": "Average Salary"}
+)
+
+fig.show()
+```
