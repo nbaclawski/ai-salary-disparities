@@ -23,7 +23,8 @@ website:
         text: "Exploratory Analysis (EDA)"
       - href: skill_gap_analysis.qmd
         text: "Skill Gap Analysis"
-
+      - href: regression.qmd
+        text: "Regression Analysis"
 
 format:
   html:
