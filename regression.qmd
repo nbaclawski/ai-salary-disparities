@@ -1,4 +1,4 @@
-#Regression Models
+# Regression Models
 
 ```{python}
 import pandas as pd
@@ -139,7 +139,7 @@ Implications for job seekers:
     These groups show different types of jobs, such as higher-paying technical roles and lower-paying entry-level roles. This helps job seekers see where they stand and what they need to improve to move into a better-paying group. For example, learning new skills or switching roles could help someone move into a higher-paying category.
 
 
-###Regression: RMSE, R²
+### Regression: RMSE, R²
 
 ```{python}
 reg_df = df.select(
@@ -232,6 +232,8 @@ Features used:
 Implications for job seekers + evaluation metrics:
     The results show that these factors do affect salary, but they don’t explain everything. The R² value of 0.34 means the model explains about one-third of salary differences. The RMSE of about $35,582 means the predictions can be off by a decent amount. This is normal because salary depends on many things not included in the model. Overall, this means job seekers can increase their chances of higher pay by choosing better-paying roles, learning useful skills, and looking in higher-paying locations, but there is still some uncertainty.
 
+
+# Classification
 
 ```{python}
 # Create Label
