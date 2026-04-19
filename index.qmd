@@ -1,8 +1,8 @@
-## Project Overview
+# AI Salary Disparities
 
-This project investigates salary disparities across disciplines, with a particular focus on how the rise of artificial intelligence is reshaping compensation trends in the job market. Using large-scale job posting data, we analyze differences in salary ranges, required skills, and job characteristics across AI and non-AI roles.
+### Who Benefits Most from AI’s Rise?
 
-By leveraging data processing tools such as PySpark and Python, along with interactive visualizations, this analysis provides a data-driven perspective on which roles and skill sets are benefiting most from the increasing demand for AI expertise.
+This project explores how artificial intelligence is reshaping salary trends across industries, roles, and skill sets.
 
 ## Research Question
 

@@ -1,1 +1,67 @@
 /* css styles */
+/* Pull all page content upward */
+#quarto-content {
+  padding-top: 0 !important;
+}
+
+main.content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Reduce default title block spacing */
+.quarto-title-block {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Tighten overall page spacing */
+.page-columns {
+  gap: 1.5rem;
+}
+
+.content-block {
+  padding-top: 0 !important;
+}
+
+/* Optional: keep content comfortably wide */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Add breathing room */
+main {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Section spacing */
+h2 {
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin-top: 25px;
+}
+
+/* Paragraph readability */
+p {
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Make titles pop */
+h1 {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+img, .plotly {
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #fafafa;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+}

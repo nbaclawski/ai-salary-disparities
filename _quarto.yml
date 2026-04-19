@@ -19,9 +19,12 @@ website:
         text: "Skill Gap Analysis"
       - href: regression.qmd
         text: "Regression Analysis"
+      - href: conclusion.qmd
+        text: "Conclusion"
 
 format:
   html:
+    page-layout: article
     theme:
       - cosmo
       - brand

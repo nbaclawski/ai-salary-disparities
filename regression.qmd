@@ -232,6 +232,11 @@ Features used:
 Implications for job seekers + evaluation metrics:
     The results show that these factors do affect salary, but they don’t explain everything. The R² value of 0.34 means the model explains about one-third of salary differences. The RMSE of about $35,582 means the predictions can be off by a decent amount. This is normal because salary depends on many things not included in the model. Overall, this means job seekers can increase their chances of higher pay by choosing better-paying roles, learning useful skills, and looking in higher-paying locations, but there is still some uncertainty.
 
+This regression model examines how factors such as job title, location, and required skills influence salary. The results indicate that these variables do have a measurable impact, but they do not fully explain salary variation.
+
+The R² value of 0.34 suggests that the model explains about one-third of salary differences, meaning there are additional factors not captured in the dataset. The RMSE of approximately $35,582 indicates a moderate prediction error, which is expected given the complexity and variability of salary data.
+
+Overall, the model highlights that while role type and technical specialization significantly influence pay, salary outcomes remain difficult to predict precisely due to unobserved factors such as experience level, company, and negotiation.
 
 # Classification: Accuracy, F1 Score, Confusion Matrix
 
@@ -292,6 +297,12 @@ fig = px.bar(
 
 fig.show()
 ```
+This visualization highlights variation in average salaries across different states. While the differences are not extremely large, certain states consistently show higher average salaries, suggesting regional effects on compensation.
+
+These differences may be driven by factors such as cost of living, demand for technical talent, and industry concentration. For example, states with stronger technology or business hubs tend to offer higher salaries.
+
+Overall, location plays a meaningful but not dominant role in salary variation, reinforcing the importance of combining geographic insights with skills and job type when evaluating earning potential.
+
 ```{python}
 # Create AI classification
 pdf_reg["AI_JOB"] = pdf_reg["TITLE_CLEAN"].str.contains(
@@ -311,3 +322,8 @@ fig = px.bar(
 
 fig.show()
 ```
+Interestingly, this comparison shows that non-AI roles have a higher average salary than AI roles in this dataset. This contrasts with earlier findings and suggests that salary differences may depend heavily on how roles are defined and classified.
+
+One possible explanation is that some high-paying technical or senior roles are not explicitly labeled as “AI,” even though they involve advanced analytics or data work. Additionally, industry and job title variations may influence these averages.
+
+This highlights an important takeaway: while AI roles are often associated with higher pay, salary outcomes depend on a broader combination of role definition, skills, and context within the job market.

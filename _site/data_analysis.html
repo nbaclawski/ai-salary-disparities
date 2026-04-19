@@ -143,18 +143,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Literature Review</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./analysis.qmd"> 
-<span class="menu-text">Analysis</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./ai_vs_traditional.qmd"> 
-<span class="menu-text">AI vs Traditional</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.qmd"> 
-<span class="menu-text">About</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link active" href="./data_analysis.html" aria-current="page"> 
 <span class="menu-text">Data Preparation</span></a>
   </li>  
@@ -169,6 +157,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="./regression.html"> 
 <span class="menu-text">Regression Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./conclusion.html"> 
+<span class="menu-text">Conclusion</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -233,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="load-dataset" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="load-dataset"><span class="header-section-number">1</span> Load Dataset</h2>
-<div id="1d9d0060" class="cell" data-message="false" data-execution_count="1">
+<div id="edea4632" class="cell" data-message="false" data-execution_count="1">
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 72498
 Columns: 131</code></pre>
@@ -244,7 +236,7 @@ Columns: 131</code></pre>
 <section id="drop-unnecessary-columns" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="drop-unnecessary-columns"><span class="header-section-number">2</span> Drop Unnecessary Columns</h2>
 <p>We removed tracking fields and redundant classification variables where present so that the dataset is easier to interpret and use for analysis.</p>
-<div id="cbdb5896" class="cell" data-message="false" data-execution_count="2">
+<div id="d1d55ccb" class="cell" data-message="false" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ID"</span>, <span class="st">"URL"</span>, <span class="st">"ACTIVE_URLS"</span>, <span class="st">"DUPLICATES"</span>, <span class="st">"LAST_UPDATED_TIMESTAMP"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"NAICS2"</span>, <span class="st">"NAICS3"</span>, <span class="st">"NAICS4"</span>, <span class="st">"NAICS5"</span>, <span class="st">"NAICS6"</span>,</span>
@@ -264,7 +256,7 @@ Columns after: 118</code></pre>
 </section>
 <section id="handle-missing-values" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="handle-missing-values"><span class="header-section-number">3</span> Handle Missing Values</h2>
-<div id="9234cf6c" class="cell" data-message="false" data-execution_count="3">
+<div id="2503485f" class="cell" data-message="false" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.<span class="bu">filter</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    (col(<span class="st">"SALARY_FROM"</span>).isNotNull() <span class="op">|</span> col(<span class="st">"SALARY_TO"</span>).isNotNull()) <span class="op">&amp;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    col(<span class="st">"TITLE"</span>).isNotNull() <span class="op">&amp;</span></span>
@@ -283,7 +275,7 @@ Columns after: 118</code></pre>
 <section id="convert-data-types" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="convert-data-types"><span class="header-section-number">4</span> Convert Data Types</h2>
 <p>We converted posting dates to a date format so that date fields would be interpreted correctly.</p>
-<div id="ad5c66d4" class="cell" data-message="false" data-execution_count="4">
+<div id="f93c5d0d" class="cell" data-message="false" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.withColumn(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"POSTED"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    F.to_date(<span class="st">"POSTED"</span>, <span class="st">"M/d/yyyy"</span>)</span>
@@ -306,7 +298,7 @@ only showing top 5 rows</code></pre>
 </section>
 <section id="remove-duplicates" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="remove-duplicates"><span class="header-section-number">5</span> Remove Duplicates</h2>
-<div id="596b9f23" class="cell" data-message="false" data-execution_count="5">
+<div id="18583112" class="cell" data-message="false" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>before_rows <span class="op">=</span> df_clean.count()</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.dropDuplicates()</span>
@@ -327,7 +319,7 @@ Duplicates removed: 0</code></pre>
 <section id="create-salary-measure" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="create-salary-measure"><span class="header-section-number">6</span> Create Salary Measure</h2>
 <p>We created a midpoint salary using the lower and upper salary bounds to produce a single value for analysis. If only one salary bound was available, that value was used as an approximation so that we could retain more usable observations.</p>
-<div id="38f6168f" class="cell" data-message="false" data-execution_count="6">
+<div id="7f9f71a1" class="cell" data-message="false" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.withColumn(<span class="st">"SALARY_FROM"</span>, col(<span class="st">"SALARY_FROM"</span>).cast(<span class="st">"double"</span>))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df_clean.withColumn(<span class="st">"SALARY_TO"</span>, col(<span class="st">"SALARY_TO"</span>).cast(<span class="st">"double"</span>))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -366,7 +358,7 @@ only showing top 5 rows</code></pre>
 </section>
 <section id="salary-summary-statistics" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="salary-summary-statistics"><span class="header-section-number">7</span> Salary Summary Statistics</h2>
-<div id="bb50d75d" class="cell" data-message="false" data-execution_count="7">
+<div id="e40a4703" class="cell" data-message="false" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_clean.describe(<span class="st">"salary_midpoint"</span>).show()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_clean.select(<span class="st">"salary_midpoint"</span>).summary().show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

@@ -3,7 +3,10 @@ title: "Conclusion"
 ---
 
 ## Key Takeaways
+This project set out to understand how artificial intelligence is influencing salary dynamics across the job market. By analyzing large-scale job posting data, the results show that while AI-related roles often command higher salaries, the relationship is more nuanced than a simple “AI equals higher pay” conclusion. Compensation is shaped by a combination of factors, including job title, industry, required skills, and geographic location.
 
-- AI is reshaping salary distributions
-- Benefits vary by skill level and discipline
-- Implications for future workforce trends
+The exploratory analysis revealed clear variation in salary distributions and job concentrations across industries, with technical and consulting sectors showing particularly strong demand. The skill gap analysis further highlighted that while the team demonstrates solid proficiency in core analytics skills such as SQL, Python, and data visualization, there are noticeable gaps in cloud computing, AWS, and natural language processing—areas that are increasingly emphasized in the market. These findings reinforce the importance of aligning technical skill development with evolving industry demands.
+
+From a modeling perspective, the regression and classification results indicate that salary can be partially explained by observable features such as job role and skill requirements, but a significant portion of variation remains unexplained. This suggests that external factors—such as company size, experience level, and negotiation—also play a meaningful role. The clustering analysis supports this by showing that jobs naturally group into distinct categories based on compensation and characteristics, rather than following a single predictable pattern.
+
+Overall, the analysis demonstrates that the rise of AI is reshaping the job market, but success within it depends less on simply being in “AI roles” and more on possessing a combination of high-demand technical skills and positioning within the right industries and roles. For job seekers and professionals, the key takeaway is to build a strong foundation in core analytics while strategically developing expertise in emerging areas such as cloud technologies and advanced AI applications. Doing so will improve alignment with market demand and increase access to higher-paying opportunities.

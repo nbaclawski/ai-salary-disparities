@@ -143,18 +143,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Literature Review</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./analysis.qmd"> 
-<span class="menu-text">Analysis</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./ai_vs_traditional.qmd"> 
-<span class="menu-text">AI vs Traditional</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.qmd"> 
-<span class="menu-text">About</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="./data_analysis.html"> 
 <span class="menu-text">Data Preparation</span></a>
   </li>  
@@ -169,6 +157,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link" href="./regression.html"> 
 <span class="menu-text">Regression Analysis</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./conclusion.html"> 
+<span class="menu-text">Conclusion</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -216,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This section compares the current skill levels of our team members with skills that are commonly in demand for AI, data, and IT-related roles. The goal is to identify strengths, weaknesses, and areas where further development would improve alignment with job market expectations.</p>
 <section id="market-skill-demand-from-lightcast-data" class="level2">
 <h2 class="anchored" data-anchor-id="market-skill-demand-from-lightcast-data">Market Skill Demand from Lightcast Data</h2>
-<div id="658c1e8c" class="cell" data-execution_count="1">
+<div id="227e96b2" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> SparkSession</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyspark.sql.functions <span class="im">import</span> col, lower, concat_ws</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
@@ -282,12 +274,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stderr">
 <pre><code>WARNING: Using incubator modules: jdk.incubator.vector
 Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
-26/04/19 16:13:15 WARN Utils: Your hostname, Natalies-MacBook-Pro-3.local, resolves to a loopback address: 127.0.0.1; using 10.0.0.90 instead (on interface en0)
-26/04/19 16:13:15 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+26/04/19 17:32:48 WARN Utils: Your hostname, Natalies-MacBook-Pro-3.local, resolves to a loopback address: 127.0.0.1; using 10.0.0.90 instead (on interface en0)
+26/04/19 17:32:48 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
 Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
 Setting default log level to "WARN".
 To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
-26/04/19 16:13:16 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
+26/04/19 17:32:48 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div>
@@ -361,7 +353,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <p>This section analyzes how frequently key technical skills appear in job postings. The results show that SQL and Python are the most in-demand skills, appearing significantly more often than all other skills. This highlights the importance of strong data manipulation and programming foundations in the current job market.</p>
 <p>Skills such as statistics and data visualization also appear frequently, reinforcing their role in interpreting and communicating data insights. In contrast, more specialized skills like machine learning, cloud computing, and natural language processing appear less often, suggesting they are valuable but more niche or role-specific.</p>
 <p>Overall, the distribution indicates that employers prioritize core data skills first, while more advanced technical skills serve as additional differentiators rather than baseline requirements.</p>
-<div id="abba9701" class="cell" data-execution_count="2">
+<div id="2ba331a3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -463,7 +455,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 </div>
 </div>
 <p>The table above summarizes the current skill levels of each team member using a 1–5 scale, where 1 indicates beginner-level proficiency and 5 indicates expert-level proficiency.</p>
-<div id="992675de" class="cell" data-execution_count="3">
+<div id="5ab7d522" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sns.heatmap(df_skills, annot<span class="op">=</span><span class="va">True</span>, linewidths<span class="op">=</span><span class="fl">0.5</span>, cmap<span class="op">=</span><span class="st">"YlGnBu"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Team Skill Levels Heatmap"</span>)</span>
@@ -480,7 +472,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <p>However, lower proficiency levels are observed in areas such as cloud computing, AWS, and natural language processing. These skills also appeared less frequently in the dataset but are important for more advanced and specialized roles, particularly in AI and scalable data systems.</p>
 <p>While machine learning skills are moderate across the team, improving proficiency in this area would strengthen alignment with higher-paying AI-related roles identified earlier in the analysis. The variation across team members also suggests opportunities for collaboration and skill-sharing to improve overall team capability.</p>
 <p>Overall, the heatmap reinforces that the team has a strong foundation in core data skills but would benefit from targeted development in advanced technical areas to better match evolving market demands.</p>
-<div id="6c6d7b28" class="cell" data-execution_count="4">
+<div id="b071d19e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In-demand skills based on Lightcast job posting trends</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>top_skills <span class="op">=</span> [</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python"</span>,</span>
@@ -575,7 +567,7 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
 <p>This table highlights the average skill level across the team for each in-demand skill, allowing for a direct comparison with market demand. Lower average values indicate areas where the team is less prepared relative to employer expectations.</p>
 <p>The largest skill gaps are observed in AWS, natural language processing, and cloud computing, all of which have the lowest average proficiency levels. These areas represent the most critical opportunities for improvement, particularly given their importance in modern data infrastructure and AI-related roles.</p>
 <p>Moderate gaps are present in machine learning and Git/GitHub, suggesting that while the team has some exposure, further development is needed to reach a competitive level. In contrast, skills such as SQL, data visualization, and Python show higher average proficiency, indicating strong alignment with core market requirements.</p>
-<div id="67849b4c" class="cell" data-execution_count="5">
+<div id="693d6582" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.bar(gap_df[<span class="st">"Skill"</span>], gap_df[<span class="st">"Average Team Skill Level"</span>])</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>)</span>
