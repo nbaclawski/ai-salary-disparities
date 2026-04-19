@@ -68,7 +68,11 @@ market_skills_df = pd.DataFrame(
 market_skills_df
 ```
 
-The table above shows how often selected in-demand skills appear across the Lightcast job posting skill fields. This provides a market-based reference point for comparing our team’s current skill levels to employer demand. he selected skills reflect those most frequently observed in the Lightcast dataset, ensuring alignment between our team evaluation and current market demand.
+This section analyzes how frequently key technical skills appear in job postings. The results show that SQL and Python are the most in-demand skills, appearing significantly more often than all other skills. This highlights the importance of strong data manipulation and programming foundations in the current job market.
+
+Skills such as statistics and data visualization also appear frequently, reinforcing their role in interpreting and communicating data insights. In contrast, more specialized skills like machine learning, cloud computing, and natural language processing appear less often, suggesting they are valuable but more niche or role-specific.
+
+Overall, the distribution indicates that employers prioritize core data skills first, while more advanced technical skills serve as additional differentiators rather than baseline requirements.
 
 ```{python}
 import seaborn as sns
@@ -102,7 +106,13 @@ sns.heatmap(df_skills, annot=True, linewidths=0.5, cmap="YlGnBu")
 plt.title("Team Skill Levels Heatmap")
 plt.show()
 ```
-The heatmap provides a visual comparison of team strengths and weaknesses across skill categories. Darker colors indicate stronger proficiency, while lighter colors highlight weaker areas.
+The heatmap highlights differences in skill proficiency across team members and reveals both strengths and areas for improvement. Overall, the team shows strong capabilities in SQL, Python, data visualization, and communication, which aligns well with the most in-demand skills identified in the job posting data.
+
+However, lower proficiency levels are observed in areas such as cloud computing, AWS, and natural language processing. These skills also appeared less frequently in the dataset but are important for more advanced and specialized roles, particularly in AI and scalable data systems.
+
+While machine learning skills are moderate across the team, improving proficiency in this area would strengthen alignment with higher-paying AI-related roles identified earlier in the analysis. The variation across team members also suggests opportunities for collaboration and skill-sharing to improve overall team capability.
+
+Overall, the heatmap reinforces that the team has a strong foundation in core data skills but would benefit from targeted development in advanced technical areas to better match evolving market demands.
 
 ```{python}
 # In-demand skills based on Lightcast job posting trends
@@ -133,8 +143,11 @@ gap_df = gap_df.sort_values("Average Team Skill Level", ascending=True)
 
 gap_df
 ```
+This table highlights the average skill level across the team for each in-demand skill, allowing for a direct comparison with market demand. Lower average values indicate areas where the team is less prepared relative to employer expectations.
 
-This comparison focuses specifically on skills that are commonly requested in AI, analytics, and IT-related roles. Lower average values indicate greater skill gaps relative to current market expectations.
+The largest skill gaps are observed in AWS, natural language processing, and cloud computing, all of which have the lowest average proficiency levels. These areas represent the most critical opportunities for improvement, particularly given their importance in modern data infrastructure and AI-related roles.
+
+Moderate gaps are present in machine learning and Git/GitHub, suggesting that while the team has some exposure, further development is needed to reach a competitive level. In contrast, skills such as SQL, data visualization, and Python show higher average proficiency, indicating strong alignment with core market requirements.
 
 ```{python}
 plt.figure(figsize=(10, 5))
@@ -146,16 +159,14 @@ plt.tight_layout()
 plt.show()
 ```
 
-The bar chart highlights which in-demand skills are currently strongest across the team and which represent the biggest gaps.
+This bar chart clearly shows the relative strengths and weaknesses across in-demand skills, making it easy to identify where the team is most competitive and where the largest skill gaps exist.
 
 ## Key Findings
 
-The skill gap analysis suggests that the team is strongest in SQL, data visualization, communication, and Python. These areas provide a solid foundation for analytics and data-driven work. However, the team shows lower average proficiency in Natural Language Processing, AWS, and Cloud Computing, indicating that these are the most important areas for improvement.
+The skill gap analysis indicates that the team is strongest in SQL, data visualization, Python, and communication, which aligns well with the most frequently requested skills in the job market. These areas provide a strong foundation for data analysis and technical problem-solving.
 
-Overall, the results suggest that the team is well-positioned in core analytics skills but would benefit from further development in cloud and advanced AI-related technologies. Strengthening these skills would improve alignment with current labor market demand and better prepare the team for technical roles in AI, data, and IT.
+However, the lowest proficiency levels are observed in AWS, cloud computing, and natural language processing, highlighting clear gaps in skills that are increasingly important for advanced data and AI roles. These areas represent the highest priority for improvement.
 
-Improvement Plan:
-Prioritize skill development in AWS, Cloud Computing, and Natural Language Processing.
-Use online resources such as Coursera, DataCamp, AWS Skill Builder, and LinkedIn Learning to strengthen weaker areas.
-Encourage team collaboration through shared practice projects, peer learning, and discussion of technical concepts.
-Build on existing strengths in SQL, Python, and data visualization while expanding into more advanced applied AI tools.
+Overall, the team is well-positioned in core analytics capabilities but would benefit from expanding into cloud and AI-related technologies to better match evolving industry demands and access more specialized, higher-paying roles.
+
+**Improvement Plan:** Focus on developing AWS, cloud computing, and natural language processing skills through targeted learning resources such as Coursera, DataCamp, AWS Skill Builder, and LinkedIn Learning. Reinforce learning through hands-on projects and team collaboration while continuing to build on strengths in SQL, Python, and data visualization.

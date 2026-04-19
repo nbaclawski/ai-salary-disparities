@@ -1,18 +1,22 @@
----
-title: "Salary Disparities Across Disciplines"
-subtitle: "Who Benefits Most from AI’s Rise?"
----
-
 ## Project Overview
 
-This project examines salary disparities across disciplines and explores who benefits most from the rise of artificial intelligence.
+This project investigates salary disparities across disciplines, with a particular focus on how the rise of artificial intelligence is reshaping compensation trends in the job market. Using large-scale job posting data, we analyze differences in salary ranges, required skills, and job characteristics across AI and non-AI roles.
+
+By leveraging data processing tools such as PySpark and Python, along with interactive visualizations, this analysis provides a data-driven perspective on which roles and skill sets are benefiting most from the increasing demand for AI expertise.
 
 ## Research Question
 
-Who benefits most from AI’s rise?
+The central question guiding this analysis is:
+
+**Who benefits most from the rise of artificial intelligence in the job market?**
+
+More specifically, we explore:
+- How salary ranges differ between AI and non-AI roles  
+- Which industries and job titles see the largest salary premiums  
+- How factors such as location and work arrangement influence compensation  
 
 ## Team Members
 
-- Natalie Baclawski
-- Haydn Thomas
-- Kelly Xiao
+- Natalie Baclawski  
+- Haydn Thomas  
+- Kelly Xiao  

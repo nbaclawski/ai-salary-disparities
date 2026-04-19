@@ -11,12 +11,6 @@ website:
         text: Introduction
       - href: literature_review.qmd
         text: Literature Review
-      - href: analysis.qmd
-        text: Analysis
-      - href: ai_vs_traditional.qmd
-        text: AI vs Traditional
-      - href: about.qmd
-        text: About
       - href: data_analysis.qmd
         text: "Data Preparation"
       - href: eda.qmd

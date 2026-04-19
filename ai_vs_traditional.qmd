@@ -1,7 +1,0 @@
----
-title: "AI vs Traditional Roles"
----
-
-## Overview
-
-This section compares salary trends between AI-related and traditional roles.

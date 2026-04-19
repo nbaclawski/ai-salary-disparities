@@ -180,6 +180,14 @@ Instead of removing all observations with partial salary data, we constructed a 
 df_clean.describe("salary_midpoint").show()
 df_clean.select("salary_midpoint").summary().show()
 ```
+### Interpretation
+
+The average salary midpoint is approximately **$115,059**, with a median of **$113,450**, indicating that the distribution is relatively centered but slightly right-skewed. The wide range between the minimum ($10,617) and maximum ($800,000) highlights the presence of significant outliers and variation across roles.
+
+The interquartile range (from $80,000 to $144,300) suggests that the majority of job postings fall within a relatively broad salary band, reflecting differences in experience level, industry, and job function.
+
+The relatively high standard deviation (~$47,760) further confirms substantial variability in compensation, which reinforces the need for deeper analysis by role type, industry, and AI specialization to better understand where the highest salary premiums occur.
+
 ## Transition to Analysis
 
 After cleaning and preparing the dataset, we proceed to exploratory data analysis to identify key patterns in salaries, industries, and job characteristics.

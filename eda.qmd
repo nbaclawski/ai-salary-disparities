@@ -149,7 +149,11 @@ fig.update_layout(
 
 fig.show()
 ```
-A horizontal bar chart makes it easy to compare industries and quickly identify which sectors contribute the most job postings
+This visualization highlights that job postings are heavily concentrated in a few key industries. “Unclassified Industry” and consulting-related services dominate the dataset, which may reflect aggregation issues or broad categorization in the source data. 
+
+Technology-related sectors such as Computer Systems Design and Custom Programming Services also appear prominently, reinforcing the strong demand for technical and AI-related roles. Meanwhile, industries like banking, education, and accounting show comparatively fewer postings, suggesting either lower demand or more specialized hiring practices.
+
+Overall, the distribution indicates that opportunities are not evenly spread across industries, motivating a deeper analysis of how salary and AI adoption vary within these dominant sectors.
 
 ## Visualization 2: Salary Distribution
 ```{python}
@@ -182,7 +186,13 @@ fig.update_xaxes(tickprefix="$", separatethousands=True)
 
 fig.show()
 ```
-A histogram is useful for showing the overall shape of salary distribution and identifying clustering, spread, and outliers.
+This histogram reveals that salary midpoints are concentrated between approximately **$80,000 and $150,000**, with a peak around the **$110,000–$130,000 range**, indicating where most job opportunities are clustered.
+
+The distribution is **right-skewed**, with a long tail extending toward higher salaries above $200,000. This suggests the presence of high-paying outlier roles, likely associated with senior positions, specialized technical skills, or AI-focused jobs.
+
+At the lower end, relatively few postings fall below $50,000, indicating a higher baseline for roles included in the dataset. The overall spread highlights substantial variability in compensation, reinforcing that salary outcomes are strongly influenced by factors such as industry, role type, and technical specialization.
+
+This distribution motivates further analysis to determine which roles and industries contribute most to the upper tail of high-paying positions.
 
 ## Visualization 3: Remote vs. On-Site Jobs
 ```{python}
@@ -224,8 +234,11 @@ fig.update_layout(
 
 fig.show()
 ```
+This visualization shows that **remote roles dominate the dataset**, significantly outnumbering both hybrid and fully on-site positions. This suggests a strong shift toward remote work in job postings, particularly within data and technology-related roles.
 
-A pie chart works well for showing how total postings are divided across work arrangement categories.
+Hybrid roles appear at a much lower frequency, indicating that while some companies offer flexibility, fully remote positions are more prevalent than partially remote arrangements. Fully on-site roles represent the smallest share, highlighting a continued decline in traditional in-person work settings.
+
+This distribution suggests that remote work is a key characteristic of the modern job market, and it may play a role in influencing salary levels, job accessibility, and geographic flexibility—factors that will be explored further in relation to salary disparities.
 
 
 ## Visualization 4: AI vs. Non-AI Roles
@@ -293,6 +306,14 @@ fig.update_yaxes(tickprefix="$", separatethousands=True)
 fig.show()
 ```
 
+This visualization shows that **AI roles command higher average salaries** than non-AI roles, with an average of approximately **$121,644 compared to $112,901**.
+
+While the difference of roughly **$8,700** is not extreme, it consistently indicates a salary premium associated with AI-related positions. This suggests that demand for AI skills translates into higher compensation, likely due to the specialized knowledge and technical expertise required.
+
+However, the relatively modest gap also implies that not all AI roles are dramatically higher-paying, and that salary differences may depend more heavily on factors such as industry, experience level, and job function.
+
+Overall, this comparison provides initial evidence that AI skills offer a financial advantage, motivating deeper analysis into where and why this premium exists.
+
 ## Visualization 5: AI vs Non-AI Salary by Industry
 ```{python}
 #| echo: true
@@ -354,7 +375,13 @@ fig.update_yaxes(tickprefix="$", separatethousands=True)
 fig.show()
 ```
 
-A grouped bar chart was used to compare average salaries between AI and non-AI roles across industries. This format allows for direct side-by-side comparison within each industry, making differences in compensation easy to interpret.
+This visualization shows that the **AI salary premium is not consistent across industries**, but instead varies depending on the sector.
+
+In industries such as **Employment Placement Agencies, Colleges/Universities, and Direct Health & Medical Insurance**, AI roles tend to offer noticeably higher salaries than non-AI roles, suggesting a stronger demand or scarcity of AI-related skills in these fields.
+
+However, in other sectors like **Custom Computer Programming Services and Software Publishers**, non-AI roles have comparable or even slightly higher average salaries. This may indicate that traditional technical roles in these industries are already highly compensated, reducing the relative premium for AI-specific positions.
+
+Overall, the results suggest that the financial advantage of AI skills is **context-dependent**, varying by industry rather than being universally higher. This highlights the importance of considering both role type and industry when evaluating salary disparities.
 
 
 ## Visualization 6: Average Salary by Region: AI vs Non-AI Roles
@@ -445,3 +472,11 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 ```
+
+This visualization shows that **AI roles consistently earn higher average salaries than non-AI roles across all regions displayed**, indicating that the AI salary premium is geographically widespread rather than concentrated in a single location.
+
+The gap between AI and non-AI salaries varies by state, with some regions such as **Washington and Montana** showing a more pronounced difference, while others like **New Jersey and Illinois** exhibit a smaller gap. This suggests that the value of AI-related skills may be influenced by local market conditions, including industry concentration and demand for technical talent.
+
+Additionally, overall salary levels differ across regions, with states like **Washington and California** appearing among the highest-paying markets. This highlights the role of geographic factors—such as cost of living, presence of tech hubs, and regional demand—in shaping compensation.
+
+Overall, the results reinforce that while AI skills provide a consistent salary advantage, **both geography and industry context play an important role in determining the magnitude of that premium**.
